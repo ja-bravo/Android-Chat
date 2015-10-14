@@ -4,4 +4,5 @@
     <string name="newChat">New Chat</string>
     <string name="search">Search</string>
     <string name="newGroup">New Group</string>
+    <string name="action_attach">Attach</string>
 </resources>
