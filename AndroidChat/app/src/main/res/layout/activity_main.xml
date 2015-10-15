@@ -18,9 +18,53 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
+                android:background="#248a41"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
+
+        <TabHost android:id="@android:id/tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                        <TabWidget android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@android:id/tabs" />
+
+                        <FrameLayout android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@android:id/tabcontent" >
+
+                                <LinearLayout android:id="@+id/tab1"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" >
+
+                                    <ListView
+                                        android:id="@+id/lvChats"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout android:id="@+id/tab2"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" >
+
+                                    <ListView
+                                        android:id="@+id/lvContactos"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                        </FrameLayout>
+                </LinearLayout>
+        </TabHost>
 
 </LinearLayout>
