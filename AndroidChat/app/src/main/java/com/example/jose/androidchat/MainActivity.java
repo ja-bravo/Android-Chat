@@ -6,26 +6,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.Toast;
+import com.example.jose.androidchat.Settings.SettingsActivity;
 
 
 public class MainActivity extends AppCompatActivity
 {
 
-    private ListView listaChats;
+    private ListView chatLists;
     private String[] chats = {"Juan", "Ana", "Pedro", "Silvana", "Miguel",
             "Lucas"};
 
-    private ListView listaContactos;
-    private String[] contactos = {"Juan", "Ana", "Pedro", "Silvana", "Miguel",
-            "Lucas", "Kira", "Abel", "Jose", "Pablo"};
+    private ListView contactsList;
+    private String[] contacts = {"Juan", "Ana", "Pedro", "Silvana", "Miguel",
+            "Lucas", "Kira", "Abel", "Jose", "Pablo","Abel", "Jose", "Pablo"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,18 +36,18 @@ public class MainActivity extends AppCompatActivity
 
         Resources res = getResources();
 
-        TabHost tabs=(TabHost)findViewById(android.R.id.tabhost);
+        TabHost tabs= (TabHost) findViewById(android.R.id.tabhost);
         tabs.setup();
 
         TabHost.TabSpec spec=tabs.newTabSpec("mitab1");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("CHATS",
+        spec.setIndicator(getResources().getString(R.string.chats),
                 res.getDrawable(android.R.drawable.ic_btn_speak_now));
         tabs.addTab(spec);
 
         spec=tabs.newTabSpec("mitab2");
         spec.setContent(R.id.tab2);
-        spec.setIndicator("CONTACTOS",
+        spec.setIndicator(getResources().getString(R.string.contacts),
                 res.getDrawable(android.R.drawable.ic_dialog_map));
         tabs.addTab(spec);
 
@@ -64,16 +63,18 @@ public class MainActivity extends AppCompatActivity
 
         // Chats
 
-        listaChats = (ListView)findViewById(R.id.lvChats);
+        chatLists = (ListView)findViewById(R.id.lvChats);
 
-        ArrayAdapter<String> adaptadorChats = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, chats);
+        ArrayAdapter<String> chatAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, chats);
 
-        listaChats.setAdapter(adaptadorChats);
+        chatLists.setAdapter(chatAdapter);
 
-        listaChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        chatLists.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
+            {
                 // TODO Auto-generated method stub
                 Toast.makeText(getApplicationContext(), "Ha pulsado el item " + position, Toast.LENGTH_SHORT).show();
 
@@ -84,16 +85,18 @@ public class MainActivity extends AppCompatActivity
 
         // Contactos
 
-        listaContactos = (ListView)findViewById(R.id.lvContactos);
+        contactsList = (ListView)findViewById(R.id.lvContactos);
 
-        ArrayAdapter<String> adaptadorContactos = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contactos);
+        ArrayAdapter<String> contactsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contacts);
 
-        listaContactos.setAdapter(adaptadorContactos);
+        contactsList.setAdapter(contactsAdapter);
 
-        listaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        contactsList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
+            {
                 // TODO Auto-generated method stub
                 Toast.makeText(getApplicationContext(), "Ha pulsado el item " + position, Toast.LENGTH_SHORT).show();
 
@@ -123,13 +126,23 @@ public class MainActivity extends AppCompatActivity
         {
             openNewChat();
         }
+        else if(id == R.id.action_settings)
+        {
+            openSettings();
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void openNewChat()
     {
-        Intent intent = new Intent(this, com.example.jose.androidchat.ChatActivity.class);
+        Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSettings()
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }

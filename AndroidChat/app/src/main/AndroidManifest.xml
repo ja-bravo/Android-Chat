@@ -19,9 +19,13 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ChatActivity"
-                android:label="Chat de ejemplo"
-                android:windowSoftInputMode="adjustResize">
+            android:name=".ChatActivity"
+            android:label="Chat de ejemplo"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name=".Settings.SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 
