@@ -1,16 +1,29 @@
 <resources>
     <string name="app_name">Android Chat</string>
-    <string name="action_settings">Settings</string>
-    <string name="newChat">New Chat</string>
-    <string name="search">Search</string>
-    <string name="newGroup">New Group</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="welcome">Welcome!</string>
+    <string name="intro_text">To start messaging swipe from the left and select a contact.</string>
+
+    <!-- Actions -->
+    <string name="action_newChat">New Chat</string>
+    <string name="action_search">Search</string>
+    <string name="action_newGroup">New Group</string>
     <string name="action_attach">Attach</string>
-    <string name="title_activity_settings">Settings</string>
-    <string name="chats">Chats</string>
-    <string name="contacts">Contactos</string>
+    <string name="action_chats">Chats</string>
+    <string name="action_contacts">Contacts</string>
 
     <!-- Strings related to Settings -->
     <string name="settings_profile">Profile</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_chats">Chats</string>
+    <string name="settings_settings">Settings</string>
+
+    <!-- Chat -->
+    <string name="chat_send">Send</string>
+    <string name="chat_hint">Type a message</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_chat">Chat Activity</string>
 </resources>
