@@ -3,14 +3,20 @@ __author__ = 'JoseAntonio'
 class User():
     def __init__(self):
         self.ID = 0
-        self.PHONE = 0
+        self.NICK = ""
         self.STATUS = ""
-        self.NAME = ""
+        self.PHONE = 0
+        self.USER_IMAGE = ""
+        self.LAST_RECEIVED_MESSAGE = 0
+
+
 
     def serialize(self):
         return {
             'ID': self.ID,
-            'PHONE': self.PHONE,
+            'NICK': self.NICK,
             'STATUS': self.STATUS,
-            'NAME': self.NAME
+            'PHONE': self.PHONE,
+            'USER_IMAGE': self.USER_IMAGE,
+            'LAST_RECEIVED_MESSAGE': self.LAST_RECEIVED_MESSAGE
         }
