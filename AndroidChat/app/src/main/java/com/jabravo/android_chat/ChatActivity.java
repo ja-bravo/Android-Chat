@@ -1,6 +1,10 @@
 package com.jabravo.android_chat;
 
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -10,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -39,6 +45,21 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         counter = 0;
         messages = new MessageList();
+
+        // Esto es para conseguir y hacer que suene el sonido de notificacion.
+        SharedPreferences getAlarms = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String alarms = getAlarms.getString("message-notification-sound", "default ringtone");
+
+        Uri uri = Uri.parse(alarms);
+        MediaPlayer player = new MediaPlayer();
+
+        try
+        {
+            player.setDataSource(this,uri);
+            player.prepare();
+            player.start();
+        }
+        catch(IOException e) {}
     }
 
     // Save the messages and the counter when the app changes orientation.
