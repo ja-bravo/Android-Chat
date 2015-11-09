@@ -19,6 +19,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ScrollView scrollView;
     private LinearLayout messagesLayout;
 
+    private MessageList messages;
     private int counter;
 
     @Override
@@ -30,31 +31,43 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         sendButton = (ImageButton) findViewById(R.id.chat_send);
-        sendButton.setOnClickListener(this);
-
         keyboard = (EditText) findViewById(R.id.chat_keyboard);
-
         scrollView = (ScrollView) findViewById(R.id.chat_scroll);
         messagesLayout = (LinearLayout) findViewById(R.id.chat_messages);
+
+        sendButton.setOnClickListener(this);
+
         counter = 0;
+        messages = new MessageList();
     }
 
+    // Save the messages and the counter when the app changes orientation.
     @Override
-    public void onClick(View v)
+    public void onSaveInstanceState(Bundle savedInstanceState)
     {
-        Message message = new Message();
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putInt("counter",counter);
+        savedInstanceState.putParcelable("messages", messages);
+    }
+
+    // Load the messages and the counter when the app changes orientation.
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        counter = savedInstanceState.getInt("counter");
+        messages = savedInstanceState.getParcelable("messages");
+        for(Message message : messages)
+        {
+            showMessage(message);
+        }
+    }
+
+    private void showMessage(Message message)
+    {
         TextView textView = new TextView(this);
-
-        if (counter % 2 == 0)
-        {
-            message.setSender("user");
-        }
-        else
-        {
-            message.setSender("partner");
-        }
-        message.setText(keyboard.getText().toString());
-
         textView.setText(message.getText());
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -89,6 +102,24 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        Message message = new Message();
+        if (counter % 2 == 0)
+        {
+            message.setSender("user");
+        }
+        else
+        {
+            message.setSender("partner");
+        }
+        message.setText(keyboard.getText().toString());
+        messages.add(message);
+
+        showMessage(message);
         counter++;
     }
 }

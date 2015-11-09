@@ -14,6 +14,7 @@
     <string name="action_attach">Attach</string>
     <string name="action_chats">Chats</string>
     <string name="action_contacts">Contacts</string>
+    <string name="action_settings">Preferences</string>
 
     <!-- Strings related to Settings -->
     <string name="settings_profile">Profile</string>

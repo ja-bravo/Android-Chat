@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="User">
+        <EditTextPreference
+            android:title="Your user name"
+            android:summary="Type your user name"
+            android:key="username"/>
+
+        <EditTextPreference
+                android:title="Your status"
+                android:summary="Type your staus"
+                android:key="status"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Message notifications">
+       <RingtonePreference
+           android:title="Message notification sound"
+           android:key="message-notification-sound"/>
+
+        <SwitchPreference
+                android:key="message-sound"
+                android:title="Sound"
+                android:defaultValue="true"/>
+
+        <SwitchPreference
+                android:key="message-vibration"
+                android:title="Vibration"
+                android:defaultValue="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Group notifications">
+        <RingtonePreference
+                android:title="Group notification sound"
+                android:key="group-notification-sound"/>
+
+        <SwitchPreference
+                android:key="group-sound"
+                android:title="Sound"
+                android:defaultValue="true"/>
+
+        <SwitchPreference
+                android:key="group-vibration"
+                android:title="Vibration"
+                android:defaultValue="true"/>
+    </PreferenceCategory>
+</PreferenceScreen>

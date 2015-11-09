@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume()
     {
-        // So it returns to the chat list after pressing back while chatting.
-        navigationView.getMenu().getItem(2).setChecked(true);
         super.onResume();
     }
 
@@ -71,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
+        Intent intent;
         switch (id)
         {
             case R.id.nav_chats:
@@ -78,8 +77,8 @@ public class MainActivity extends AppCompatActivity
                 transaction.replace(R.id.mainlayout,fragment);
                 break;
 
-            case R.id.nav_newChat:
-                Intent intent = new Intent(this,ChatActivity.class);
+            case R.id.nav_contacts:
+                intent = new Intent(this,ChatActivity.class);
                 startActivity(intent);
                 break;
 
@@ -90,6 +89,8 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_settings:
+                intent = new Intent(this,Preferences.class);
+                startActivity(intent);
                 break;
         }
         transaction.commit();
