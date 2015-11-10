@@ -1,7 +1,13 @@
 package com.jabravo.android_chat;
 
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
+
+import java.io.IOException;
 
 /**
  * Created by JoseAntonio on 26/10/2015.
@@ -15,6 +21,12 @@ public class Message implements Parcelable
     {
         this.sender = sender;
         this.text = text;
+    }
+
+
+    public void playRingTone ()
+    {
+
     }
 
     public Message(Parcel in)

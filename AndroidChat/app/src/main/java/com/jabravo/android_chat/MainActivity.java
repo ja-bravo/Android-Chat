@@ -2,9 +2,13 @@ package com.jabravo.android_chat;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -75,14 +79,25 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_chats:
                 ChatsListFragment fragment = new ChatsListFragment();
                 transaction.replace(R.id.mainlayout,fragment);
+
                 break;
 
             case R.id.nav_contacts:
+                
+                SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                boolean vibrar = preferences.getBoolean("message-vibration" , true);
+
+                if (vibrar)
+                {
+                    vibrate(1000);
+                }
+
                 intent = new Intent(this,ChatActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.nav_newGroup:
+                vibrate(200);
                 break;
 
             case R.id.nav_profile:
@@ -104,5 +119,13 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri)
     {
 
+    }
+
+
+    public void vibrate(int duration)
+    {
+        // hay que darle permisos en el manifests
+        Vibrator vibs = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibs.vibrate(duration); // en milisegundos
     }
 }

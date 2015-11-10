@@ -1,6 +1,8 @@
 package com.jabravo.android_chat;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.*;
 
 public class Preferences extends PreferenceActivity
