@@ -1,6 +1,7 @@
 package com.jabravo.android_chat;
 
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -52,6 +53,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         Uri uri = Uri.parse(alarms);
         MediaPlayer player = new MediaPlayer();
+        player.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+        player.setLooping(false);
 
         try
         {
