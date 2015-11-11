@@ -4,6 +4,7 @@ __author__ = 'JoseAntonio'
 
 import pymysql
 from User import  User
+from Message import  Message
 
 class DataBase():
 
@@ -46,3 +47,68 @@ class DataBase():
 
         cursor.close()
         return user.serialize()
+
+    def get_messages(self, ID):
+        cursor = self.connection.cursor()
+
+        #Conseguir último mensaje individual.
+        SQL = """SELECT MAX(SEND_INDIVIDUAL_MESSAGE.ID_MESSAGE) AS MAX_INDIVIDUAL
+                 FROM SEND_INDIVIDUAL_MESSAGE""".replace('\n',' ')
+
+        cursor.execute(SQL)
+        maxI = cursor._rows[0][0]
+
+        #Conseguir último mensaje grupal.
+        SQL = """SELECT MAX(SEND_MESSAGE_GROUP.ID_MESSAGE) AS MAX_GROUP
+                FROM SEND_MESSAGE_GROUP""".replace('\n',' ')
+
+        cursor.execute(SQL)
+        maxG = cursor._rows[0][0]
+
+        if maxG is None:
+            maxG = 0
+
+        if maxI is None:
+            maxI = 0
+
+        #Recibir mensajes
+        SQL = """SELECT ID_USER_SENDER , MESSAGES.TEXT , 0 AS ID_GROUP
+                 FROM USERS , MESSAGES , SEND_INDIVIDUAL_MESSAGE
+                 WHERE USERS.ID_USER = SEND_INDIVIDUAL_MESSAGE.ID_USER_RECEIVER
+                       AND SEND_INDIVIDUAL_MESSAGE.ID_MESSAGE = MESSAGES.ID_MESSAGE
+                       AND USERS.ID_USER = %s
+                       AND MESSAGES.ID_MESSAGE > USERS.LAST_RECEIVED_MESSAGE_INDIVIDUAL
+                       AND MESSAGES.ID_MESSAGE <= %s
+                UNION
+                SELECT USERS.ID_USER AS ID_USER_SENDER, MESSAGES.TEXT , BELONG.ID_GROUP
+                FROM USERS , MESSAGES , SEND_MESSAGE_GROUP , BELONG
+                WHERE USERS.ID_USER = BELONG.ID_USER AND BELONG.ID_GROUP = SEND_MESSAGE_GROUP.ID_GROUP
+                      AND SEND_MESSAGE_GROUP.ID_MESSAGE = MESSAGES.ID_MESSAGE AND
+                      USERS.ID_USER = %s AND
+                      MESSAGES.ID_MESSAGE > USERS.LAST_RECEIVED_MESSAGE_GROUP
+                      AND MESSAGES.ID_MESSAGE <= %s ;""".replace('\n',' ')
+
+        SQL = SQL % (str(ID),str(maxI),str(ID),str(maxG))
+        cursor.execute(SQL)
+
+        messages = list()
+
+        for row in cursor:
+            message = Message()
+            message.ID_USER_SENDER = row[0]
+            message.TEXT = row[1]
+            message.ID_GROUP = row[2]
+
+            messages.append(message.serialize())
+
+        #Actualizar ultimo mensaje.
+        SQL = """UPDATE USERS
+	             SET USERS.LAST_RECEIVED_MESSAGE_INDIVIDUAL = %s ,
+		             USERS.LAST_RECEIVED_MESSAGE_GROUP = %s
+	             WHERE USERS.ID_USER = %s ;""".replace('\n',' ').replace('\t','')
+
+        SQL = SQL % (str(maxI),str(maxG),str(ID))
+        #cursor.execute(SQL)
+
+        cursor.close()
+        return messages
