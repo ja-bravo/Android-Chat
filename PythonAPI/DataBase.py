@@ -108,7 +108,7 @@ class DataBase():
 	             WHERE USERS.ID_USER = %s ;""".replace('\n',' ').replace('\t','')
 
         SQL = SQL % (str(maxI),str(maxG),str(ID))
-        #cursor.execute(SQL)
+        cursor.execute(SQL)
 
         cursor.close()
         return messages
