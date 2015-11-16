@@ -89,6 +89,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         counter = savedInstanceState.getInt("counter");
         messages = savedInstanceState.getParcelable("messages");
+
         for(Message message : messages)
         {
             showMessage(message);
