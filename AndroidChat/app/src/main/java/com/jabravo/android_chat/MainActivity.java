@@ -1,7 +1,9 @@
 package com.jabravo.android_chat;
 
+import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +19,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.Toast;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -26,6 +30,9 @@ public class MainActivity extends AppCompatActivity
 
     private  NavigationView navigationView;
 
+    private PendingIntent pendingIntent;
+    private AlarmManager manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,6 +41,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -43,6 +52,17 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        startAlarm();
+    }
+
+    public void startAlarm()
+    {
+        manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        int interval = 1; // 1 second
+
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -83,7 +103,6 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_contacts:
-                
                 SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 boolean vibrar = preferences.getBoolean("message-vibration" , true);
 
