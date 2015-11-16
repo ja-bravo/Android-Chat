@@ -1,13 +1,13 @@
 package com.jabravo.android_chat;
 
-import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -17,11 +17,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
-
-import android.view.View;
-import android.widget.Toast;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity
 
     private  NavigationView navigationView;
 
-    private PendingIntent pendingIntent;
-    private AlarmManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,9 +38,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -53,17 +48,38 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        startAlarm();
+        // Conseguir contactos
+        Cursor cursor = null;
+        try
+        {
+            cursor = getContentResolver().query(Phone.CONTENT_URI, null, null, null, null);
+            int contactIdIdx = cursor.getColumnIndex(Phone._ID);
+            int nameIdx = cursor.getColumnIndex(Phone.DISPLAY_NAME);
+            int phoneNumberIdx = cursor.getColumnIndex(Phone.NUMBER);
+            int photoIdIdx = cursor.getColumnIndex(Phone.PHOTO_ID);
+            cursor.moveToFirst();
+            do
+            {
+                String idContact = cursor.getString(contactIdIdx);
+                String name = cursor.getString(nameIdx);
+                String phoneNumber = cursor.getString(phoneNumberIdx);
+
+                Log.i("test",name + " " + phoneNumber );
+            }
+            while (cursor.moveToNext());
+        }
+        catch (Exception e)
+        {
+        }
+        finally
+        {
+            if (cursor != null)
+            {
+                cursor.close();
+            }
+        }
     }
 
-    public void startAlarm()
-    {
-        manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        int interval = 1; // 1 second
-
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onResume()
@@ -139,7 +155,6 @@ public class MainActivity extends AppCompatActivity
     {
 
     }
-
 
     public void vibrate(int duration)
     {
