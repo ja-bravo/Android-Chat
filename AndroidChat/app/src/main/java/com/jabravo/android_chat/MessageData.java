@@ -23,6 +23,17 @@ public class MessageData {
         this.receiver = receiver;
     }
 
+    public MessageData(String text , String date , int id ,
+                       boolean read , int sender )
+    {
+        this.text = text;
+        this.date = date;
+        this.id = id;
+        this.read = read;
+        this.sender = sender;
+    }
+
+
     public int getReceiver() {
         return receiver;
     }

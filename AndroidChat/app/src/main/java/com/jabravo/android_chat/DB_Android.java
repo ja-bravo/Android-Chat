@@ -71,7 +71,8 @@ public class DB_Android extends SQLiteOpenHelper {
                 " CREATE TABLE SEND_MESSAGES_GROUP " +
                         " ( " +
                         " ID_MESSAGE INT NOT NULL , " +
-                        " ID_GROUP INT NOT NULL, " +
+                        " ID_GROUP INT NOT NULL," +
+                        " ID_FRIEND INT NOT NULL, " +
 
                         " CONSTRAINT PK_SEND_MESSAGES_GROUP PRIMARY KEY (ID_MESSAGE , ID_GROUP ), " +
 

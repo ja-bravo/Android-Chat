@@ -71,22 +71,29 @@ public class Friend {
 
         if (db != null) // Compruebo que se ha abierto bien
         {
-            String sql = "SELECT ID_MESSAGE , DATE_MESSAGE , TEXT , IS_READ " +
-                    " FROM FRIENDS , SEND_MESSAGES_PRIVATE WHERE " +
+            String sql = "SELECT MESSAGES.ID_MESSAGE , MESSAGES.DATE_MESSAGE , " +
+                    " MESSAGES.TEXT , MESSAGES.IS_READ ," +
+                    " ID_RECEIVER , SEND_MESSAGES_PRIVATE.ID_FRIEND " +
+                    " FROM FRIENDS , SEND_MESSAGES_PRIVATE , MESSAGES WHERE " +
                     " (FRIENDS.ID_FRIEND=SEND_MESSAGES_PRIVATE.ID_FRIEND OR" +
-                    " FRIENDS.ID_FRIEND=ID_RECEIVER AND" +
-                    "  FRIENDS.ID_FRIEND=? ;";
+                    " FRIENDS.ID_FRIEND=ID_RECEIVER) AND " +
+                    " MESSAGES.ID_MESSAGE = SEND_MESSAGES_PRIVATE.ID_MESSAGE AND " +
+                    " FRIENDS.ID_FRIEND=? ;";
 
             String [] m = {""+ id}; // CUIDADO CON ESTO.
             Cursor c = db.rawQuery(sql , m);
 
-
             while (c.moveToNext())
             {
-                this.phone = c.getString(0);
-                this.status = c.getString(1);
-                this.image= c.getString(2);
-                this.nick = c.getString(3);
+                boolean r;
+
+                if (c.getString(3).toLowerCase().equals("true"))
+                    r = true;
+                else
+                    r = false;
+
+                listMessages.add(new MessageData (c.getString(2), c.getString(1),
+                        c.getInt(0) , r , c.getInt(4) , c.getInt(5)));
             }
 
             db.close();
