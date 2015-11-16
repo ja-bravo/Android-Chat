@@ -4,10 +4,12 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -15,8 +17,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -143,7 +149,70 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         message.setText(keyboard.getText().toString());
         messages.add(message);
 
+        sendMessage(message.getText());
         showMessage(message);
         counter++;
+    }
+
+    private void sendMessage(String message)
+    {
+        Sender sender = new Sender();
+        sender.execute(message);
+    }
+
+    public class Sender extends AsyncTask<String,Integer,Void>
+    {
+        public Sender()
+        {
+            super();
+        }
+
+        @Override
+        protected Void doInBackground(String... params)
+        {
+            int idSender, myID;
+
+            myID = 1;
+            idSender = 2;
+            try
+            {
+                URL url = new URL("http://146.185.155.88:8080/api/post/message/"+idSender+"&"+params[0]+"&"+myID);
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+                connection.setDoOutput(true);
+
+                Log.i("test",String.valueOf(connection.getResponseCode()));
+            } catch (Exception e)
+            {
+                Log.i("test", String.valueOf(e.toString()));
+            }
+            return null;
+        }
+
+        @Override
+        protected void onCancelled()
+        {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid)
+        {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values)
+        {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+        }
     }
 }
