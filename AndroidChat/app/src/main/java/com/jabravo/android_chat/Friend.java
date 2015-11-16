@@ -42,33 +42,55 @@ public class Friend {
 
         if (db != null) // Compruebo que se ha abierto bien
         {
-
-            //String sql = "insert into friends ( NICK , PHONE  , ID_FRIEND ) values ('hola' , 43 , 2)";
-            String sql = "insert into messages (TEXT) values ('prueba');";
-            db.execSQL(sql);
-
-            sql = "SELECT TEXT , ID_MESSAGE FROM MESSAGES where '1'=?;";
-            String [] m = {"1"};
+            String sql = "SELECT PHONE , STATUS , IMAGE , NICK  FROM FRIENDS WHERE ID_FRIEND=?;";
+            String [] m = {""+ id}; // CUIDADO CON ESTO.
             Cursor c = db.rawQuery(sql , m);
-
-            String t = "";
 
             while (c.moveToNext())
             {
-                t = t +"Codigo: " + c.getInt(1) + " mensaje: " + c.getString(0) +"\n";
+                this.phone = c.getString(0);
+                this.status = c.getString(1);
+                this.image= c.getString(2);
+                this.nick = c.getString(3);
             }
 
             db.close();
         }
+
+        createListMessages ();
     }
 
 
     public void createListMessages ()
     {
-
         listMessages = new ArrayList<MessageData>();
 
-        // TODO
+        DB_Android dataBase = new DB_Android ( context , "Data Base" , null , 1);
+
+        SQLiteDatabase db = dataBase.getWritableDatabase();
+
+        if (db != null) // Compruebo que se ha abierto bien
+        {
+            String sql = "SELECT ID_MESSAGE , DATE_MESSAGE , TEXT , IS_READ " +
+                    " FROM FRIENDS , SEND_MESSAGES_PRIVATE WHERE " +
+                    " (FRIENDS.ID_FRIEND=SEND_MESSAGES_PRIVATE.ID_FRIEND OR" +
+                    " FRIENDS.ID_FRIEND=ID_RECEIVER AND" +
+                    "  FRIENDS.ID_FRIEND=? ;";
+
+            String [] m = {""+ id}; // CUIDADO CON ESTO.
+            Cursor c = db.rawQuery(sql , m);
+
+
+            while (c.moveToNext())
+            {
+                this.phone = c.getString(0);
+                this.status = c.getString(1);
+                this.image= c.getString(2);
+                this.nick = c.getString(3);
+            }
+
+            db.close();
+        }
     }
 
 
