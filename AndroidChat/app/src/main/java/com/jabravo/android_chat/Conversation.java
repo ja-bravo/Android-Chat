@@ -20,6 +20,7 @@ public class Conversation {
         this.idFiendOrGroup = idFiendOrGroup;
         this.isGroup = isGroup;
 
+
         if (this.isGroup)
         {
             group = new Group (idFiendOrGroup);

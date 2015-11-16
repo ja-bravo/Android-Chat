@@ -29,12 +29,15 @@ public class MainActivity extends AppCompatActivity
 {
 
     private  NavigationView navigationView;
-
+    public static DB_Android dataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        dataBase  = new DB_Android ( this , "Data Base" , null , 1); // El 1 es la version.
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

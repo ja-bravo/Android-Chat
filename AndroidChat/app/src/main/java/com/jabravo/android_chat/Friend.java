@@ -19,7 +19,6 @@ public class Friend {
     private int id;
     private String nick;
     private List<MessageData> listMessages;
-    private Context context; // puede que falle esto
 
     public Friend(String phone , String status , String image ,
                   int id , String nick) {
@@ -35,10 +34,8 @@ public class Friend {
     {
         this.id = id;
 
-        DB_Android dataBase = new DB_Android ( context , "Data Base" , null , 1); // El 1 es la version.
-        // Mientras no lo cambie no se volvera a crear ni actulizar la base de datos.
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase(); // Abro la base de datos
 
-        SQLiteDatabase db = dataBase.getWritableDatabase(); // Abro la base de datos
 
         if (db != null) // Compruebo que se ha abierto bien
         {
@@ -65,9 +62,7 @@ public class Friend {
     {
         listMessages = new ArrayList<MessageData>();
 
-        DB_Android dataBase = new DB_Android ( context , "Data Base" , null , 1);
-
-        SQLiteDatabase db = dataBase.getWritableDatabase();
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
 
         if (db != null) // Compruebo que se ha abierto bien
         {

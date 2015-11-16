@@ -14,7 +14,6 @@ public class Group {
     private String name;
     private int admin;
     private String image;
-    private Context context; // puede que falle esto
 
     private List<MessageData> listMessages;
 
@@ -31,10 +30,7 @@ public class Group {
 
         this.id = id;
 
-        DB_Android dataBase = new DB_Android ( context , "Data Base" , null , 1); // El 1 es la version.
-        // Mientras no lo cambie no se volvera a crear ni actulizar la base de datos.
-
-        SQLiteDatabase db = dataBase.getWritableDatabase(); // Abro la base de datos
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase(); // Abro la base de datos
 
         if (db != null) // Compruebo que se ha abierto bien
         {
@@ -59,9 +55,7 @@ public class Group {
 
         listMessages = new ArrayList<MessageData>();
 
-        DB_Android dataBase = new DB_Android(context, "Data Base", null, 1);
-
-        SQLiteDatabase db = dataBase.getWritableDatabase();
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase(); // Abro la base de datos
 
         if (db != null) // Compruebo que se ha abierto bien
         {
