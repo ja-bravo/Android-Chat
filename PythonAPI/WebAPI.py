@@ -20,5 +20,9 @@ def get_user(id):
 def get_messages(id):
     return jsonify({'messages': db.get_messages(id)})
 
+@app.route("/api/post/message/<int:id>&<message>&<int:idDest>", methods=['GET','POST'])
+def send_message(id,message,idDest):
+    return jsonify({'id': db.send_message(id,message,idDest)})
+
 if __name__ == "__main__":
     app.run(host='146.185.155.88', port=8080)

@@ -112,3 +112,25 @@ class DataBase():
 
         cursor.close()
         return messages
+
+    def send_message(self, ID, message, idDest):
+        cursor = self.connection.cursor()
+
+        SQL = """INSERT INTO MESSAGES ( TEXT , DATE_MESSAGE )
+	              VALUES ('%s', sysdate() );
+	              """.replace('\n',' ').replace('\t','')
+        SQL = SQL % str(message)
+
+        cursor.execute(SQL)
+        self.connection.commit()
+        messageID = cursor.lastrowid
+
+        SQL = """INSERT INTO  SEND_INDIVIDUAL_MESSAGE
+                 (ID_MESSAGE , ID_USER_RECEIVER, ID_USER_SENDER)
+                 VALUES (%s , %s , %s);
+	              """.replace('\n',' ')
+        SQL = SQL % (str(messageID), str(ID), str(idDest))
+
+        cursor.execute(SQL)
+        self.connection.commit()
+        return messageID
