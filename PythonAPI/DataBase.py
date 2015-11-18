@@ -6,15 +6,12 @@ import pymysql
 from User import  User
 from Message import  Message
 
+
 class DataBase():
 
-    connection = None
-
-    def __init__(self):
-        self.connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
-
     def get_users(self):
-        cursor = self.connection.cursor()
+        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        cursor = connection.cursor()
         cursor.execute("SELECT * FROM USERS")
 
         users = list()
@@ -31,10 +28,12 @@ class DataBase():
             users.append(user.serialize())
 
         cursor.close()
+        connection.close()
         return users
 
     def get_user(self, ID):
-        cursor = self.connection.cursor()
+        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        cursor = connection.cursor()
         cursor.execute("SELECT * FROM USERS WHERE ID_USER = " + str(ID))
 
         user = User()
@@ -46,10 +45,12 @@ class DataBase():
         user.LAST_RECEIVED_MESSAGE = cursor._rows[0][5]
 
         cursor.close()
+        connection.close()
         return user.serialize()
 
     def get_messages(self, ID):
-        cursor = self.connection.cursor()
+        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        cursor = connection.cursor()
 
         #Conseguir último mensaje individual.
         SQL = """SELECT MAX(SEND_INDIVIDUAL_MESSAGE.ID_MESSAGE) AS MAX_INDIVIDUAL
@@ -114,7 +115,8 @@ class DataBase():
         return messages
 
     def send_message(self, ID, message, idDest):
-        cursor = self.connection.cursor()
+        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        cursor = connection.cursor()
 
         SQL = """INSERT INTO MESSAGES ( TEXT , DATE_MESSAGE )
 	              VALUES ('%s', sysdate() );
@@ -122,7 +124,7 @@ class DataBase():
         SQL = SQL % str(message)
 
         cursor.execute(SQL)
-        self.connection.commit()
+        connection.commit()
         messageID = cursor.lastrowid
 
         SQL = """INSERT INTO  SEND_INDIVIDUAL_MESSAGE
@@ -132,5 +134,6 @@ class DataBase():
         SQL = SQL % (str(messageID), str(ID), str(idDest))
 
         cursor.execute(SQL)
-        self.connection.commit()
+        connection.commit()
+        connection.close()
         return messageID
