@@ -110,6 +110,7 @@ class DataBase():
 
         SQL = SQL % (str(maxI),str(maxG),str(ID))
         cursor.execute(SQL)
+        connection.commit()
 
         cursor.close()
         return messages
@@ -135,5 +136,7 @@ class DataBase():
 
         cursor.execute(SQL)
         connection.commit()
+
+        cursor.close()
         connection.close()
         return messageID

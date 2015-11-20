@@ -3,20 +3,27 @@
 
     <PreferenceCategory android:title="User">
         <EditTextPreference
-            android:title="Your user name"
-            android:summary="Type your user name"
-            android:key="username"/>
+                android:title="Your user name"
+                android:summary="Type your user name"
+                android:key="username"/>
 
         <EditTextPreference
                 android:title="Your status"
                 android:summary="Type your staus"
                 android:key="status"/>
+
+        <ListPreference
+                android:title="Send to"
+                android:key="userToSend"
+                android:entries="@array/ids"
+                android:entryValues="@array/ids"
+                android:defaultValue="1"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Message notifications">
-       <RingtonePreference
-           android:title="Message notification sound"
-           android:key="message-notification-sound"/>
+        <RingtonePreference
+                android:title="Message notification sound"
+                android:key="message-notification-sound"/>
 
         <SwitchPreference
                 android:key="message-sound"
