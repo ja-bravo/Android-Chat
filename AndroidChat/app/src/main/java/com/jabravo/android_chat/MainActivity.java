@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
             int phoneNumberIdx = cursor.getColumnIndex(Phone.NUMBER);
             int photoIdIdx = cursor.getColumnIndex(Phone.PHOTO_ID);
             cursor.moveToFirst();
+
             do
             {
                 String idContact = cursor.getString(contactIdIdx);
@@ -152,6 +153,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     @Override
     public void onFragmentInteraction(Uri uri)

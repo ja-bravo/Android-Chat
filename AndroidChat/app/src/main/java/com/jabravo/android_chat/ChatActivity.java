@@ -175,8 +175,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             myID = 1;
             idSender = 2;
+
             try
             {
+                params[0] = params[0].replaceAll(" ", "%20");
+
                 URL url = new URL("http://146.185.155.88:8080/api/post/message/"+idSender+"&"+params[0]+"&"+myID);
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
