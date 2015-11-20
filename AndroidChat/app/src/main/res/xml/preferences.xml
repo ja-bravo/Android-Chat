@@ -5,11 +5,19 @@
         <EditTextPreference
                 android:title="Your user name"
                 android:summary="Type your user name"
-                android:key="username"/>
+                android:key="username"
+                android:defaultValue=""/>
+
+        <EditTextPreference
+            android:title="Your number phone"
+            android:summary="Type your number phone"
+            android:key="numberPhone"
+            android:defaultValue=""
+            android:shouldDisableView="true"/>
 
         <EditTextPreference
                 android:title="Your status"
-                android:summary="Type your staus"
+                android:summary="Type your status"
                 android:key="status"/>
 
         <ListPreference
@@ -17,7 +25,15 @@
                 android:key="userToSend"
                 android:entries="@array/ids"
                 android:entryValues="@array/ids"
-                android:defaultValue="1"/>
+                android:defaultValue="2"/>
+
+        <ListPreference
+            android:title="Emisor "
+            android:key="userToEmisor"
+            android:entries="@array/idsEmisor"
+            android:entryValues="@array/ids"
+            android:defaultValue="2"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Message notifications">

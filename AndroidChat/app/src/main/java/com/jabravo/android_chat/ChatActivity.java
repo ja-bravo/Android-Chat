@@ -19,7 +19,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,6 +33,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private EditText keyboard;
     private ScrollView scrollView;
     private LinearLayout messagesLayout;
+    private int idE;
+    private int idSender;
 
     private MessageList messages;
     private int counter;
@@ -42,6 +46,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        Thread service = new Thread(new Service(1));
+        service.start();
 
         sendButton = (ImageButton) findViewById(R.id.chat_send);
         keyboard = (EditText) findViewById(R.id.chat_keyboard);
@@ -96,7 +104,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void showMessage(Message message)
+    public void showMessage(Message message)
     {
         TextView textView = new TextView(this);
         textView.setText(message.getText());
@@ -161,6 +169,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         sender.execute(message);
     }
 
+
+// **********************************************
+// Clase para enviar mensajes
+// **********************************************
+
+
     public class Sender extends AsyncTask<String,Integer,Void>
     {
         public Sender()
@@ -219,4 +233,5 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             super.onPreExecute();
         }
     }
+
 }
