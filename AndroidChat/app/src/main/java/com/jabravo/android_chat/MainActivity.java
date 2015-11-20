@@ -50,6 +50,14 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String nick = prefs.getString("username","");
+
+        if(nick.equals(""))
+        {
+            Intent intent = new Intent(this,StartUpActivity.class);
+            startActivity(intent);
+        }
 
         // Conseguir contactos
         Cursor cursor = null;

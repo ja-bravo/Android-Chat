@@ -16,13 +16,17 @@ def get_users():
 def get_user(id):
     return jsonify({'user': db.get_user(id)})
 
-@app.route("/api/get/messages/<int:id>")
+@app.route("/api/get/messages/<int:id>", methods=['GET','POST'])
 def get_messages(id):
     return jsonify({'messages': db.get_messages(id)})
 
 @app.route("/api/post/message/<int:id>&<message>&<int:idDest>", methods=['GET','POST'])
 def send_message(id,message,idDest):
     return jsonify({'id': db.send_message(id,message,idDest)})
+
+@app.route("/api/post/user/<nick>&<number>")
+def insert_user(nick,number):
+    return jsonify({'ID': db.insert_user(nick,number)})
 
 if __name__ == "__main__":
     app.run(host='146.185.155.88', port=8080)

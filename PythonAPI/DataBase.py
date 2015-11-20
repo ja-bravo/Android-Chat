@@ -140,3 +140,19 @@ class DataBase():
         cursor.close()
         connection.close()
         return messageID
+
+    def insert_user(self, nick, number):
+        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        cursor = connection.cursor()
+
+        SQL = """INSERT INTO  USERS  (NICK , PHONE)
+                 VALUES ('%s' , '%s');""".replace('\n',' ').replace('\t','')
+        SQL = SQL % (str(nick), str(number))
+
+        cursor.execute(SQL)
+        ID = cursor.lastrowid
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+        return ID
