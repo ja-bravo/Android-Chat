@@ -3,6 +3,7 @@ package com.jabravo.android_chat;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,6 +39,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout messagesLayout;
     private int myId;
     private int idSender;
+    private MediaPlayer player;
+    SoundPool soundPool; // 1º cosa hacer: declarar la variables, 2º inicializar
+    int carga;
 
     private MessageList messages;
     private int counter;
@@ -50,6 +54,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         sendButton = (ImageButton) findViewById(R.id.chat_send);
         keyboard = (EditText) findViewById(R.id.chat_keyboard);
@@ -66,9 +72,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String alarms = preferences.getString("message-notification-sound", "default ringtone");
 
         Uri uri = Uri.parse(alarms);
-        MediaPlayer player = new MediaPlayer();
+        player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
         player.setLooping(false);
+
+
+        // 8, porque asi tengo 8 canales. Siempre es 0 el ultimo parametro
+        soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        // Cargo los audios
+        carga = soundPool.load(this, R.raw.gako, 1);
+
 
         myId = Integer.parseInt(preferences.getString("userToTransmitter", "1"));
         idSender = Integer.parseInt(preferences.getString("userToSend", "2"));
@@ -88,9 +103,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             player.prepare();
             player.start();
         }
-        catch(IOException e) {}
+            catch(IOException e) {}
 
-    }
+        }
 
     // Save the messages and the counter when the app changes orientation.
     @Override
@@ -123,17 +138,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void showMessage(Message message)
     {
 
-        System.out.println("dentroooooooo");
-
         TextView textView = new TextView(this);
         textView.setText(message.getText());
-
 
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-
 
 
         if(message.getSender() == myId)
@@ -143,6 +154,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
         else
         {
+            Thread playThead = new Thread() {
+                public void run() {
+                    soundPool.play(carga, 1, 1, 0, 0, 1);
+                }
+            };
+
+            playThead.start();
+
             params.gravity = Gravity.LEFT;
             textView.setPadding(10, 10, 50, 10);
         }
@@ -151,11 +170,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         textView.setLayoutParams(params);
 
-        try {
-            messagesLayout.addView(textView); // SOLO PUEDE TOCAR LA VISTA EL HILO QUE LA HA CREADO, O SEA, EL PRINCIPAL.
-            
+        messagesLayout.addView(textView); // SOLO PUEDE TOCAR LA VISTA EL HILO QUE LA HA CREADO, O SEA, EL PRINCIPAL.
         keyboard.setText("");
 
+        try {
         // This scrolls the ScrollView after the message has been added
         scrollView.post(new Runnable()
         {

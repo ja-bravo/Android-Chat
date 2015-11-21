@@ -2,6 +2,7 @@ package com.jabravo.android_chat;
 
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -16,6 +17,8 @@ public class Message implements Parcelable
 {
     private String text;
     private int sender;
+
+
 
     public Message(String text , int sender)
     {
