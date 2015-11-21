@@ -24,11 +24,16 @@ public class Service implements Runnable{
     private int id;
 
     public static List<Message> buffer = new ArrayList<>();
-
+    public static boolean run = true;
 
     public Service (int id)
     {
         this.id = id;
+    }
+
+    public static  void setRun (boolean run1)
+    {
+        run = run1;
     }
 
     private String getJMessage(){
@@ -74,7 +79,7 @@ public class Service implements Runnable{
 
     @Override
     public void run() {
-        while (true)
+        while (run)
         {
             try {
                 showJSON(getJMessage());

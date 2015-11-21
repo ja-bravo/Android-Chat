@@ -43,6 +43,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     SoundPool soundPool; // 1º cosa hacer: declarar la variables, 2º inicializar
     int carga;
 
+    private Thread service;
+    private Thread receiver;
+
+    private boolean runReceiver;
+
     private MessageList messages;
     private int counter;
 
@@ -54,8 +59,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         sendButton = (ImageButton) findViewById(R.id.chat_send);
         keyboard = (EditText) findViewById(R.id.chat_keyboard);
@@ -88,14 +91,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         myId = Integer.parseInt(preferences.getString("userToTransmitter", "1"));
         idSender = Integer.parseInt(preferences.getString("userToSend", "2"));
 
-        System.out.println(myId);
-        System.out.println(idSender);
+        service = new Thread(new Service(myId));
+        receiver = new Thread(new Receiver());
 
-        Thread service = new Thread(new Service(myId));
-        Thread receiver = new Thread(new Receiver());
-
-        service.start();
-        receiver.start();
 
         try
         {
@@ -117,6 +115,25 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         savedInstanceState.putParcelable("messages", messages);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Service.setRun(false);
+        runReceiver = false;
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Service.setRun(true);
+        runReceiver = true;
+
+        service.start();
+        receiver.start();
+    }
 
     // Load the messages and the counter when the app changes orientation.
     @Override
@@ -277,9 +294,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 // **********************************************
 
     public class Receiver implements Runnable {
+
         @Override
         public void run() {
-            while (true) {
+            while (runReceiver) {
 
                 synchronized (Service.buffer) {
 
