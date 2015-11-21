@@ -32,6 +32,7 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
            isValid(phone2.getText().toString()))
         {
             // Comprobar si existe, si no registrar y finish();
+            finish();
         }
         else
         {

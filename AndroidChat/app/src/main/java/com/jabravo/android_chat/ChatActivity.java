@@ -153,8 +153,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
             messagesLayout.addView(textView); // SOLO PUEDE TOCAR LA VISTA EL HILO QUE LA HA CREADO, O SEA, EL PRINCIPAL.
-        } catch (Exception e) {System.out.println(e);}
-
+            
         keyboard.setText("");
 
         // This scrolls the ScrollView after the message has been added
@@ -166,6 +165,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
+
+        } catch (Exception e) {System.out.println(e);}
     }
 
     @Override
