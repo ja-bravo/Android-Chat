@@ -23,16 +23,14 @@
         <ListPreference
                 android:title="Send to"
                 android:key="userToSend"
-                android:entries="@array/ids"
-                android:entryValues="@array/ids"
-                android:defaultValue="2"/>
+                android:entries="@array/idsReceiver"
+                android:entryValues="@array/idsReceiver"/>
 
         <ListPreference
-            android:title="Emisor "
-            android:key="userToEmisor"
-            android:entries="@array/idsEmisor"
-            android:entryValues="@array/ids"
-            android:defaultValue="2"/>
+            android:title="Transmitter "
+            android:key="userToTransmitter"
+            android:entries="@array/idsTransmitter"
+            android:entryValues="@array/idsTransmitter" />
 
     </PreferenceCategory>
 

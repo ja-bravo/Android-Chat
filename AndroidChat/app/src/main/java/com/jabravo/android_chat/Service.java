@@ -10,7 +10,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by Josewer on 20/11/2015.
@@ -19,9 +23,12 @@ public class Service implements Runnable{
 
     private int id;
 
+    public static List<Message> buffer = new ArrayList<>();
+
+
     public Service (int id)
     {
-        this.id = 2;
+        this.id = id;
     }
 
     private String getJMessage(){
@@ -42,8 +49,8 @@ public class Service implements Runnable{
             con.setDoOutput(true);
             //Capturamos la respuesta del servidor
             int responseCode = con.getResponseCode();
-            //System.out.println("\nSending 'POST' request to URL : " + url);
-           // System.out.println("Response Code : " + responseCode);
+            System.out.println("\nSending 'POST' request to URL : " + url);
+           System.out.println("Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
@@ -54,8 +61,8 @@ public class Service implements Runnable{
                 response.append(inputLine);
             }
             //Mostramos la respuesta del servidor por consola
-            //System.out.println("Respuesta del servidor: "+response);
-            //System.out.println();
+            System.out.println("Respuesta del servidor: "+response);
+            System.out.println();
             //cerramos la conexión
             in.close();
         } catch (Exception e) {
@@ -78,13 +85,11 @@ public class Service implements Runnable{
             try {
                 Thread.sleep(250);
             }catch (Exception e) {};
-
         }
     }
 
     private  void showJSON(String json) throws JSONException {
 
-        List<MessageData> mensajes = new ArrayList<>(); //inicializamos la lista donde almacenaremos los objetos Fruta
 
         JSONObject object = new JSONObject(json);
         JSONArray json_array = object.optJSONArray("messages");
@@ -98,11 +103,13 @@ public class Service implements Runnable{
             boolean read = false;
             int sender = objetoJSON.getInt("ID_USER_SENDER");
 
-            mensajes.add(new MessageData(text , date , id , read , sender , id )); //creamos un objeto Fruta y lo insertamos en la lista
+            synchronized (buffer) {
+                buffer.add(new Message(text, sender));
+            }
 
-            if (!text.equals(""))
-
-            System.out.println(text);
+            if (!text.equals("")) {
+                System.out.println(text);
+            }
         }
     }
 }

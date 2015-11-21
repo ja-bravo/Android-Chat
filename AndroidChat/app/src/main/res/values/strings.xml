@@ -28,7 +28,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_chat">Chat Activity</string>
 
-    <string-array name="ids">
+    <string-array name="idsReceiver">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -41,7 +41,7 @@
         <item>10</item>
     </string-array>
 
-    <string-array name="idsEmisor">
+    <string-array name="idsTransmitter">
         <item>1</item>
         <item>2</item>
         <item>3</item>

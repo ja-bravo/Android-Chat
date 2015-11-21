@@ -15,9 +15,9 @@ import java.io.IOException;
 public class Message implements Parcelable
 {
     private String text;
-    private String sender;
+    private int sender;
 
-    public Message(String sender, String text)
+    public Message(String text , int sender)
     {
         this.sender = sender;
         this.text = text;
@@ -31,27 +31,29 @@ public class Message implements Parcelable
 
     public Message(Parcel in)
     {
-        this.sender = in.readString();
+        this.sender = in.readInt();
         this.text = in.readString();
     }
 
+    /*
     public Message()
     {
         this.sender = "user";
         this.text = "";
     }
+    */
 
     public String getText()
     {
         return text;
     }
 
-    public String getSender()
+    public int getSender()
     {
         return sender;
     }
 
-    public void setSender(String sender)
+    public void setSender(int sender)
     {
         this.sender = sender;
     }
@@ -71,7 +73,7 @@ public class Message implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
-        dest.writeString(sender);
+        dest.writeInt(sender);
         dest.writeString(text);
     }
 

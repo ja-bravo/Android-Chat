@@ -31,7 +31,7 @@ public class MessageList extends ArrayList<Message> implements Parcelable
         int size = in.readInt();
 
         for (int i = 0; i < size; i++) {
-            Message message = new Message(in.readString(),in.readString());
+            Message message = new Message(in.readString(),in.readInt());
             this.add(message);
         }
     }
@@ -53,7 +53,7 @@ public class MessageList extends ArrayList<Message> implements Parcelable
         {
             Message message = this.get(i);
 
-            dest.writeString(message.getSender());
+            dest.writeInt(message.getSender());
             dest.writeString(message.getText());
         }
     }
