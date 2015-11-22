@@ -26,7 +26,12 @@ def send_message(id,message,idDest):
 
 @app.route("/api/post/user/<nick>&<number>")
 def insert_user(nick,number):
-    return jsonify({'ID': db.insert_user(nick,number)})
+    return jsonify({'id': db.insert_user(nick,number)})
+
+@app.route("/api/get/user/exists/<phone>", methods=['GET','POST'])
+def user_exists(phone):
+    return jsonify({'response': db.user_exists(phone)})
+
 
 if __name__ == "__main__":
     app.run(host='146.185.155.88', port=8080)

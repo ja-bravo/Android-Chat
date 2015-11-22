@@ -156,3 +156,19 @@ class DataBase():
         cursor.close()
         connection.close()
         return ID
+
+    def user_exists(self, phone):
+        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        cursor = connection.cursor()
+
+        SQL = """SELECT COUNT(*)
+                 FROM USERS
+                 WHERE PHONE = '%s'""".replace('\n',' ').replace('\t','')
+        SQL = SQL % str(phone)
+
+        cursor.execute(SQL)
+
+        result = cursor._rows[0][0]
+        cursor.close()
+        connection.close()
+        return result > 0
