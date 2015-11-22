@@ -32,7 +32,8 @@
             android:label="@string/action_settings"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".StartUpActivity" >
+        <activity android:name=".StartUpActivity"
+                  android:screenOrientation="portrait">
         </activity>
     </application>
 
