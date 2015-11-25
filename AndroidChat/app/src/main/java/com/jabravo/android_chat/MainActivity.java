@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity
 
                 break;
 
-            case R.id.nav_contacts:
+            case R.id.nav_test:
                 SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 boolean vibrar = preferences.getBoolean("message-vibration" , true);
 

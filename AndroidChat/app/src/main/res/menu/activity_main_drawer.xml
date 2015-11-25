@@ -7,6 +7,10 @@
             android:title="Chats">
             <menu>
                 <item
+                        android:id="@+id/nav_test"
+                        android:icon="@drawable/ic_contacts"
+                        android:title="Test chat"/>
+                <item
                         android:id="@+id/nav_contacts"
                         android:icon="@drawable/ic_contacts"
                         android:title="@string/action_contacts"/>
