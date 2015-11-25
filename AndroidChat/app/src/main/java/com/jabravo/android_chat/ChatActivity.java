@@ -244,9 +244,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         {
             try
             {
-                params[0] = params[0].replaceAll(" ", "%20");
-
-                URL url = new URL("http://146.185.155.88:8080/api/post/message/"+idSender+"&"+params[0]+"&"+myId);
+                //String message = params[0];
+                String message = java.net.URLEncoder.encode(params[0], "ISO-8859-9").replaceAll("\\+" , "%20");
+                URL url = new URL("http://146.185.155.88:8080/api/post/message/"+idSender+"&"+message+"&"+myId);
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");

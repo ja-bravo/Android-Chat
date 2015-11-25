@@ -95,7 +95,6 @@ public class Service implements Runnable{
 
     private  void showJSON(String json) throws JSONException {
 
-
         JSONObject object = new JSONObject(json);
         JSONArray json_array = object.optJSONArray("messages");
 
@@ -109,7 +108,8 @@ public class Service implements Runnable{
             int sender = objetoJSON.getInt("ID_USER_SENDER");
 
             synchronized (buffer) {
-                buffer.add(new Message(text, sender));
+
+                buffer.add(new Message(text , sender));
             }
 
             if (!text.equals("")) {
