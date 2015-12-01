@@ -18,16 +18,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
@@ -37,11 +30,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private EditText keyboard;
     private ScrollView scrollView;
     private LinearLayout messagesLayout;
-    private int myId;
-    private int idSender;
+    private int fromID;
+    private int toID;
     private MediaPlayer player;
-    SoundPool soundPool; // 1º cosa hacer: declarar la variables, 2º inicializar
-    int carga;
+    private SoundPool soundPool;
+    private int carga;
 
     private Thread service;
     private Thread receiver;
@@ -49,8 +42,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private boolean runReceiver;
 
     private MessageList messages;
-    private int counter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,7 +58,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         sendButton.setOnClickListener(this);
 
-        counter = 0;
         messages = new MessageList();
 
         // Esto es para conseguir y hacer que suene el sonido de notificacion.
@@ -87,36 +77,35 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         // Cargo los audios
         carga = soundPool.load(this, R.raw.gako, 1);
 
+        fromID = Integer.parseInt(preferences.getString("userToTransmitter", "1"));
+        toID = Integer.parseInt(preferences.getString("userToSend", "2"));
 
-        myId = Integer.parseInt(preferences.getString("userToTransmitter", "1"));
-        idSender = Integer.parseInt(preferences.getString("userToSend", "2"));
-
-        service = new Thread(new Service(myId));
+        service = new Thread(new Service(fromID));
         receiver = new Thread(new Receiver());
 
 
         try
         {
-            player.setDataSource(this,uri);
+            player.setDataSource(this, uri);
             player.prepare();
             player.start();
+        } catch (IOException e)
+        {
         }
-            catch(IOException e) {}
 
-        }
+    }
 
     // Save the messages and the counter when the app changes orientation.
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
         super.onSaveInstanceState(savedInstanceState);
-
-        savedInstanceState.putInt("counter",counter);
         savedInstanceState.putParcelable("messages", messages);
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
 
         Service.setRun(false);
@@ -125,7 +114,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
 
         Service.setRun(true);
@@ -140,16 +130,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-
-        counter = savedInstanceState.getInt("counter");
         messages = savedInstanceState.getParcelable("messages");
 
-        for(Message message : messages)
+        for (Message message : messages)
         {
             showMessage(message);
         }
     }
-
 
 
     public void showMessage(Message message)
@@ -164,15 +151,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
 
-        if(message.getSender() == myId)
+        if (message.getSender() == fromID)
         {
             params.gravity = Gravity.RIGHT;
             textView.setPadding(50, 10, 10, 10);
-        }
-        else
+        } else
         {
-            Thread playThead = new Thread() {
-                public void run() {
+            Thread playThead = new Thread()
+            {
+                public void run()
+                {
                     soundPool.play(carga, 1, 1, 0, 0, 1);
                 }
             };
@@ -190,33 +178,35 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         messagesLayout.addView(textView); // SOLO PUEDE TOCAR LA VISTA EL HILO QUE LA HA CREADO, O SEA, EL PRINCIPAL.
         keyboard.setText("");
 
-        try {
-        // This scrolls the ScrollView after the message has been added
-        scrollView.post(new Runnable()
+        try
         {
-            @Override
-            public void run()
+            // This scrolls the ScrollView after the message has been added
+            scrollView.post(new Runnable()
             {
-                scrollView.fullScroll(View.FOCUS_DOWN);
-            }
-        });
+                @Override
+                public void run()
+                {
+                    scrollView.fullScroll(View.FOCUS_DOWN);
+                }
+            });
 
-        } catch (Exception e) {System.out.println(e);}
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
 
         if (keyboard.getText().toString().length() != 0)
         {
-            Message message = new Message(keyboard.getText().toString(), myId);
-            //message.setText(keyboard.getText().toString());
+            Message message = new Message(keyboard.getText().toString(), fromID, toID);
             messages.add(message);
-
 
             sendMessage(message.getText());
             showMessage(message);
-            counter++;
         }
     }
 
@@ -231,8 +221,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 // Clase para enviar mensajes
 // **********************************************
 
-
-    public class Sender extends AsyncTask<String,Integer,Void>
+    public class Sender extends AsyncTask<String, Integer, Void>
     {
         public Sender()
         {
@@ -245,8 +234,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             try
             {
                 //String message = params[0];
-                String message = java.net.URLEncoder.encode(params[0], "ISO-8859-9").replaceAll("\\+" , "%20");
-                URL url = new URL("http://146.185.155.88:8080/api/post/message/"+idSender+"&"+message+"&"+myId);
+                String message = java.net.URLEncoder.encode(params[0], "ISO-8859-9").replaceAll("\\+", "%20");
+                URL url = new URL("http://146.185.155.88:8080/api/post/message/" + toID + "&" + message + "&" + fromID);
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
@@ -254,7 +243,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 connection.setDoOutput(true);
 
                 System.out.println("---------------" + connection.getResponseCode());
-                Log.i("test",String.valueOf(connection.getResponseCode()));
+                Log.i("test", String.valueOf(connection.getResponseCode()));
             } catch (Exception e)
             {
                 Log.i("test", String.valueOf(e.toString()));
@@ -288,25 +277,30 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
 // **********************************************
 // Clase para recibir mensajes
 // **********************************************
 
-    public class Receiver implements Runnable {
+    public class Receiver implements Runnable
+    {
 
         @Override
-        public void run() {
-            while (runReceiver) {
+        public void run()
+        {
+            while (runReceiver)
+            {
 
-                synchronized (Service.buffer) {
+                synchronized (Service.buffer)
+                {
 
                     if (Service.buffer.size() != 0)
                     {
                         // SOLO PUEDE TOCAR LA VISTA EL HILO QUE LA HA CREADO, O SEA, EL PRINCIPAL.
-                        runOnUiThread(new Runnable() {
+                        runOnUiThread(new Runnable()
+                        {
                             @Override
-                            public void run() {
+                            public void run()
+                            {
                                 for (int i = 0; i < Service.buffer.size(); i++)
                                 {
                                     showMessage(Service.buffer.get(i));
@@ -319,9 +313,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
 
-                try {
+                try
+                {
                     Thread.sleep(250);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException e)
+                {
                     e.printStackTrace();
                 }
             }

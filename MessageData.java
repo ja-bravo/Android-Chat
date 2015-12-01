@@ -12,8 +12,7 @@ public class MessageData {
     private int sender;
     private int receiver;
 
-    public MessageData(String text , String date , int id ,
-                       boolean read , int sender , int receiver)
+    public MessageData(String text , String date , int id , boolean read , int sender , int receiver)
     {
         this.text = text;
         this.date = date;

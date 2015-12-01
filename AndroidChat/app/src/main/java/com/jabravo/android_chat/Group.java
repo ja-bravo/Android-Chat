@@ -1,6 +1,5 @@
 package com.jabravo.android_chat;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -8,17 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Group {
+public class Group
+{
 
     private int id;
     private String name;
     private int admin;
     private String image;
+    private List<Message> messages;
 
-    private List<MessageData> listMessages;
-
-
-    public Group(int id , String name , int admin , String image) {
+    public Group(int id, String name, int admin, String image)
+    {
+        messages = new ArrayList<>();
         this.id = id;
         this.name = name;
         this.admin = admin;
@@ -26,8 +26,9 @@ public class Group {
     }
 
 
-    public Group(int id) {
-
+    public Group(int id)
+    {
+        messages = new ArrayList<>();
         this.id = id;
 
         SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase(); // Abro la base de datos
@@ -35,8 +36,8 @@ public class Group {
         if (db != null) // Compruebo que se ha abierto bien
         {
             String sql = "SELECT NAME_GROUP , ID_GROUP_ADMIN , IMAGE_GROUP FROM GROUPS WHERE ID_GROUP=?;";
-            String [] m = {""+ id}; // CUIDADO CON ESTO.
-            Cursor c = db.rawQuery(sql , m);
+            String[] m = {"" + id}; // CUIDADO CON ESTO.
+            Cursor c = db.rawQuery(sql, m);
 
             while (c.moveToNext())
             {
@@ -48,12 +49,11 @@ public class Group {
             db.close();
         }
 
-        createListMessages ();
+        createListMessages();
     }
 
-    public void createListMessages () {
-
-        listMessages = new ArrayList<MessageData>();
+    public void createListMessages()
+    {
 
         SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase(); // Abro la base de datos
 
@@ -68,18 +68,17 @@ public class Group {
                     " GROUPS.ID_GROUP=? ;";
 
             String[] m = {"" + id}; // CUIDADO CON ESTO.
-            Cursor c = db.rawQuery(sql, m);
+            Cursor cursor = db.rawQuery(sql, m);
 
-            while (c.moveToNext()) {
-                boolean r;
+            while (cursor.moveToNext())
+            {
+                boolean messageRead = cursor.getString(3).toLowerCase().equals("true");
+                int messageID = cursor.getInt(0);
+                String messageDate = cursor.getString(1);
+                String messageText = cursor.getString(2);
+                int messageIDSender = cursor.getInt(4);
 
-                if (c.getString(3).toLowerCase().equals("true"))
-                    r = true;
-                else
-                    r = false;
-
-                listMessages.add(new MessageData(c.getString(2), c.getString(1),
-                        c.getInt(0), r, c.getInt(4)));
+                messages.add(new Message(messageText, messageDate, messageID, messageRead, messageIDSender));
             }
 
             db.close();
@@ -87,58 +86,68 @@ public class Group {
     }
 
 
-    public void addMessages (String text , String date, int id , boolean read , int sender , int receiver )
+    public void addMessages(String text, String date, int id, boolean read, int sender, int receiver)
     {
-        listMessages.add(new MessageData (text , date , id , read , sender ,receiver));
+        messages.add(new Message(text, date, id, read, sender, receiver));
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
 
-    public int getAdmin() {
+    public int getAdmin()
+    {
         return admin;
     }
 
 
-    public void setAdmin(int admin) {
+    public void setAdmin(int admin)
+    {
         this.admin = admin;
     }
 
 
-    public String getImage() {
+    public String getImage()
+    {
         return image;
     }
 
 
-    public void setImage(String image) {
+    public void setImage(String image)
+    {
         this.image = image;
     }
 
 
-    public List<MessageData> getListMessages() {
-        return listMessages;
+    public List<Message> getMessages()
+    {
+        return messages;
     }
 
 
-    public void setListMessages(List<MessageData> listMessages) {
-        this.listMessages = listMessages;
+    public void setMessages(List<Message> messages)
+    {
+        this.messages = messages;
     }
 
 }

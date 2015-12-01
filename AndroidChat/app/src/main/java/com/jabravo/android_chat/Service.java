@@ -16,33 +16,33 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.SynchronousQueue;
 
-/**
- * Created by Josewer on 20/11/2015.
- */
-public class Service implements Runnable{
+public class Service implements Runnable
+{
 
     private int id;
 
     public static List<Message> buffer = new ArrayList<>();
     public static boolean run = true;
 
-    public Service (int id)
+    public Service(int id)
     {
         this.id = id;
     }
 
-    public static  void setRun (boolean run1)
+    public static void setRun(boolean setRun)
     {
-        run = run1;
+        run = setRun;
     }
 
-    private String getJMessage(){
+    private String getJMessage()
+    {
 
         StringBuffer response = null;
 
-        try {
+        try
+        {
             //Generar la URL
-            String url ="http://146.185.155.88:8080/api/get/messages/"+id;
+            String url = "http://146.185.155.88:8080/api/get/messages/" + id;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -55,22 +55,26 @@ public class Service implements Runnable{
             //Capturamos la respuesta del servidor
             int responseCode = con.getResponseCode();
             System.out.println("\nSending 'POST' request to URL : " + url);
-           System.out.println("Response Code : " + responseCode);
+            System.out.println("Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
             String inputLine;
             response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = in.readLine()) != null)
+            {
                 response.append(inputLine);
             }
+
             //Mostramos la respuesta del servidor por consola
-            System.out.println("Respuesta del servidor: "+response);
+            System.out.println("Respuesta del servidor: " + response);
             System.out.println();
-            //cerramos la conexión
+
             in.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
@@ -78,27 +82,37 @@ public class Service implements Runnable{
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
         while (run)
         {
-            try {
+            try
+            {
                 showJSON(getJMessage());
-            } catch (JSONException e) {
+            }
+            catch (JSONException e)
+            {
                 e.printStackTrace();
             }
 
-            try {
+            try
+            {
                 Thread.sleep(250);
-            }catch (Exception e) {};
+            }
+            catch (Exception e)
+            {
+            }
         }
     }
 
-    private  void showJSON(String json) throws JSONException {
+    private void showJSON(String json) throws JSONException
+    {
 
         JSONObject object = new JSONObject(json);
         JSONArray json_array = object.optJSONArray("messages");
 
-        for (int i = 0; i < json_array.length(); i++) {
+        for (int i = 0; i < json_array.length(); i++)
+        {
 
             JSONObject objetoJSON = json_array.getJSONObject(i);
 
@@ -106,13 +120,15 @@ public class Service implements Runnable{
             String date = "hoy";
             boolean read = false;
             int sender = objetoJSON.getInt("ID_USER_SENDER");
+            int receiver = -1; // Aqui habrá que usar la ID del usuario.
 
-            synchronized (buffer) {
-
-                buffer.add(new Message(text , sender));
+            synchronized (buffer)
+            {
+                buffer.add(new Message(text, sender, receiver));
             }
 
-            if (!text.equals("")) {
+            if (!text.equals(""))
+            {
                 System.out.println(text);
             }
         }

@@ -30,8 +30,16 @@ public class MessageList extends ArrayList<Message> implements Parcelable
 
         int size = in.readInt();
 
-        for (int i = 0; i < size; i++) {
-            Message message = new Message(in.readString(),in.readInt());
+        for (int i = 0; i < size; i++)
+        {
+            String text = in.readString();
+            String date = in.readString();
+            int id = in.readInt();
+            boolean read = in.readInt() == 1; // 1 = true, 0 = false
+            int sender = in.readInt();
+            int receiver = in.readInt();
+
+            Message message = new Message(text,date,id,read,sender,receiver);
             this.add(message);
         }
     }

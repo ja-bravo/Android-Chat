@@ -25,7 +25,7 @@ public class Conversation {
         {
             group = new Group (idFiendOrGroup);
 
-            if (group.getListMessages().size() != 0)
+            if (group.getMessages().size() != 0)
             {
                 show = true;
             }
@@ -38,7 +38,7 @@ public class Conversation {
         {
             friend = new Friend (idFiendOrGroup);
 
-            if (friend.getListMessages().size() != 0)
+            if (friend.getMessages().size() != 0)
             {
                 show = true;
             }
