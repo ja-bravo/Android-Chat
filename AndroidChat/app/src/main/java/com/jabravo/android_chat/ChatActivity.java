@@ -1,8 +1,6 @@
 package com.jabravo.android_chat;
 
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -17,9 +15,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import com.jabravo.android_chat.Data.Message;
+import com.jabravo.android_chat.Data.MessageList;
 import com.jabravo.android_chat.Services.Sender;
-import java.io.IOException;
-
+import com.jabravo.android_chat.Services.Service;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {

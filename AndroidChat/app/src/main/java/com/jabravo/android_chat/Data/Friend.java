@@ -1,4 +1,4 @@
-package com.jabravo.android_chat;
+package com.jabravo.android_chat.Data;
 
 /**
  * Created by Josewer on 16/11/2015.
@@ -6,6 +6,7 @@ package com.jabravo.android_chat;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import com.jabravo.android_chat.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;

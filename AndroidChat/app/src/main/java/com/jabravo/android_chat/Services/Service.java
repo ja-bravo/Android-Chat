@@ -1,20 +1,16 @@
-package com.jabravo.android_chat;
+package com.jabravo.android_chat.Services;
 
+import com.jabravo.android_chat.Data.Message;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
-import java.util.concurrent.SynchronousQueue;
 
 public class Service implements Runnable
 {

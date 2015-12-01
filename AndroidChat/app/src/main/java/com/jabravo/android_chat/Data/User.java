@@ -1,4 +1,4 @@
-package com.jabravo.android_chat;
+package com.jabravo.android_chat.Data;
 
 /**
  * Created by Jose on 20/11/2015.

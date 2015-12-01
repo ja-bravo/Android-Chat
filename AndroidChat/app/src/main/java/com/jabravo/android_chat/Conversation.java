@@ -1,10 +1,14 @@
 package com.jabravo.android_chat;
 
+import com.jabravo.android_chat.Data.Friend;
+import com.jabravo.android_chat.Data.Group;
+
 /**
  * Created by Josewer on 16/11/2015.
  */
 
-public class Conversation {
+public class Conversation
+{
 
     private int idConver;
     private int idFiendOrGroup;
@@ -13,8 +17,9 @@ public class Conversation {
     private Friend friend;
     private Group group;
 
-    public Conversation(int idConver , int idFiendOrGroup,
-                        boolean isGroup) {
+    public Conversation(int idConver, int idFiendOrGroup,
+                        boolean isGroup)
+    {
 
         this.idConver = idConver;
         this.idFiendOrGroup = idFiendOrGroup;
@@ -23,77 +28,86 @@ public class Conversation {
 
         if (this.isGroup)
         {
-            group = new Group (idFiendOrGroup);
+            group = new Group(idFiendOrGroup);
 
             if (group.getMessages().size() != 0)
             {
                 show = true;
-            }
-            else
+            } else
             {
                 show = false;
             }
-        }
-        else
+        } else
         {
-            friend = new Friend (idFiendOrGroup);
+            friend = new Friend(idFiendOrGroup);
 
             if (friend.getMessages().size() != 0)
             {
                 show = true;
-            }
-            else
+            } else
             {
                 show = false;
             }
         }
     }
 
-    public int getIdConver() {
+    public int getIdConver()
+    {
         return idConver;
     }
 
-    public void setIdConver(int idConver) {
+    public void setIdConver(int idConver)
+    {
         this.idConver = idConver;
     }
 
-    public int getIdFiendOrGroup() {
+    public int getIdFiendOrGroup()
+    {
         return idFiendOrGroup;
     }
 
-    public void setIdFiendOrGroup(int idFiendOrGroup) {
+    public void setIdFiendOrGroup(int idFiendOrGroup)
+    {
         this.idFiendOrGroup = idFiendOrGroup;
     }
 
-    public boolean isGroup() {
+    public boolean isGroup()
+    {
         return isGroup;
     }
 
-    public void setGroup(boolean isGroup) {
+    public void setGroup(boolean isGroup)
+    {
         this.isGroup = isGroup;
     }
 
-    public boolean isShow() {
+    public boolean isShow()
+    {
         return show;
     }
 
-    public void setShow(boolean show) {
+    public void setShow(boolean show)
+    {
         this.show = show;
     }
 
-    public Friend getFriend() {
+    public Friend getFriend()
+    {
         return friend;
     }
 
-    public void setFriend(Friend friend) {
+    public void setFriend(Friend friend)
+    {
         this.friend = friend;
     }
 
-    public Group getGroup() {
+    public Group getGroup()
+    {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(Group group)
+    {
         this.group = group;
     }
 }

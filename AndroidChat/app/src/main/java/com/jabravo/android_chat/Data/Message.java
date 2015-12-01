@@ -1,4 +1,4 @@
-package com.jabravo.android_chat;
+package com.jabravo.android_chat.Data;
 
 
 import android.os.Parcel;

@@ -1,7 +1,8 @@
-package com.jabravo.android_chat;
+package com.jabravo.android_chat.Data;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import com.jabravo.android_chat.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
