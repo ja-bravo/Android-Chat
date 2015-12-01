@@ -3,14 +3,13 @@ package com.jabravo.android_chat;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -18,23 +17,20 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
+import com.jabravo.android_chat.Services.Sender;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
-
     private ImageButton sendButton;
     private EditText keyboard;
     private ScrollView scrollView;
     private LinearLayout messagesLayout;
+    private Ringtone ringtone;
+
     private int fromID;
     private int toID;
-    private MediaPlayer player;
-    private SoundPool soundPool;
-    private int carga;
 
     private Thread service;
     private Thread receiver;
@@ -47,6 +43,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,34 +62,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String alarms = preferences.getString("message-notification-sound", "default ringtone");
 
         Uri uri = Uri.parse(alarms);
-        player = new MediaPlayer();
-        player.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
-        player.setLooping(false);
-
-
-        // 8, porque asi tengo 8 canales. Siempre es 0 el ultimo parametro
-        soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
-        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        // Cargo los audios
-        carga = soundPool.load(this, R.raw.gako, 1);
+        ringtone = RingtoneManager.getRingtone(this,uri);
 
         fromID = Integer.parseInt(preferences.getString("userToTransmitter", "1"));
         toID = Integer.parseInt(preferences.getString("userToSend", "2"));
 
         service = new Thread(new Service(fromID));
         receiver = new Thread(new Receiver());
-
-
-        try
-        {
-            player.setDataSource(this, uri);
-            player.prepare();
-            player.start();
-        } catch (IOException e)
-        {
-        }
-
     }
 
     // Save the messages and the counter when the app changes orientation.
@@ -138,44 +114,32 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     public void showMessage(Message message)
     {
 
         TextView textView = new TextView(this);
         textView.setText(message.getText());
 
-
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-
 
         if (message.getSender() == fromID)
         {
             params.gravity = Gravity.RIGHT;
             textView.setPadding(50, 10, 10, 10);
-        } else
+        }
+        else
         {
-            Thread playThead = new Thread()
-            {
-                public void run()
-                {
-                    soundPool.play(carga, 1, 1, 0, 0, 1);
-                }
-            };
-
-            playThead.start();
-
+            ringtone.play();
             params.gravity = Gravity.LEFT;
             textView.setPadding(10, 10, 50, 10);
         }
 
         textView.setBackgroundResource(R.drawable.message);
-
         textView.setLayoutParams(params);
 
-        messagesLayout.addView(textView); // SOLO PUEDE TOCAR LA VISTA EL HILO QUE LA HA CREADO, O SEA, EL PRINCIPAL.
+        messagesLayout.addView(textView);
         keyboard.setText("");
 
         try
@@ -190,7 +154,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             System.out.println(e);
         }
@@ -199,7 +164,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v)
     {
-
         if (keyboard.getText().toString().length() != 0)
         {
             Message message = new Message(keyboard.getText().toString(), fromID, toID);
@@ -213,74 +177,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private void sendMessage(String message)
     {
         Sender sender = new Sender();
-        sender.execute(message);
+        sender.execute(message,String.valueOf(toID),String.valueOf(fromID));
     }
-
-
-// **********************************************
-// Clase para enviar mensajes
-// **********************************************
-
-    public class Sender extends AsyncTask<String, Integer, Void>
-    {
-        public Sender()
-        {
-            super();
-        }
-
-        @Override
-        protected Void doInBackground(String... params)
-        {
-            try
-            {
-                //String message = params[0];
-                String message = java.net.URLEncoder.encode(params[0], "ISO-8859-9").replaceAll("\\+", "%20");
-                URL url = new URL("http://146.185.155.88:8080/api/post/message/" + toID + "&" + message + "&" + fromID);
-
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-                connection.setDoOutput(true);
-
-                System.out.println("---------------" + connection.getResponseCode());
-                Log.i("test", String.valueOf(connection.getResponseCode()));
-            } catch (Exception e)
-            {
-                Log.i("test", String.valueOf(e.toString()));
-            }
-            return null;
-        }
-
-        @Override
-        protected void onCancelled()
-        {
-            super.onCancelled();
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid)
-        {
-            super.onPostExecute(aVoid);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values)
-        {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected void onPreExecute()
-        {
-            super.onPreExecute();
-        }
-    }
-
 
 // **********************************************
 // Clase para recibir mensajes
 // **********************************************
-
     public class Receiver implements Runnable
     {
 
@@ -289,13 +191,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         {
             while (runReceiver)
             {
-
                 synchronized (Service.buffer)
                 {
-
                     if (Service.buffer.size() != 0)
                     {
-                        // SOLO PUEDE TOCAR LA VISTA EL HILO QUE LA HA CREADO, O SEA, EL PRINCIPAL.
                         runOnUiThread(new Runnable()
                         {
                             @Override
@@ -311,7 +210,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         });
                     }
                 }
-
 
                 try
                 {
