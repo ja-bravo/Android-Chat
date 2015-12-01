@@ -9,7 +9,6 @@ import com.jabravo.android_chat.Data.Group;
 
 public class Conversation
 {
-
     private int idConver;
     private int idFiendOrGroup;
     private boolean isGroup;
@@ -17,8 +16,7 @@ public class Conversation
     private Friend friend;
     private Group group;
 
-    public Conversation(int idConver, int idFiendOrGroup,
-                        boolean isGroup)
+    public Conversation(int idConver, int idFiendOrGroup, boolean isGroup)
     {
 
         this.idConver = idConver;
@@ -26,7 +24,7 @@ public class Conversation
         this.isGroup = isGroup;
 
 
-        if (this.isGroup)
+        if (isGroup)
         {
             group = new Group(idFiendOrGroup);
 
