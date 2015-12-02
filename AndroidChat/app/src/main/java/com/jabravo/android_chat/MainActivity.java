@@ -9,7 +9,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -50,47 +52,11 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String nick = prefs.getString("username","");
 
-        if(nick.equals(""))
-        {
-            Intent intent = new Intent(this,StartUpActivity.class);
-            startActivity(intent);
-        }
-
-        // Conseguir contactos
-        Cursor cursor = null;
-        try
-        {
-            cursor = getContentResolver().query(Phone.CONTENT_URI, null, null, null, null);
-            int contactIdIdx = cursor.getColumnIndex(Phone._ID);
-            int nameIdx = cursor.getColumnIndex(Phone.DISPLAY_NAME);
-            int phoneNumberIdx = cursor.getColumnIndex(Phone.NUMBER);
-            int photoIdIdx = cursor.getColumnIndex(Phone.PHOTO_ID);
-            cursor.moveToFirst();
-
-            do
-            {
-                String idContact = cursor.getString(contactIdIdx);
-                String name = cursor.getString(nameIdx);
-                String phoneNumber = cursor.getString(phoneNumberIdx);
-
-                Log.i("test",name + " " + phoneNumber );
-            }
-            while (cursor.moveToNext());
-        }
-        catch (Exception e)
-        {
-        }
-        finally
-        {
-            if (cursor != null)
-            {
-                cursor.close();
-            }
-        }
+        loadUserData();
+        loadContacts();
     }
+
 
 
     @Override
@@ -175,5 +141,51 @@ public class MainActivity extends AppCompatActivity
         // hay que darle permisos en el manifests
         Vibrator vibs = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibs.vibrate(duration); // en milisegundos
+    }
+
+    private void loadUserData()
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String nick = prefs.getString("username","");
+
+        if(nick.equals(""))
+        {
+            Intent intent = new Intent(this,StartUpActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void loadContacts()
+    {
+        Cursor cursor = null;
+        try
+        {
+            cursor = getContentResolver().query(Phone.CONTENT_URI, null, null, null, null);
+            int contactIdIdx = cursor.getColumnIndex(Phone._ID);
+            int nameIdx = cursor.getColumnIndex(Phone.DISPLAY_NAME);
+            int phoneNumberIdx = cursor.getColumnIndex(Phone.NUMBER);
+            int photoIdIdx = cursor.getColumnIndex(Phone.PHOTO_ID);
+            cursor.moveToFirst();
+
+            do
+            {
+                String idContact = cursor.getString(contactIdIdx);
+                String name = cursor.getString(nameIdx);
+                String phoneNumber = cursor.getString(phoneNumberIdx);
+
+                Log.i("test",name + " " + phoneNumber );
+            }
+            while (cursor.moveToNext());
+        }
+        catch (Exception e)
+        {
+        }
+        finally
+        {
+            if (cursor != null)
+            {
+                cursor.close();
+            }
+        }
     }
 }

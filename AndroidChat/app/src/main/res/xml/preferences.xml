@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="User">
+
         <EditTextPreference
                 android:title="Your user name"
                 android:summary="Type your user name"

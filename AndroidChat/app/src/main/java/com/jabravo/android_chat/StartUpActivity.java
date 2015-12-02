@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.jabravo.android_chat.Services.UserService;
 
 public class StartUpActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -31,13 +32,32 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
         if(isValid(phone1.getText().toString()) &&
            isValid(phone2.getText().toString()))
         {
-            // Comprobar si existe, si no registrar y finish();
+            UserService service = new UserService();
+            if(service.phoneExists(phone1.getText().toString()))
+            {
+                loadUserData();
+            }
+            else
+            {
+                // Registrar usuario
+            }
             finish();
         }
         else
         {
             Toast.makeText(this,"Invalid number.",Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
+    }
+
+    private void loadUserData()
+    {
+
     }
 
     private boolean isValid(String number)
