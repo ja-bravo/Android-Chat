@@ -10,17 +10,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
+
 import com.jabravo.android_chat.Data.DB_Android;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
+import com.jabravo.android_chat.Services.SenderPhones;
 
 
 public class MainActivity extends AppCompatActivity
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity
 
     private  NavigationView navigationView;
     public static DB_Android dataBase;
+    public SenderPhones senderPhones;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         dataBase  = new DB_Android ( this , "Data Base" , null , 1); // El 1 es la version.
+       senderPhones = new SenderPhones();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -76,12 +80,15 @@ public class MainActivity extends AppCompatActivity
                 String name = cursor.getString(nameIdx);
                 String phoneNumber = cursor.getString(phoneNumberIdx);
 
-                Log.i("test",name + " " + phoneNumber );
+                senderPhones.addPhone(name, phoneNumber);
+
+                //Log.i("test",name + " " + phoneNumber );
             }
             while (cursor.moveToNext());
         }
         catch (Exception e)
         {
+
         }
         finally
         {
