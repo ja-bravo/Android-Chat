@@ -82,5 +82,5 @@ INSERT INTO  SEND_MESSAGE_GROUP (ID_MESSAGE , ID_USER , ID_GROUP)
 -- NOTA: HAY QUE ADAPTARLO PARA QUE FUNCIONE EN PHP O DONDE SEA.
 ------------------------------------------------------------------
 
-INSERT INTO  USERS  (NICK , PHONE , PASSWORD)
-   VALUES (### NICK ### , ### PHONE ### , ### PASSWORD ###);
+INSERT INTO  USERS  (NICK , PHONE)
+   VALUES (### NICK ### , ### PHONE ###);

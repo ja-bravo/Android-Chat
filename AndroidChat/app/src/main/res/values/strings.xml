@@ -7,6 +7,14 @@
     <string name="welcome">Welcome!</string>
     <string name="intro_text">To start messaging swipe from the left and select a contact.</string>
 
+    <!-- Starting screen -->
+    <string name="registered">Are you registered already?</string>
+    <string name="yournick">Your nick</string>
+    <string name="repeat_phone">Repeat your phone number</string>
+    <string name="yourphone">Enter your phone number</string>
+    <string name="register">Register</string>
+    <string name="welcome_start">Welcome</string>
+
     <!-- Actions -->
     <string name="action_newChat">New Chat</string>
     <string name="action_search">Search</string>

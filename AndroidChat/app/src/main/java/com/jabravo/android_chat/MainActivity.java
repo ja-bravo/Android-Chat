@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.jabravo.android_chat.Data.DB_Android;
+import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Services.SenderPhones;
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         dataBase  = new DB_Android ( this , "Data Base" , null , 1); // El 1 es la version.
-       senderPhones = new SenderPhones();
+        senderPhones = new SenderPhones();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -59,8 +60,6 @@ public class MainActivity extends AppCompatActivity
         loadUserData();
         loadContacts();
     }
-
-
 
     @Override
     public void onResume()
@@ -153,6 +152,7 @@ public class MainActivity extends AppCompatActivity
 
         if(nick.equals(""))
         {
+            User user = User.getInstance(getBaseContext());
             Intent intent = new Intent(this,StartUpActivity.class);
             startActivity(intent);
         }

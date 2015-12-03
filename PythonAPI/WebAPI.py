@@ -8,11 +8,11 @@ from flask import Flask, jsonify
 db = DataBase()
 app = Flask(__name__)
 
-@app.route("/api/get/users/")
+@app.route("/api/get/users/", methods=['GET','POST'])
 def get_users():
     return jsonify({'users': db.get_users()})
 
-@app.route("/api/get/users/<int:id>")
+@app.route("/api/get/users/<int:id>", methods=['GET','POST'])
 def get_user(id):
     return jsonify({'user': db.get_user(id)})
 
@@ -24,7 +24,7 @@ def get_messages(id):
 def send_message(id,message,idDest):
     return jsonify({'id': db.send_message(id,message,idDest)})
 
-@app.route("/api/post/user/<nick>&<number>")
+@app.route("/api/post/user/<nick>&<number>", methods=['GET','POST'])
 def insert_user(nick,number):
     return jsonify({'id': db.insert_user(nick,number)})
 

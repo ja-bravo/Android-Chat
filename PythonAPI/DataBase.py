@@ -34,7 +34,9 @@ class DataBase():
     def get_user(self, ID):
         connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM USERS WHERE ID_USER = " + str(ID))
+        SQL = "SELECT * FROM USERS WHERE ID_USER = %s OR PHONE = %s;"
+        SQL = SQL % (str(ID), str(ID))
+        cursor.execute(SQL)
 
         user = User()
         user.ID = cursor._rows[0][0]
