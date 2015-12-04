@@ -30,6 +30,11 @@ public class SenderPhones
 
     public void addPhone(String phone)
     {
+        phone = phone.replace("+34","");
+        while(phone.contains(" "))
+        {
+            phone = phone.replace(" ", "");
+        }
         agenda.add(new AgendaData("", phone));
     }
 
