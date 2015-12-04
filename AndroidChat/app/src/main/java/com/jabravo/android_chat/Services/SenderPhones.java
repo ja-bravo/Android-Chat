@@ -43,7 +43,6 @@ public class SenderPhones
         for ( AgendaData data : agenda ) {
 
             JSONObject friend = new JSONObject();
-
             friend.put("PHONE", data.getPhoneNumber());
 
             friends.put(friend);
@@ -55,7 +54,7 @@ public class SenderPhones
     }
 
 
-    public class AgendaData
+    public class AgendaData implements Comparable<AgendaData>
     {
 
         private String name;
@@ -85,6 +84,12 @@ public class SenderPhones
         public void setName(String name)
         {
             this.name = name;
+        }
+
+        @Override
+        public int compareTo(AgendaData another)
+        {
+            return another.getPhoneNumber().compareTo(phoneNumber);
         }
     }
 

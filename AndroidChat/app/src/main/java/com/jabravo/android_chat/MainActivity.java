@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.jabravo.android_chat.Data.DB_Android;
@@ -24,6 +25,7 @@ import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Services.SenderPhones;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity
 
         if(nick.equals(""))
         {
-            User user = User.getInstance(getBaseContext());
+            User.getInstance(getBaseContext());
             Intent intent = new Intent(this,StartUpActivity.class);
             startActivity(intent);
         }
@@ -181,12 +183,11 @@ public class MainActivity extends AppCompatActivity
             }
             while (cursor.moveToNext());
             JSONObject t = senderPhones.getListJSON();
-            System.out.println(t.toString());
-
-            Log.i("test2",t.toString());
+            Log.i("asd",t.toString());
         }
         catch (Exception e)
         {
+            e.printStackTrace();
         }
         finally
         {
