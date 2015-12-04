@@ -182,6 +182,7 @@ public class MainActivity extends AppCompatActivity
             while (cursor.moveToNext());
             JSONObject t = senderPhones.getListJSON();
 
+            Log.i("test2",t.toString());
         }
         catch (Exception e)
         {

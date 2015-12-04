@@ -184,15 +184,16 @@ class DataBase():
         my_friends = list()
 
         for friend in friends["Friends"]:
-            friend["PHONE"] = friend["PHONE"][4:].replace(' ','')
+            friend["PHONE"] = friend["PHONE"].replace(' ','').replace('+34','')
             phone = friend["PHONE"].replace(' ','')
-            if phone is '':
+            if phone == '':
                 phone = 0
-                
+
             SQL = """SELECT COUNT(*)
                      FROM USERS
                      WHERE PHONE = %s""".replace('\n',' ').replace('\t','')
             SQL = SQL % (str(phone))
+            SQL = SQL.replace('\u202c','').replace('\u202a','')
             cursor.execute(SQL)
 
             count = cursor._rows[0][0]
