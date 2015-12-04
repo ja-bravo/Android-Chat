@@ -1,5 +1,6 @@
 package com.jabravo.android_chat;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
 
         phone1 = (EditText) findViewById(R.id.phone1);
         phone2 = (EditText) findViewById(R.id.phone2);
+        nick = (EditText) findViewById(R.id.nick);
 
         registerButton = (Button) findViewById(R.id.registerButton);
         registerButton.setOnClickListener(this);
@@ -43,23 +45,46 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v)
     {
-        if(isValid(phone1.getText().toString()) &&
-           isValid(phone2.getText().toString()))
+        if(option.isChecked())
         {
-            if(service.phoneExists(phone1.getText().toString()))
+            if(isValid(phone1.getText().toString()))
             {
-                loadUserData();
+                if(service.phoneExists(phone1.getText().toString()))
+                {
+                    loadUserData();
+                }
+                else
+                {
+                    // Registrar usuario
+                }
+                finish();
             }
             else
             {
-                // Registrar usuario
+                Toast.makeText(this,getResources().getString(R.string.incorrect_number),Toast.LENGTH_LONG).show();
             }
-            finish();
         }
         else
         {
-            Toast.makeText(this,"Invalid number.",Toast.LENGTH_LONG).show();
+            if(isValid(phone1.getText().toString()) &&
+                    isValid(phone2.getText().toString()))
+            {
+                if(service.phoneExists(phone1.getText().toString()))
+                {
+                    loadUserData();
+                }
+                else
+                {
+                    // Registrar usuario
+                }
+                finish();
+            }
+            else
+            {
+                Toast.makeText(this,getResources().getString(R.string.incorrect_number),Toast.LENGTH_LONG).show();
+            }
         }
+
     }
 
     @Override
@@ -99,15 +124,19 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
         {
             textNick.setVisibility(View.INVISIBLE);
             textRepeatPhone.setVisibility(View.INVISIBLE);
-            textPhone.setVisibility(View.INVISIBLE);
-            textWelcome.setVisibility(View.INVISIBLE);
+            phone2.setVisibility(View.INVISIBLE);
+            nick.setVisibility(View.INVISIBLE);
+
+            registerButton.setText(getResources().getString(R.string.enter));
         }
         else
         {
             textNick.setVisibility(View.VISIBLE);
             textRepeatPhone.setVisibility(View.VISIBLE);
-            textPhone.setVisibility(View.VISIBLE);
-            textWelcome.setVisibility(View.VISIBLE);
+            phone2.setVisibility(View.VISIBLE);
+            nick.setVisibility(View.VISIBLE);
+
+            registerButton.setText(getResources().getString(R.string.register));
         }
     }
 }

@@ -13,7 +13,23 @@
     <string name="repeat_phone">Repeat your phone number</string>
     <string name="yourphone">Enter your phone number</string>
     <string name="register">Register</string>
+    <string name="enter">Enter</string>
     <string name="welcome_start">Welcome</string>
+    <string name="incorrect_number">Incorrect number</string>
+
+    <!-- Preferences -->
+    <string name="summary_yournick">Enter your nick</string>
+    <string name="yourphone_pref">Your phone number</string>
+    <string name="summary_yourphone">Click to see it</string>
+    <string name="yourstatus_pref">Your status</string>
+    <string name="summary_yourstatus">Type your status</string>
+    <string name="user">User</string>
+    <string name="message_not">Message notifications</string>
+    <string name="group_not">Group notifications</string>
+    <string name="sound">Sound</string>
+    <string name="vibration">Vibration</string>
+    <string name="message_sound">Message notification tone</string>
+    <string name="group_sound">Group notification tone></string>
 
     <!-- Actions -->
     <string name="action_newChat">New Chat</string>

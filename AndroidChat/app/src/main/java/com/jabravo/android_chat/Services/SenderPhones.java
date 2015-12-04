@@ -15,70 +15,81 @@ import java.util.List;
 /**
  * Created by Josewer on 02/12/2015.
  */
-public class SenderPhones {
+public class SenderPhones
+{
 
 
-    private  List<AgendaData> l;
+    private List<AgendaData> agenda;
 
 
-    public SenderPhones ()
+    public SenderPhones()
     {
-        l = new ArrayList<>();
+        agenda = new ArrayList<>();
     }
 
 
-    public void addPhone (String name , String phone)
+    public void addPhone(String phone)
     {
-        l.add(new AgendaData(name , phone));
+        agenda.add(new AgendaData("", phone));
     }
 
 
-    public JSONObject getListJSON () throws JSONException {
+    public JSONObject getListJSON() throws JSONException
+    {
 
         JSONObject response = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
+        JSONArray friends = new JSONArray();
 
-        for (int i = 0; i < l.size(); i++)
+        for (int i = 0; i < agenda.size(); i++)
         {
-            JSONObject dataPhone = new JSONObject();
+            JSONObject friend = new JSONObject();
+            friend.put("PHONE", agenda.get(i).getPhoneNumber());
 
-            dataPhone.put("NAME", l.get(i).getName());
-            dataPhone.put("PHONE", l.get(i).getPhoneNumber());
-
-            jsonArray.put(dataPhone);
+            friends.put(friend);
         }
 
-        response.put("DATA", jsonArray);
+        response.put("Friends", friends);
         return response;
     }
 
 
-    public class AgendaData {
+    public class AgendaData
+    {
 
         private String name;
         private String phoneNumber;
 
-        public AgendaData (String name , String phoneNumber)
+        public AgendaData(String name, String phoneNumber)
         {
             this.name = name;
             this.phoneNumber = phoneNumber;
         }
 
-        public String getName() {
+        public String getName()
+        {
             return name;
         }
 
-        public String getPhoneNumber() {
+        public String getPhoneNumber()
+        {
             return phoneNumber;
         }
 
-        public void setPhoneNumber(String phoneNumber) {
+        public void setPhoneNumber(String phoneNumber)
+        {
             this.phoneNumber = phoneNumber;
         }
 
-        public void setName(String name) {
+        public void setName(String name)
+        {
             this.name = name;
         }
+    }
+
+    public void send()
+    {
+        Sender sender = new Sender();
+        sender.execute();
     }
 
     public class Sender extends AsyncTask<String, Integer, Void>
@@ -93,10 +104,7 @@ public class SenderPhones {
         {
             try
             {
-                String message = java.net.URLEncoder.encode(params[0], "ISO-8859-9").replaceAll("\\+", "%20");
-
-
-                URL url = new URL("http://146.185.155.88:8080/api/post/message/" + getListJSON());
+                URL url = new URL("http://146.185.155.88:8080/api/get/friends/" + getListJSON());
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");

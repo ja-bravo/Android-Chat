@@ -24,6 +24,7 @@ import com.jabravo.android_chat.Data.DB_Android;
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Services.SenderPhones;
+import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity
@@ -176,9 +177,11 @@ public class MainActivity extends AppCompatActivity
                 String name = cursor.getString(nameIdx);
                 String phoneNumber = cursor.getString(phoneNumberIdx);
 
-                Log.i("test", name + " " + phoneNumber);
+                senderPhones.addPhone(phoneNumber);
             }
             while (cursor.moveToNext());
+            JSONObject t = senderPhones.getListJSON();
+
         }
         catch (Exception e)
         {

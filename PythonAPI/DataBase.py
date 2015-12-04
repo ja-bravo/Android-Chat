@@ -3,6 +3,7 @@
 __author__ = 'JoseAntonio'
 
 import pymysql
+import json
 from User import  User
 from Message import  Message
 
@@ -95,7 +96,6 @@ class DataBase():
         cursor.execute(SQL)
 
         messages = list()
-
         for row in cursor:
             message = Message()
             message.ID_USER_SENDER = row[0]
@@ -166,7 +166,7 @@ class DataBase():
         SQL = """SELECT COUNT(*)
                  FROM USERS
                  WHERE PHONE = '%s'""".replace('\n',' ').replace('\t','')
-        SQL = SQL % str(phone)
+        SQL = SQL % (str(phone))
 
         cursor.execute(SQL)
 
@@ -174,3 +174,31 @@ class DataBase():
         cursor.close()
         connection.close()
         return result > 0
+
+    def get_friends(self,friends):
+        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        cursor = connection.cursor()
+
+        friends = json.loads(friends)
+
+        my_friends = list()
+
+        for friend in friends["Friends"]:
+            friend["PHONE"] = friend["PHONE"][4:].replace(' ','')
+            phone = friend["PHONE"].replace(' ','')
+            if phone is '':
+                phone = 0
+                
+            SQL = """SELECT COUNT(*)
+                     FROM USERS
+                     WHERE PHONE = %s""".replace('\n',' ').replace('\t','')
+            SQL = SQL % (str(phone))
+            cursor.execute(SQL)
+
+            count = cursor._rows[0][0]
+            if count > 0:
+                my_friends.append({'phone': friend["PHONE"]})
+
+        cursor.close()
+        connection.close()
+        return json.dumps(my_friends)

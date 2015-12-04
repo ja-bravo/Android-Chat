@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="User">
+    <PreferenceCategory android:title="@string/user">
 
         <EditTextPreference
-                android:title="Your user name"
-                android:summary="Type your user name"
+                android:title="@string/yournick"
+                android:summary="@string/summary_yournick"
                 android:key="username"
                 android:defaultValue=""/>
 
         <EditTextPreference
-            android:title="Your number phone"
-            android:summary="Type your number phone"
+            android:title="@string/yourphone_pref"
+            android:summary="@string/summary_yourphone"
             android:key="numberPhone"
             android:defaultValue=""
             android:shouldDisableView="true"/>
 
         <EditTextPreference
-                android:title="Your status"
-                android:summary="Type your status"
+                android:title="@string/yourphone_pref"
+                android:summary="@string/summary_yourstatus"
                 android:key="status"/>
 
         <ListPreference
@@ -35,35 +35,35 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Message notifications">
+    <PreferenceCategory android:title="@string/message_not">
         <RingtonePreference
-                android:title="Message notification sound"
+                android:title="@string/message_sound"
                 android:key="message-notification-sound"/>
 
         <SwitchPreference
                 android:key="message-sound"
-                android:title="Sound"
+                android:title="@string/sound"
                 android:defaultValue="true"/>
 
         <SwitchPreference
                 android:key="message-vibration"
-                android:title="Vibration"
+                android:title="@string/vibration"
                 android:defaultValue="true"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Group notifications">
+    <PreferenceCategory android:title="@string/group_not">
         <RingtonePreference
-                android:title="Group notification sound"
+                android:title="@string/group_sound"
                 android:key="group-notification-sound"/>
 
         <SwitchPreference
                 android:key="group-sound"
-                android:title="Sound"
+                android:title="@string/sound"
                 android:defaultValue="true"/>
 
         <SwitchPreference
                 android:key="group-vibration"
-                android:title="Vibration"
+                android:title="@string/vibration"
                 android:defaultValue="true"/>
     </PreferenceCategory>
 </PreferenceScreen>

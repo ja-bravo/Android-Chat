@@ -32,6 +32,9 @@ def insert_user(nick,number):
 def user_exists(phone):
     return jsonify({'response': db.user_exists(phone)})
 
+@app.route("/api/get/friends/<friendList>", methods=['GET','POST'])
+def get_friends(friendList):
+    return jsonify({'friends': db.get_friends(friendList)})
 
 if __name__ == "__main__":
     app.run(host='146.185.155.88', port=8080)
