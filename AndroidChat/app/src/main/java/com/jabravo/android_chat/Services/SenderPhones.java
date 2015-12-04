@@ -9,8 +9,8 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Josewer on 02/12/2015.
@@ -19,12 +19,12 @@ public class SenderPhones
 {
 
 
-    private List<AgendaData> agenda;
+    private Set<AgendaData> agenda;
 
 
     public SenderPhones()
     {
-        agenda = new ArrayList<>();
+        agenda = new TreeSet<>();
     }
 
 
@@ -40,15 +40,17 @@ public class SenderPhones
         JSONObject response = new JSONObject();
         JSONArray friends = new JSONArray();
 
-        for (int i = 0; i < agenda.size(); i++)
-        {
+        for ( AgendaData data : agenda ) {
+
             JSONObject friend = new JSONObject();
-            friend.put("PHONE", agenda.get(i).getPhoneNumber());
+
+            friend.put("PHONE", data.getPhoneNumber());
 
             friends.put(friend);
         }
 
         response.put("Friends", friends);
+
         return response;
     }
 
