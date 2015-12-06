@@ -3,7 +3,6 @@ package com.jabravo.android_chat.Data;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import com.jabravo.android_chat.MainActivity;
 
 /**
  * Created by Jose on 20/11/2015.
@@ -58,6 +57,11 @@ public class User
         this.ID = id;
     }
 
+    public int getID()
+    {
+        return ID;
+    }
+
     public String getNick()
     {
         return nick;
@@ -95,5 +99,6 @@ public class User
         prefs.edit().putString("numberPhone",number).apply();
         prefs.edit().putString("username",nick).apply();
         prefs.edit().putString("status",status).apply();
+        prefs.edit().putInt("ID",ID).apply();
     }
 }

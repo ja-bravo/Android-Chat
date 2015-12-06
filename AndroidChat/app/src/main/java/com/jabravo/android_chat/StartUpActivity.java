@@ -1,15 +1,22 @@
 package com.jabravo.android_chat;
 
-import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.UserService;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 public class StartUpActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener
 {
@@ -49,15 +56,7 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
         {
             if(isValid(phone1.getText().toString()))
             {
-                if(service.phoneExists(phone1.getText().toString()))
-                {
-                    loadUserData();
-                }
-                else
-                {
-                    // Registrar usuario
-                }
-                finish();
+                loadOrCreateUser();
             }
             else
             {
@@ -69,28 +68,45 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
             if(isValid(phone1.getText().toString()) &&
                     isValid(phone2.getText().toString()))
             {
-                if(service.phoneExists(phone1.getText().toString()))
-                {
-                    loadUserData();
-                }
-                else
-                {
-                    // Registrar usuario
-                }
-                finish();
+                loadOrCreateUser();
             }
             else
             {
                 Toast.makeText(this,getResources().getString(R.string.incorrect_number),Toast.LENGTH_LONG).show();
             }
         }
-
     }
 
     @Override
     public void onBackPressed()
     {
 
+    }
+
+    private void loadOrCreateUser()
+    {
+        if(service.phoneExists(phone1.getText().toString()))
+        {
+            loadUserData();
+        }
+        else
+        {
+            registerUser();
+        }
+        finish();
+    }
+
+    private void registerUser()
+    {
+        try
+        {
+            service.insertUser(nick.getText().toString(),phone1.getText().toString());
+            loadUserData();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void loadUserData()
@@ -105,8 +121,8 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
             user.setStatus(userObject.getString("STATUS"));
 
             user.updatePreferences();
-
-        } catch (JSONException e)
+        }
+        catch (JSONException e)
         {
             e.printStackTrace();
         }

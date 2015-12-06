@@ -24,7 +24,7 @@ def get_messages(id):
 def send_message(id,message,idDest):
     return jsonify({'id': db.send_message(id,message,idDest)})
 
-@app.route("/api/post/user/<nick>&<number>", methods=['GET','POST'])
+@app.route("/api/post/user/<nick>&<int:number>", methods=['GET','POST'])
 def insert_user(nick,number):
     return jsonify({'id': db.insert_user(nick,number)})
 

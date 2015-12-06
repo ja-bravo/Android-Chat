@@ -17,7 +17,7 @@
             android:shouldDisableView="true"/>
 
         <EditTextPreference
-                android:title="@string/yourphone_pref"
+                android:title="@string/yourstatus_pref"
                 android:summary="@string/summary_yourstatus"
                 android:key="status"/>
 
@@ -26,12 +26,6 @@
                 android:key="userToSend"
                 android:entries="@array/idsReceiver"
                 android:entryValues="@array/idsReceiver"/>
-
-        <ListPreference
-            android:title="Transmitter "
-            android:key="userToTransmitter"
-            android:entries="@array/idsTransmitter"
-            android:entryValues="@array/idsTransmitter" />
 
     </PreferenceCategory>
 

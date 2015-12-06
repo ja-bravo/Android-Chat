@@ -25,7 +25,6 @@ import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Services.SenderPhones;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -152,10 +151,10 @@ public class MainActivity extends AppCompatActivity
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String nick = prefs.getString("username","");
-
+        User.getInstance(getBaseContext());
+        User.getInstance().setID(prefs.getInt("ID",-1));
         if(nick.equals(""))
         {
-            User.getInstance(getBaseContext());
             Intent intent = new Intent(this,StartUpActivity.class);
             startActivity(intent);
         }

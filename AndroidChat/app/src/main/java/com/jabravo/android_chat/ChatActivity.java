@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -15,8 +16,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.jabravo.android_chat.Data.Message;
 import com.jabravo.android_chat.Data.MessageList;
+import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
@@ -28,7 +31,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout messagesLayout;
     private Ringtone ringtone;
 
-    private int fromID;
     private int toID;
 
     private Thread service;
@@ -37,11 +39,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private boolean runReceiver;
 
     private MessageList messages;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        user = User.getInstance();
 
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -61,13 +66,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String alarms = preferences.getString("message-notification-sound", "default ringtone");
 
         Uri uri = Uri.parse(alarms);
-        ringtone = RingtoneManager.getRingtone(this,uri);
+        ringtone = RingtoneManager.getRingtone(this, uri);
 
-        fromID = Integer.parseInt(preferences.getString("userToTransmitter", "1"));
         toID = Integer.parseInt(preferences.getString("userToSend", "2"));
 
-        service = new Thread(new Service(fromID));
+        service = new Thread(new Service());
         receiver = new Thread(new Receiver());
+
+        Log.i("test2", String.valueOf(user.getID()));
     }
 
     // Save the messages and the counter when the app changes orientation.
@@ -123,7 +129,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        if (message.getSender() == fromID)
+        if (message.getSender() == user.getID())
         {
             params.gravity = Gravity.RIGHT;
             textView.setPadding(50, 10, 10, 10);
@@ -165,7 +171,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         if (keyboard.getText().toString().length() != 0)
         {
-            Message message = new Message(keyboard.getText().toString(), fromID, toID);
+            Message message = new Message(keyboard.getText().toString(), user.getID(), toID);
             messages.add(message);
 
             sendMessage(message.getText());
@@ -176,7 +182,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private void sendMessage(String message)
     {
         Sender sender = new Sender();
-        sender.execute(message,String.valueOf(toID),String.valueOf(fromID));
+        sender.execute(message,String.valueOf(toID),String.valueOf(user.getID()));
     }
 
 // **********************************************

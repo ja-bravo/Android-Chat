@@ -29,7 +29,7 @@
     <string name="sound">Sound</string>
     <string name="vibration">Vibration</string>
     <string name="message_sound">Message notification tone</string>
-    <string name="group_sound">Group notification tone></string>
+    <string name="group_sound">Group notification tone</string>
 
     <!-- Actions -->
     <string name="action_newChat">New Chat</string>
@@ -58,11 +58,11 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
     </string-array>
 
     <string-array name="idsTransmitter">
@@ -71,11 +71,11 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
     </string-array>
 
 

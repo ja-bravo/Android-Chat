@@ -1,6 +1,8 @@
 package com.jabravo.android_chat.Services;
 
 import com.jabravo.android_chat.Data.Message;
+import com.jabravo.android_chat.Data.User;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,9 +22,9 @@ public class Service implements Runnable
     public static List<Message> buffer = new ArrayList<>();
     public static boolean run = true;
 
-    public Service(int id)
+    public Service()
     {
-        this.id = id;
+        this.id = User.getInstance().getID();
     }
 
     public static void setRun(boolean setRun)

@@ -152,9 +152,15 @@ class DataBase():
         SQL = SQL % (str(nick), str(number))
 
         cursor.execute(SQL)
-        ID = cursor.lastrowid
         connection.commit()
 
+        SQL = """SELECT ID_USER
+                 FROM USERS
+                 WHERE PHONE = %s""".replace('\n',' ').replace('\t','')
+        SQL = SQL % (str(number))
+        cursor.execute(SQL)
+
+        ID = cursor._rows[0][0]
         cursor.close()
         connection.close()
         return ID
