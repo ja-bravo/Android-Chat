@@ -72,9 +72,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         service = new Service();
         receiver = new Receiver();
-
-        service.start();
-        receiver.start();
     }
 
     // Save the messages and the counter when the app changes orientation.
@@ -90,8 +87,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onPause();
 
-        service = null;
-        receiver = null;
+        service.setRun(false);
+        runReceiver = false;
+
     }
 
     @Override
@@ -99,8 +97,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onResume();
 
-        service = new Service();
-        receiver = new Receiver();
+        service.setRun(true);
+        runReceiver = true;
 
         service.start();
         receiver.start();
@@ -185,7 +183,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         sender.execute(message,String.valueOf(toID),String.valueOf(user.getID()));
     }
 
-// **********************************************
+    // **********************************************
 // Clase para recibir mensajes
 // **********************************************
     public class Receiver extends Thread
@@ -193,7 +191,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void run()
         {
-            while (true)
+            while (runReceiver)
             {
                 if (!service.buffer.isEmpty())
                 {
