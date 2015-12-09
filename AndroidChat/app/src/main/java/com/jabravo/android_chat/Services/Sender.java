@@ -2,9 +2,11 @@ package com.jabravo.android_chat.Services;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * Created by Jose on 01/12/2015.
@@ -21,20 +23,26 @@ public class Sender extends AsyncTask<String, Integer, Void>
     {
         try
         {
-            String message = java.net.URLEncoder.encode(params[0], "ISO-8859-9").replaceAll("\\+", "%20");
+            String text = params[0];
             String toID = params[1];
             String fromID = params[2];
 
-            URL url = new URL("http://146.185.155.88:8080/api/post/message/" + toID + "&" + message + "&" + fromID);
+            JSONObject message = new JSONObject();
+            message.put("to",toID);
+            message.put("from",fromID);
+            message.put("text",text);
+
+            String json = URLEncoder.encode(message.toString(), "ISO-8859-9").replaceAll("\\+","%20");
+            URL url = new URL("http://146.185.155.88:8080/api/post/message/"+ json);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setDoOutput(true);
 
-            System.out.println("---------------" + connection.getResponseCode());
             Log.i("test", String.valueOf(connection.getResponseCode()));
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Log.i("test", String.valueOf(e.toString()));
         }

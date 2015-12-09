@@ -1,5 +1,6 @@
 package com.jabravo.android_chat.Services;
 
+import android.util.Log;
 import com.jabravo.android_chat.Data.Message;
 import com.jabravo.android_chat.Data.User;
 
@@ -13,23 +14,29 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class Service implements Runnable
+public class Service extends Thread
 {
 
     private int id;
-
-    public static List<Message> buffer = new ArrayList<>();
-    public static boolean run = true;
+    public LinkedBlockingQueue<Message> buffer = new LinkedBlockingQueue<>();
+    private boolean run;
 
     public Service()
     {
         this.id = User.getInstance().getID();
+        this.run = false;
     }
 
-    public static void setRun(boolean setRun)
+    public void setRun(boolean run)
     {
-        run = setRun;
+        this.run = run;
+    }
+
+    public boolean isRunning()
+    {
+        return run;
     }
 
     private String getJMessage()
@@ -52,8 +59,6 @@ public class Service implements Runnable
             con.setDoOutput(true);
             //Capturamos la respuesta del servidor
             int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'POST' request to URL : " + url);
-            System.out.println("Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
@@ -66,8 +71,8 @@ public class Service implements Runnable
             }
 
             //Mostramos la respuesta del servidor por consola
-            System.out.println("Respuesta del servidor: " + response);
-            System.out.println();
+            Log.i("service","Response Code : " + responseCode);
+            Log.i("service","Respuesta del servidor: " + response);
 
             in.close();
         }
@@ -118,16 +123,15 @@ public class Service implements Runnable
             String date = "hoy";
             boolean read = false;
             int sender = objetoJSON.getInt("ID_USER_SENDER");
-            int receiver = -1; // Aqui habrá que usar la ID del usuario.
+            int receiver = User.getInstance().getID();
 
-            synchronized (buffer)
+            try
             {
-                buffer.add(new Message(text, sender, receiver));
+                buffer.put(new Message(text, sender, receiver));
             }
-
-            if (!text.equals(""))
+            catch (InterruptedException e)
             {
-                System.out.println(text);
+                e.printStackTrace();
             }
         }
     }

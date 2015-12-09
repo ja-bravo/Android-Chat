@@ -33,8 +33,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private int toID;
 
-    private Thread service;
-    private Thread receiver;
+    private Service service;
+    private Receiver receiver;
 
     private boolean runReceiver;
 
@@ -70,10 +70,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         toID = Integer.parseInt(preferences.getString("userToSend", "2"));
 
-        service = new Thread(new Service());
-        receiver = new Thread(new Receiver());
+        service = new Service();
+        receiver = new Receiver();
 
-        Log.i("test2", String.valueOf(user.getID()));
+        service.start();
+        receiver.start();
     }
 
     // Save the messages and the counter when the app changes orientation.
@@ -89,9 +90,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onPause();
 
-        Service.setRun(false);
-        runReceiver = false;
-
+        service = null;
+        receiver = null;
     }
 
     @Override
@@ -99,8 +99,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onResume();
 
-        Service.setRun(true);
-        runReceiver = true;
+        service = new Service();
+        receiver = new Receiver();
 
         service.start();
         receiver.start();
@@ -188,38 +188,39 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 // **********************************************
 // Clase para recibir mensajes
 // **********************************************
-    public class Receiver implements Runnable
+    public class Receiver extends Thread
     {
-
         @Override
         public void run()
         {
-            while (runReceiver)
+            while (true)
             {
-                synchronized (Service.buffer)
+                if (!service.buffer.isEmpty())
                 {
-                    if (Service.buffer.size() != 0)
+                    runOnUiThread(new Runnable()
                     {
-                        runOnUiThread(new Runnable()
+                        @Override
+                        public void run()
                         {
-                            @Override
-                            public void run()
+                            while(!service.buffer.isEmpty())
                             {
-                                for (int i = 0; i < Service.buffer.size(); i++)
+                                try
                                 {
-                                    showMessage(Service.buffer.get(i));
+                                    showMessage(service.buffer.take());
                                 }
-
-                                Service.buffer.clear();
+                                catch (InterruptedException e)
+                                {
+                                    e.printStackTrace();
+                                }
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-
                 try
                 {
                     Thread.sleep(250);
-                } catch (InterruptedException e)
+                }
+                catch (InterruptedException e)
                 {
                     e.printStackTrace();
                 }

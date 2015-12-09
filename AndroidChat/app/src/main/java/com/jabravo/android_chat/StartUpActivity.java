@@ -103,7 +103,7 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
             service.insertUser(nick.getText().toString(),phone1.getText().toString());
             loadUserData();
         }
-        catch (UnsupportedEncodingException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

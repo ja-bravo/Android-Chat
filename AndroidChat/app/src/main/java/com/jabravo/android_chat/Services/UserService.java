@@ -1,5 +1,6 @@
 package com.jabravo.android_chat.Services;
 
+import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -64,24 +66,29 @@ public class UserService
         return exists.get();
     }
 
-    public int insertUser(String nick, final String phone) throws UnsupportedEncodingException
+    public int insertUser(String nick, final String phone) throws UnsupportedEncodingException, JSONException
     {
         final AtomicInteger ID = new AtomicInteger(-1);
-        final String encodedNick = java.net.URLEncoder.encode(nick, "ISO-8859-9").replaceAll("\\+", "%20");
 
+        JSONObject user = new JSONObject();
+        user.put("nick",nick);
+        user.put("phone",phone);
+
+        final String json = URLEncoder.encode(user.toString(),"ISO-8859-9").replaceAll("\\+","%20");
         Thread thread = new Thread(new Runnable()
         {
             @Override
             public void run()
             {
-                String url = "http://146.185.155.88:8080/api/post/user/" + encodedNick + "&" + phone;
+                String url = "http://146.185.155.88:8080/api/post/user/" +json;
+                Log.i("test",url);
                 StringBuffer response = new StringBuffer();
                 try
                 {
                     URL obj = new URL(url);
                     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
                     con.setRequestMethod("POST");
-                    con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+                    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                     con.setDoOutput(true);
 
                     BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()));

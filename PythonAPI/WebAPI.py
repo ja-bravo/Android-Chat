@@ -20,13 +20,13 @@ def get_user(id):
 def get_messages(id):
     return jsonify({'messages': db.get_messages(id)})
 
-@app.route("/api/post/message/<int:id>&<message>&<int:idDest>", methods=['GET','POST'])
-def send_message(id,message,idDest):
-    return jsonify({'id': db.send_message(id,message,idDest)})
+@app.route("/api/post/message/<message>", methods=['GET','POST'])
+def send_message(message):
+    return jsonify({'id': db.send_message(message)})
 
-@app.route("/api/post/user/<nick>&<int:number>", methods=['GET','POST'])
-def insert_user(nick,number):
-    return jsonify({'id': db.insert_user(nick,number)})
+@app.route("/api/post/user/<user>", methods=['GET','POST'])
+def insert_user(user):
+    return jsonify({'id': db.insert_user(user)})
 
 @app.route("/api/get/user/exists/<phone>", methods=['GET','POST'])
 def user_exists(phone):

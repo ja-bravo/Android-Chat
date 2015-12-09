@@ -14,6 +14,7 @@
             android:summary="@string/summary_yourphone"
             android:key="numberPhone"
             android:defaultValue=""
+            android:editable="false"
             android:shouldDisableView="true"/>
 
         <EditTextPreference

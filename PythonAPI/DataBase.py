@@ -117,14 +117,19 @@ class DataBase():
         cursor.close()
         return messages
 
-    def send_message(self, ID, message, idDest):
+    def send_message(self, message):
         connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
         cursor = connection.cursor()
+
+        message = json.loads(message)
+        text = message["text"]
+        ID = message["to"]
+        idDest = message["from"]
 
         SQL = """INSERT INTO MESSAGES ( TEXT , DATE_MESSAGE )
 	              VALUES ('%s', sysdate() );
 	              """.replace('\n',' ').replace('\t','')
-        SQL = SQL % str(message)
+        SQL = SQL % str(text)
 
         cursor.execute(SQL)
         connection.commit()
@@ -143,9 +148,13 @@ class DataBase():
         connection.close()
         return messageID
 
-    def insert_user(self, nick, number):
+    def insert_user(self, user):
         connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
         cursor = connection.cursor()
+
+        user = json.loads(user)
+        nick = user["nick"]
+        number = user["phone"]
 
         SQL = """INSERT INTO  USERS  (NICK , PHONE)
                  VALUES ('%s' , '%s');""".replace('\n',' ').replace('\t','')
