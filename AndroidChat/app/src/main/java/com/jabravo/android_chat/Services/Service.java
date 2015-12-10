@@ -87,7 +87,7 @@ public class Service implements Runnable
     @Override
     public void run()
     {
-        while (true)
+        while (!Thread.interrupted())
         {
             try
             {

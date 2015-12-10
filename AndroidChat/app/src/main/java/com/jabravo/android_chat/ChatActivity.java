@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -20,12 +19,11 @@ import android.widget.TextView;
 import com.jabravo.android_chat.Data.Message;
 import com.jabravo.android_chat.Data.MessageList;
 import com.jabravo.android_chat.Data.User;
+import com.jabravo.android_chat.Data.PausableThreadPool;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -37,7 +35,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private int toID;
 
-    private ThreadPoolExecutor executor;
+    private PausableThreadPool executor;
 
     private boolean runReceiver;
 
@@ -73,7 +71,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         toID = Integer.parseInt(preferences.getString("userToSend", "2"));
 
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+        LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+        try
+        {
+            queue.put(new Service());
+            queue.put(new Receiver());
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
 
         executor.execute(new Service());
         executor.execute(new Receiver());
@@ -91,20 +99,21 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause()
     {
         super.onPause();
+        executor.pause();
+    }
 
-        executor.shutdownNow();
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        executor.pause();
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-
-        if(executor.isTerminated())
-        {
-            executor.execute(new Service());
-            executor.execute(new Receiver());
-        }
+        executor.resume();
     }
 
     // Load the messages and the counter when the app changes orientation.
@@ -163,7 +172,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
         catch (Exception e)
         {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -194,7 +203,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void run()
         {
-            while (true)
+            while (!Thread.interrupted())
             {
                 if (!Service.buffer.isEmpty())
                 {
