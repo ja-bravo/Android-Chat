@@ -23,6 +23,10 @@ import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
     private ImageButton sendButton;
@@ -33,8 +37,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private int toID;
 
-    private Service service;
-    private Receiver receiver;
+    private ThreadPoolExecutor executor;
 
     private boolean runReceiver;
 
@@ -70,8 +73,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         toID = Integer.parseInt(preferences.getString("userToSend", "2"));
 
-        service = new Service();
-        receiver = new Receiver();
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+
+        executor.execute(new Service());
+        executor.execute(new Receiver());
     }
 
     // Save the messages and the counter when the app changes orientation.
@@ -87,9 +92,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onPause();
 
-        service.setRun(false);
-        runReceiver = false;
-
+        executor.shutdownNow();
     }
 
     @Override
@@ -97,11 +100,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onResume();
 
-        service.setRun(true);
-        runReceiver = true;
-
-        service.start();
-        receiver.start();
+        if(executor.isTerminated())
+        {
+            executor.execute(new Service());
+            executor.execute(new Receiver());
+        }
     }
 
     // Load the messages and the counter when the app changes orientation.
@@ -184,27 +187,27 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // **********************************************
-// Clase para recibir mensajes
-// **********************************************
-    public class Receiver extends Thread
+    // Clase para recibir mensajes
+    // **********************************************
+    public class Receiver implements Runnable
     {
         @Override
         public void run()
         {
-            while (runReceiver)
+            while (true)
             {
-                if (!service.buffer.isEmpty())
+                if (!Service.buffer.isEmpty())
                 {
                     runOnUiThread(new Runnable()
                     {
                         @Override
                         public void run()
                         {
-                            while(!service.buffer.isEmpty())
+                            while(!Service.buffer.isEmpty())
                             {
                                 try
                                 {
-                                    showMessage(service.buffer.take());
+                                    showMessage(Service.buffer.take());
                                 }
                                 catch (InterruptedException e)
                                 {

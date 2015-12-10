@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class Service extends Thread
+public class Service implements Runnable
 {
 
     private int id;
-    public LinkedBlockingQueue<Message> buffer = new LinkedBlockingQueue<>();
+    public static LinkedBlockingQueue<Message> buffer = new LinkedBlockingQueue<>();
     private boolean run;
 
     public Service()
@@ -87,7 +87,7 @@ public class Service extends Thread
     @Override
     public void run()
     {
-        while (run)
+        while (true)
         {
             try
             {
