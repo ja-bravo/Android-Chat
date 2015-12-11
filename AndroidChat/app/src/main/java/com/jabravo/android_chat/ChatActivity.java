@@ -33,6 +33,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout messagesLayout;
     private Ringtone ringtone;
     private PausableThreadPool executor;
+    private Thread t;
     private MessageList messages;
     private User user;
 
@@ -44,6 +45,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         user = User.getInstance();
+
 
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,7 +73,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         try
         {
             queue.put(new Service());
-            queue.put(new Receiver());
+            queue.put(r);
         }
         catch (InterruptedException e)
         {
@@ -80,7 +82,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
 
         executor.execute(new Service());
-        executor.execute(new Receiver());
+
     }
 
     // Save the messages and the counter when the app changes orientation.
@@ -94,6 +96,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause()
     {
+        while  (t.isAlive())
+        {
+            t.interrupt();
+        }
         super.onPause();
         executor.pause();
     }
@@ -108,6 +114,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume()
     {
+        t = new Thread(r);
+        t.start();
         super.onResume();
         executor.resume();
     }
@@ -194,11 +202,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     // **********************************************
     // Clase para recibir mensajes
     // **********************************************
-    public class Receiver implements Runnable
-    {
+
+    public Runnable r = new Runnable() {
         @Override
-        public void run()
-        {
+        public void run() {
+
             while (!Thread.interrupted())
             {
                 if (!Service.buffer.isEmpty())
@@ -231,6 +239,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
+
         }
-    }
+    };
 }
