@@ -223,7 +223,7 @@ public class User
         for(Iterator<Map.Entry<String, Friend>> it = friends.entrySet().iterator(); it.hasNext(); )
         {
             Map.Entry<String, Friend> entry = it.next();
-            if(entry.getValue().getId() == -1 || entry.getValue().getPhone().equals(User.getInstance().getNick()))
+            if(entry.getValue().getId() == -1 || entry.getValue().getPhone().equals(User.getInstance().getNumber()))
             {
                 it.remove();
             }
