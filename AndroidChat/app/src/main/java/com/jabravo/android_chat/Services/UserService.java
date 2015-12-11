@@ -1,6 +1,5 @@
 package com.jabravo.android_chat.Services;
 
-import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,8 +79,7 @@ public class UserService
             @Override
             public void run()
             {
-                String url = "http://146.185.155.88:8080/api/post/user/" +json;
-                Log.i("test",url);
+                String url = "http://146.185.155.88:8080/api/post/user/" + json;
                 StringBuffer response = new StringBuffer();
                 try
                 {

@@ -22,14 +22,24 @@ public class Friend
     private String nick;
     private List<Message> messages;
 
-    public Friend(String phone, String status, String image, int id, String nick)
+    public Friend(String id, String phone, String status, String image, String nick)
     {
         messages = new ArrayList<>();
         this.phone = phone;
-        this.id = id;
+        this.id = Integer.parseInt(id);
         this.status = status;
         this.nick = nick;
         this.image = image;
+    }
+
+    public Friend(String phone)
+    {
+        messages = new ArrayList<>();
+        this.phone = phone;
+        this.id = -1;
+        this.status = "";
+        this.nick = "";
+        this.image = "";
     }
 
     public Friend(int id)

@@ -21,11 +21,9 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.jabravo.android_chat.Data.DB_Android;
+import com.jabravo.android_chat.Data.Friend;
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
-import com.jabravo.android_chat.Services.SenderPhones;
-
-import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity
@@ -35,8 +33,6 @@ public class MainActivity extends AppCompatActivity
 
     private  NavigationView navigationView;
     public static DB_Android dataBase;
-    public SenderPhones senderPhones;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,7 +40,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         dataBase  = new DB_Android ( this , "Data Base" , null , 1); // El 1 es la version.
-        senderPhones = new SenderPhones();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -153,6 +148,7 @@ public class MainActivity extends AppCompatActivity
         String nick = prefs.getString("username","");
         User.getInstance(getBaseContext());
         User.getInstance().setID(prefs.getInt("ID",-1));
+
         if(nick.equals(""))
         {
             Intent intent = new Intent(this,StartUpActivity.class);
@@ -166,23 +162,17 @@ public class MainActivity extends AppCompatActivity
         try
         {
             cursor = getContentResolver().query(Phone.CONTENT_URI, null, null, null, null);
-            int contactIdIdx = cursor.getColumnIndex(Phone._ID);
-            int nameIdx = cursor.getColumnIndex(Phone.DISPLAY_NAME);
             int phoneNumberIdx = cursor.getColumnIndex(Phone.NUMBER);
-            int photoIdIdx = cursor.getColumnIndex(Phone.PHOTO_ID);
-            cursor.moveToFirst();
 
+            cursor.moveToFirst();
             do
             {
-                String idContact = cursor.getString(contactIdIdx);
-                String name = cursor.getString(nameIdx);
                 String phoneNumber = cursor.getString(phoneNumberIdx);
 
-                senderPhones.addPhone(phoneNumber);
+                User.getInstance().addFriend(phoneNumber);
             }
             while (cursor.moveToNext());
-            JSONObject t = senderPhones.getListJSON();
-            Log.i("asd",t.toString());
+            User.getInstance().updateFriends();
         }
         catch (Exception e)
         {
@@ -194,6 +184,13 @@ public class MainActivity extends AppCompatActivity
             {
                 cursor.close();
             }
+        }
+
+        //Los amigos del usuario estan en el HasMap de Usuario.
+        // getFriends devuelve una lista de Friends, deberian tener todos los datos.
+        for(Friend f : User.getInstance().getFriends())
+        {
+            Log.i("friend",String.valueOf(f.getId() + " " + f.getPhone()));
         }
     }
 }

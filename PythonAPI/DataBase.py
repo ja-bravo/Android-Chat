@@ -213,8 +213,22 @@ class DataBase():
 
             count = cursor._rows[0][0]
             if count > 0:
-                my_friends.append({'phone': friend["PHONE"]})
+                SQL = """SELECT *
+                     FROM USERS
+                     WHERE PHONE = %s""".replace('\n',' ').replace('\t','')
+                SQL = SQL % (str(phone))
+                SQL = SQL.replace('\u202c','').replace('\u202a','')
+                cursor.execute(SQL)
+
+                user = User()
+                user.ID = cursor._rows[0][0]
+                user.NICK = cursor._rows[0][1]
+                user.STATUS = cursor._rows[0][2]
+                user.PHONE = cursor._rows[0][3]
+                user.USER_IMAGE = cursor._rows[0][4]
+
+                my_friends.append({'friend': user.serialize()})
 
         cursor.close()
         connection.close()
-        return json.dumps(my_friends)
+        return my_friends

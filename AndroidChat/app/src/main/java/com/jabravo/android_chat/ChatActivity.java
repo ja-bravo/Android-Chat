@@ -32,15 +32,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ScrollView scrollView;
     private LinearLayout messagesLayout;
     private Ringtone ringtone;
-
-    private int toID;
-
     private PausableThreadPool executor;
-
-    private boolean runReceiver;
-
     private MessageList messages;
     private User user;
+
+    private int toID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
