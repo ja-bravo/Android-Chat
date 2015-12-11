@@ -33,9 +33,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout messagesLayout;
     private Ringtone ringtone;
     private PausableThreadPool executor;
-    private Thread t;
+    private Thread threadReceiver;
     private MessageList messages;
     private User user;
+    private Service service;
 
     private int toID;
 
@@ -45,7 +46,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         user = User.getInstance();
-
+        service = new Service();
 
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -70,10 +71,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         toID = Integer.parseInt(preferences.getString("userToSend", "2"));
 
         LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+
         try
         {
-            queue.put(new Service());
-            queue.put(r);
+            queue.put(service);
         }
         catch (InterruptedException e)
         {
@@ -81,7 +82,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
         executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
 
-        executor.execute(new Service());
+        executor.execute(service);
 
     }
 
@@ -96,9 +97,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause()
     {
-        while  (t.isAlive())
+        while  (threadReceiver.isAlive())
         {
-            t.interrupt();
+            threadReceiver.interrupt();
         }
         super.onPause();
         executor.pause();
@@ -108,15 +109,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStop()
     {
         super.onStop();
+        service.setRun(false);
         executor.pause();
     }
 
     @Override
     protected void onResume()
     {
-        t = new Thread(r);
-        t.start();
         super.onResume();
+        threadReceiver = new Thread(Receiver);
+        service.setRun(true);
+        threadReceiver.start();
         executor.resume();
     }
 
@@ -203,7 +206,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     // Clase para recibir mensajes
     // **********************************************
 
-    public Runnable r = new Runnable() {
+    public Runnable Receiver = new Runnable() {
         @Override
         public void run() {
 
@@ -239,7 +242,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
-
         }
     };
 }

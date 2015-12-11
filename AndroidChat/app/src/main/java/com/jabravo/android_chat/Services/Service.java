@@ -10,24 +10,37 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.concurrent.LinkedBlockingQueue;
+
+
+/*
+    Clase que comprueba si hay mensajes en el servidor para el usuario actual, y si los hay, los mete
+    en una cola.
+    Luego el runnable receiver de la clase chatActivity, se encargara de ir comprobando si hay mensajes en la cola (buffer)
+    y si los hay, los muestra por la activity.
+ */
 
 public class Service implements Runnable
 {
 
     private int id;
-    public static LinkedBlockingQueue<Message> buffer = new LinkedBlockingQueue<>();
+    private int timeSleep;
+    public static LinkedBlockingQueue<Message> buffer;
     private boolean run;
 
     public Service()
     {
+        buffer = new LinkedBlockingQueue<>();
         this.id = User.getInstance().getID();
-        this.run = false;
+        timeSleep = 250;
+        run = true;
+
     }
+
 
     public void setRun(boolean run)
     {
@@ -39,9 +52,8 @@ public class Service implements Runnable
         return run;
     }
 
-    private String getJMessage()
+    private String getMessage()
     {
-
         StringBuffer response = null;
 
         try
@@ -73,6 +85,8 @@ public class Service implements Runnable
             //Mostramos la respuesta del servidor por consola
             Log.i("service","Response Code : " + responseCode);
             Log.i("service","Respuesta del servidor: " + response);
+            System.out.println("Response Code : " + responseCode);
+            System.out.println("Respuesta del servidor: " + response);
 
             in.close();
         }
@@ -87,41 +101,27 @@ public class Service implements Runnable
     @Override
     public void run()
     {
-        while (!Thread.interrupted())
+        while (run)
         {
             try
             {
-                showJSON(getJMessage());
+                showJSON(getMessage());
+                Thread.sleep(timeSleep);
             }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-            try
-            {
-                Thread.sleep(250);
-            }
-            catch (Exception e)
-            {
-            }
+            catch (Exception e)  { e.printStackTrace(); }
         }
     }
 
     private void showJSON(String json) throws JSONException
     {
-
         JSONObject object = new JSONObject(json);
         JSONArray json_array = object.optJSONArray("messages");
 
         for (int i = 0; i < json_array.length(); i++)
         {
-
             JSONObject objetoJSON = json_array.getJSONObject(i);
 
             String text = objetoJSON.getString("TEXT");
-            String date = "hoy";
-            boolean read = false;
             int sender = objetoJSON.getInt("ID_USER_SENDER");
             int receiver = User.getInstance().getID();
 
