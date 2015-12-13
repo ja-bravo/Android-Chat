@@ -22,12 +22,6 @@
                 android:summary="@string/summary_yourstatus"
                 android:key="status"/>
 
-        <ListPreference
-                android:title="Send to"
-                android:key="userToSend"
-                android:entries="@array/idsReceiver"
-                android:entryValues="@array/idsReceiver"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/message_not">

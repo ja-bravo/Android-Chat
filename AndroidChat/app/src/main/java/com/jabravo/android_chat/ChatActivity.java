@@ -44,6 +44,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        toID = getIntent().getExtras().getInt("toID");
 
         user = User.getInstance();
         service = new Service();
@@ -67,8 +68,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         Uri uri = Uri.parse(alarms);
         ringtone = RingtoneManager.getRingtone(this, uri);
-
-        toID = Integer.parseInt(preferences.getString("userToSend", "2"));
 
         LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
 

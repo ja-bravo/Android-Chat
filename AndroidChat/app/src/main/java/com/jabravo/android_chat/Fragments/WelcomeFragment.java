@@ -1,5 +1,6 @@
 package com.jabravo.android_chat.Fragments;
 
+
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -7,25 +8,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.jabravo.android_chat.R;
 
-public class ChatsListFragment extends Fragment
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link WelcomeFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class WelcomeFragment extends Fragment
 {
     private OnFragmentInteractionListener mListener;
-    private ListView chatLists;
-    private String[] chats = {"Juan", "Ana", "Pedro", "Silvana", "Miguel",
-            "Lucas"};
 
-    public static ChatsListFragment newInstance()
+    public static WelcomeFragment newInstance()
     {
-        ChatsListFragment fragment = new ChatsListFragment();
+        WelcomeFragment fragment = new WelcomeFragment();
         return fragment;
     }
 
-    public ChatsListFragment()
+    public WelcomeFragment()
     {
         // Required empty public constructor
     }
@@ -41,13 +42,7 @@ public class ChatsListFragment extends Fragment
                              Bundle savedInstanceState)
     {
 
-        View view = inflater.inflate(R.layout.fragment_chats_list, container, false);
-        chatLists = (ListView) view.findViewById(R.id.chats_list_view);
-
-        ArrayAdapter<String> chatAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, chats);
-
-        chatLists.setAdapter(chatAdapter);
-
+        View view = inflater.inflate(R.layout.fragment_welcome, container, false);
         return view;
     }
 

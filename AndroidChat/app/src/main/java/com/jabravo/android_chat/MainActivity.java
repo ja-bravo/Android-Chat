@@ -24,6 +24,8 @@ import com.jabravo.android_chat.Data.DB_Android;
 import com.jabravo.android_chat.Data.Friend;
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
+import com.jabravo.android_chat.Fragments.ContactsFragment;
+import com.jabravo.android_chat.Fragments.WelcomeFragment;
 
 
 public class MainActivity extends AppCompatActivity
@@ -56,6 +58,13 @@ public class MainActivity extends AppCompatActivity
 
         loadUserData();
         loadContacts();
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        WelcomeFragment fragment = WelcomeFragment.newInstance();
+        transaction.replace(R.id.mainlayout,fragment);
+        transaction.commit();
     }
 
     @Override
@@ -91,29 +100,17 @@ public class MainActivity extends AppCompatActivity
         switch (id)
         {
             case R.id.nav_chats:
-                ChatsListFragment fragment = new ChatsListFragment();
+                ChatsListFragment fragment = ChatsListFragment.newInstance();
                 transaction.replace(R.id.mainlayout,fragment);
-
                 break;
 
-            case R.id.nav_test:
-                SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                boolean vibrar = preferences.getBoolean("message-vibration" , true);
-
-                if (vibrar)
-                {
-                    vibrate(1000);
-                }
-
-                intent = new Intent(this,ChatActivity.class);
-                startActivity(intent);
+            case R.id.nav_contacts:
+                ContactsFragment contactsFragment = ContactsFragment.newInstance();
+                transaction.replace(R.id.mainlayout,contactsFragment);
                 break;
 
             case R.id.nav_newGroup:
                 vibrate(200);
-                break;
-
-            case R.id.nav_profile:
                 break;
 
             case R.id.nav_settings:

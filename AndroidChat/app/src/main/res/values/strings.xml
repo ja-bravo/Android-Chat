@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="welcome">Welcome!</string>
-    <string name="intro_text">To start messaging swipe from the left and select a contact.</string>
+    <string name="intro_text">To start messaging swipe from the left and click on contacts.</string>
 
     <!-- Starting screen -->
     <string name="registered">Are you registered already?</string>
@@ -48,22 +48,7 @@
     <string name="chat_send">Send</string>
     <string name="chat_hint">Type a message</string>
 
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="contacts">My contacts</string>
     <string name="title_activity_chat">Chat Activity</string>
-
-    <string-array name="idsReceiver">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>25</item>
-        <item>26</item>
-        <item>27</item>
-        <item>28</item>
-        <item>39</item>
-        <item>41</item>
-    </string-array>
 
 </resources>

@@ -181,4 +181,10 @@ public class Friend
     {
         this.messages = messages;
     }
+
+    @Override
+    public String toString()
+    {
+        return String.valueOf(nick.charAt(0)).toUpperCase() + nick.substring(1).toLowerCase();
+    }
 }
