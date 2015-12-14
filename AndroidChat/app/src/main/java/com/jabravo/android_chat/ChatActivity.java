@@ -10,19 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.*;
 
-import com.jabravo.android_chat.Data.Message;
-import com.jabravo.android_chat.Data.MessageList;
-import com.jabravo.android_chat.Data.User;
-import com.jabravo.android_chat.Data.PausableThreadPool;
+import com.jabravo.android_chat.Data.*;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.concurrent.*;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
@@ -31,11 +26,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private EditText keyboard;
     private ScrollView scrollView;
     private LinearLayout messagesLayout;
+    private ImageView userImage;
+
     private Ringtone ringtone;
     private PausableThreadPool executor;
     private Thread threadReceiver;
     private MessageList messages;
     private User user;
+    private Friend friend;
     private Service service;
 
     private int toID;
@@ -47,6 +45,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         toID = getIntent().getExtras().getInt("toID");
 
         user = User.getInstance();
+        friend = user.getFriendsHashMap().get(String.valueOf(toID));
+
         service = new Service();
 
         setContentView(R.layout.activity_chat);
@@ -57,8 +57,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         keyboard = (EditText) findViewById(R.id.chat_keyboard);
         scrollView = (ScrollView) findViewById(R.id.chat_scroll);
         messagesLayout = (LinearLayout) findViewById(R.id.chat_messages);
+        userImage = (ImageView) findViewById(R.id.chat_user_image);
 
         sendButton.setOnClickListener(this);
+
+        changeToolBar();
 
         messages = new MessageList();
 
@@ -80,9 +83,15 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
-
         executor.execute(service);
 
+    }
+
+    private void changeToolBar()
+    {
+        // TODO: 14/12/2015 CAMBIAR LA IMAGEN POR LA DEL USUARIO
+        setTitle(friend.getNick());
+        //userImage.setImageURI();
     }
 
     // Save the messages and the counter when the app changes orientation.

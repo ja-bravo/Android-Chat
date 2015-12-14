@@ -16,19 +16,26 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@android:drawable/sym_def_app_icon"
-        android:id="@+id/nav_userImage"/>
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:maxHeight="80dp"
+        android:maxWidth="100dp"
+        android:minHeight="80dp"
+        android:minWidth="100dp"
+        android:id="@+id/nav_user_image"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="User Name"
+        android:id="@+id/nav_user_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User Status"
-        android:id="@+id/textView"/>
+        android:id="@+id/nav_user_status"/>
 
 </LinearLayout>

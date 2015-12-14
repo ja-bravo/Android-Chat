@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -116,9 +117,8 @@ public class User
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putString("username",nick).apply();
         prefs.edit().putString("numberPhone",number).apply();
-        prefs.edit().putString("username",nick).apply();
         prefs.edit().putString("status",status).apply();
-        prefs.edit().putInt("ID",ID).apply();
+        prefs.edit().putInt("ID", ID).apply();
     }
 
     public void addFriend(String phone)
@@ -137,6 +137,11 @@ public class User
     public List<Friend> getFriends()
     {
         return new ArrayList<>(friends.values());
+    }
+
+    public HashMap<String,Friend> getFriendsHashMap()
+    {
+        return friends;
     }
 
     public JSONObject getFriendsJSON() throws JSONException
@@ -204,7 +209,7 @@ public class User
                         String fStatus = row.getString("STATUS");
                         String fImage = row.getString("USER_IMAGE");
 
-                        friends.put(fNumber,new Friend(fID,fNumber, fStatus, fImage, fNick));
+                        friends.put(fID,new Friend(fID,fNumber, fStatus, fImage, fNick));
                     }
                 }
                 catch(Exception e) {e.printStackTrace();}

@@ -176,7 +176,6 @@ public class Friend
         return messages;
     }
 
-
     public void setMessages(List messages)
     {
         this.messages = messages;

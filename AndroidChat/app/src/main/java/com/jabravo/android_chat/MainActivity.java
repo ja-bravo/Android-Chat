@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +23,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.jabravo.android_chat.Data.DB_Android;
 import com.jabravo.android_chat.Data.Friend;
 import com.jabravo.android_chat.Data.User;
@@ -27,13 +33,22 @@ import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Fragments.ContactsFragment;
 import com.jabravo.android_chat.Fragments.WelcomeFragment;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-                   ChatsListFragment.OnFragmentInteractionListener
+                   ChatsListFragment.OnFragmentInteractionListener, View.OnClickListener
 {
 
     private  NavigationView navigationView;
+
+    View view;
+    TextView name;
+    TextView status;
+    ImageView image;
+
     public static DB_Android dataBase;
 
     @Override
@@ -56,6 +71,13 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        view = navigationView.getHeaderView(0);
+        name = (TextView) view.findViewById(R.id.nav_user_name);
+        status = (TextView) view.findViewById(R.id.nav_user_status);
+        image = (ImageView) view.findViewById(R.id.nav_user_image);
+
+        image.setOnClickListener(this);
+
         loadUserData();
         loadContacts();
 
@@ -63,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = manager.beginTransaction();
 
         WelcomeFragment fragment = WelcomeFragment.newInstance();
-        transaction.replace(R.id.mainlayout,fragment);
+        transaction.replace(R.id.mainlayout, fragment);
         transaction.commit();
     }
 
@@ -101,12 +123,12 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.nav_chats:
                 ChatsListFragment fragment = ChatsListFragment.newInstance();
-                transaction.replace(R.id.mainlayout,fragment);
+                transaction.replace(R.id.mainlayout, fragment);
                 break;
 
             case R.id.nav_contacts:
                 ContactsFragment contactsFragment = ContactsFragment.newInstance();
-                transaction.replace(R.id.mainlayout,contactsFragment);
+                transaction.replace(R.id.mainlayout, contactsFragment);
                 break;
 
             case R.id.nav_newGroup:
@@ -142,15 +164,25 @@ public class MainActivity extends AppCompatActivity
     private void loadUserData()
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String nick = prefs.getString("username","");
-        User.getInstance(getBaseContext());
-        User.getInstance().setID(prefs.getInt("ID",-1));
+        String nick = prefs.getString("username", "");
+        User user = User.getInstance(getBaseContext());
+        user.setID(prefs.getInt("ID", -1));
 
         if(nick.equals(""))
         {
             Intent intent = new Intent(this,StartUpActivity.class);
             startActivity(intent);
         }
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        user.setNick(preferences.getString("username",""));
+        user.setNumber(preferences.getString("numberPhone", ""));
+        user.setStatus(preferences.getString("status", ""));
+
+        // TODO: 14/12/2015 CAMBIAR LA IMAGEN POR LA DEL USUARIO
+        name.setText(user.getNick());
+        status.setText(user.getStatus());
+        //image.setImageURI();
     }
 
     private void loadContacts()
@@ -182,12 +214,26 @@ public class MainActivity extends AppCompatActivity
                 cursor.close();
             }
         }
+    }
 
-        //Los amigos del usuario estan en el HasMap de Usuario.
-        // getFriends devuelve una lista de Friends, deberian tener todos los datos.
-        for(Friend f : User.getInstance().getFriends())
+    @Override
+    public void onClick(View v)
+    {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        int result = 0;
+        startActivityForResult(photoPickerIntent, result);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent)
+    {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        if(resultCode == RESULT_OK)
         {
-            Log.i("friend",String.valueOf(f.getId() + " " + f.getPhone()));
+            // TODO: 14/12/2015  QUE LA IMAGEN TENGA EL TAMAÑO CORRECTO.
+            image.setImageURI(imageReturnedIntent.getData());
         }
     }
 }

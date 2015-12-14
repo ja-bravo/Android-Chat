@@ -20,34 +20,47 @@ public class PausableThreadPool extends ThreadPoolExecutor
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
     }
 
-
-    protected void beforeExecute(Thread t, Runnable r) {
+    protected void beforeExecute(Thread t, Runnable r)
+    {
         super.beforeExecute(t, r);
         pauseLock.lock();
-        try {
+        try
+        {
             while (isPaused) unpaused.await();
-        } catch (InterruptedException ie) {
+        }
+        catch (InterruptedException ie)
+        {
             t.interrupt();
-        } finally {
+        }
+        finally
+        {
             pauseLock.unlock();
         }
     }
 
-    public void pause() {
+    public void pause()
+    {
         pauseLock.lock();
-        try {
+        try
+        {
             isPaused = true;
-        } finally {
+        }
+        finally
+        {
             pauseLock.unlock();
         }
     }
 
-    public void resume() {
+    public void resume()
+    {
         pauseLock.lock();
-        try {
+        try
+        {
             isPaused = false;
             unpaused.signalAll();
-        } finally {
+        }
+        finally
+        {
             pauseLock.unlock();
         }
     }

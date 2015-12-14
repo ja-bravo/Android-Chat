@@ -38,7 +38,6 @@ public class Service implements Runnable
         this.id = User.getInstance().getID();
         timeSleep = 250;
         run = true;
-
     }
 
 
