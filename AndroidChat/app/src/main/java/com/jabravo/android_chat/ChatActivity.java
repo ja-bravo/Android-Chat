@@ -16,8 +16,7 @@ import com.jabravo.android_chat.Data.*;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+
 import java.util.concurrent.*;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener

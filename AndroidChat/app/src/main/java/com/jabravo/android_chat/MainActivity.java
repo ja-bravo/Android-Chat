@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Fragments.ContactsFragment;
 import com.jabravo.android_chat.Fragments.WelcomeFragment;
 
+import java.net.URI;
 import java.util.List;
 
 
@@ -40,10 +42,10 @@ public class MainActivity extends AppCompatActivity
 
     private  NavigationView navigationView;
 
-    View view;
-    TextView name;
-    TextView status;
-    ImageView image;
+    private View view;
+    private TextView name;
+    private TextView status;
+    private ImageView image;
 
     public static DB_Android dataBase;
 
@@ -182,10 +184,9 @@ public class MainActivity extends AppCompatActivity
         user.setNumber(preferences.getString("numberPhone", ""));
         user.setStatus(preferences.getString("status", ""));
 
-        // TODO: 14/12/2015 CAMBIAR LA IMAGEN POR LA DEL USUARIO
         name.setText(user.getNick());
         status.setText(user.getStatus());
-        //image.setImageURI();
+        image.setImageURI(Uri.parse(preferences.getString("image","")));
     }
 
     private void loadContacts()
@@ -235,8 +236,12 @@ public class MainActivity extends AppCompatActivity
 
         if(resultCode == RESULT_OK)
         {
-            // TODO: 14/12/2015  QUE LA IMAGEN TENGA EL TAMAÑO CORRECTO.
             image.setImageURI(imageReturnedIntent.getData());
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            prefs.edit().putString("image", imageReturnedIntent.getDataString()).apply();
+
+            Log.i("image",prefs.getString("image",""));
         }
     }
 }
