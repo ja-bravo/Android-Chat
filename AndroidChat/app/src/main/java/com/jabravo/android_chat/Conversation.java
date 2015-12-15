@@ -18,11 +18,9 @@ public class Conversation
 
     public Conversation(int idConver, int idFiendOrGroup, boolean isGroup)
     {
-
         this.idConver = idConver;
         this.idFiendOrGroup = idFiendOrGroup;
         this.isGroup = isGroup;
-
 
         if (isGroup)
         {

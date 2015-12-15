@@ -40,6 +40,7 @@ public class DB_Android extends SQLiteOpenHelper {
                         " CONSTRAINT PK_GROUPS PRIMARY KEY (ID_GROUP) " +
                         " );";
 
+
         String createTableMessages =
                 "CREATE TABLE MESSAGES " +
                         " ( " +

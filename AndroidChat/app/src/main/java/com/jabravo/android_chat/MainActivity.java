@@ -6,26 +6,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.jabravo.android_chat.Data.Actions_DB;
 import com.jabravo.android_chat.Data.DB_Android;
 import com.jabravo.android_chat.Data.Friend;
 import com.jabravo.android_chat.Data.User;
@@ -33,8 +30,7 @@ import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Fragments.ContactsFragment;
 import com.jabravo.android_chat.Fragments.WelcomeFragment;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
@@ -57,6 +53,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         dataBase  = new DB_Android ( this , "Data Base" , null , 1); // El 1 es la version.
+        
+        List<Friend> l = Actions_DB.getAllFriends();
+
+        for (int i = 0 ; i < l.size() ; i++)
+        {
+            System.out.println(l.get(i).getNick());
+        }
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
