@@ -61,7 +61,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         user = User.getInstance();
         friend = user.getFriendsHashMap().get(String.valueOf(toID));
 
-        service = Service.getInstance();
+        service = new Service();
 
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -122,6 +122,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause()
     {
+
+        saveMessagesDB();
+
         while  (threadReceiver.isAlive())
         {
             threadReceiver.interrupt();
@@ -132,13 +135,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
         service.setRun(false);
         executor.pause();
 
-        saveMessagesDB ();
     }
 
     @Override
@@ -172,14 +173,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             String text =  messages.get(i).getText();
             String date =  messages.get(i).getDate();
             int idReceiver =  messages.get(i).getReceiver();
-            int idFriend =  toID;
+            int idFriend =  messages.get(i).getIdFriend();
             boolean read =  messages.get(i).isRead();
 
-            Actions_DB.insertMessagePrivate( text , date ,  read , idFriend , idReceiver);
-
-            System.out.println("save: " + i);
-
+            Actions_DB.insertMessagePrivate(text, date, read, idFriend, idReceiver);
         }
+
+        messages.clear();
     }
 
     public void loadMessageDB ()
@@ -291,16 +291,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                             Iterator<Message> it = service.getBuffer().iterator();
                             while(it.hasNext())
                             {
-
                                 Message message = it.next();
                                 Log.i("pruebas", String.valueOf(message.getIdFriend() + "-" + toID));
-                                if(message.getReceiver() == user.getID() && message.getIdFriend() == toID)
 
+                                if(message.getIdFriend() == toID)
                                 {
-									messages.add(message);
                                     showMessage(message);
-                                    it.remove();
                                 }
+
+                                messages.add(message);
+                                it.remove();
                             }
                         }
                     });

@@ -11,9 +11,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.*;
-import com.jabravo.android_chat.Data.*;
-import com.jabravo.android_chat.R;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.jabravo.android_chat.Data.Friend;
+import com.jabravo.android_chat.Data.Message;
+import com.jabravo.android_chat.Data.MessageList;
+import com.jabravo.android_chat.Data.PausableThreadPool;
+import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
@@ -48,7 +57,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         user = User.getInstance();
         friend = user.getFriendsHashMap().get(String.valueOf(toID));
 
-        service = Service.getInstance();
+        //service = Service.getInstance();
 
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

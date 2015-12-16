@@ -28,24 +28,13 @@ import java.util.List;
 public class Service implements Runnable
 {
 
-    private static Service service;
-
     private int id;
     private int timeSleep;
     private List<Message> buffer;
     private boolean run;
 
-    public static Service getInstance()
-    {
-        if(service == null)
-        {
-            service = new Service();
-        }
 
-        return service;
-    }
-
-    private Service()
+    public Service()
     {
         buffer = Collections.synchronizedList(new ArrayList<Message>());
         this.id = User.getInstance().getID();
