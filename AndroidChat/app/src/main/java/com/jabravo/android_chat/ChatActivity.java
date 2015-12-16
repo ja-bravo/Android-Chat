@@ -1,11 +1,16 @@
 package com.jabravo.android_chat;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.jabravo.android_chat.Data.Actions_DB;
 import com.jabravo.android_chat.Data.Friend;
 import com.jabravo.android_chat.Data.Message;
@@ -25,17 +31,20 @@ import com.jabravo.android_chat.Data.PausableThreadPool;
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
+
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
+
     private ImageButton sendButton;
     private EditText keyboard;
     private ScrollView scrollView;
@@ -61,7 +70,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         user = User.getInstance();
         friend = user.getFriendsHashMap().get(String.valueOf(toID));
 
-        service = new Service();
 
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -88,6 +96,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
 
+        service = new Service();
+
         try
         {
             queue.put(service);
@@ -100,9 +110,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
         executor.execute(service);
 
+
         loadMessageDB();
 
     }
+
+
 
     private void changeToolBar()
     {
@@ -122,7 +135,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause()
     {
-
         saveMessagesDB();
 
         while  (threadReceiver.isAlive())
@@ -139,7 +151,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
         service.setRun(false);
         executor.pause();
-
     }
 
     @Override
@@ -182,6 +193,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         messages.clear();
     }
 
+
     public void loadMessageDB ()
     {
         List<Message> messagesDB = Actions_DB.loadMessages(toID);
@@ -193,6 +205,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(messagesDB.get(i).getText());
         }
     }
+
 
     public void showMessage(Message message)
     {
@@ -233,13 +246,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });
-
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void onClick(View v)
@@ -269,6 +282,42 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         sender.execute(message,String.valueOf(toID),String.valueOf(user.getID()));
     }
 
+
+
+    public  void showNotification (Message message) {
+        Intent intent = new Intent(this, Notification.class);
+
+        int notificationID = message.getIdFriend(); // con esto consigo que no salgan nuevas notoficaciones para este usuario
+        intent.putExtra("notificationID", notificationID);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        String friendName = User.getInstance().getFriendsHashMap().get(String.valueOf(notificationID)).getNick();
+
+        CharSequence ticker = "Say: " + message.getText();
+        CharSequence contentTitle = "Android Chat";
+        CharSequence contentText = "Message from " + friendName;
+
+        android.app.Notification noti = new NotificationCompat.Builder(this)
+                .setContentIntent(pendingIntent)
+                .setTicker(ticker)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setLights(Color.RED, 1, 0)
+                .setSmallIcon(R.mipmap.ic_ini)
+                .setPriority(android.app.Notification.PRIORITY_MAX)
+                .setAutoCancel(true)
+                .addAction(R.mipmap.ic_ini, ticker, pendingIntent)
+                .setVibrate(new long[]{100, 250, 100, 500})
+                .build();
+
+        nm.notify(notificationID, noti);
+        ringtone.play();
+    }
+
+
+
     // **********************************************
     // Clase para recibir mensajes
     // **********************************************
@@ -297,6 +346,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                 if(message.getIdFriend() == toID)
                                 {
                                     showMessage(message);
+                                }
+                                else
+                                {
+                                    showNotification(message);
                                 }
 
                                 messages.add(message);

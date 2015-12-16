@@ -57,7 +57,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         user = User.getInstance();
         friend = user.getFriendsHashMap().get(String.valueOf(toID));
 
-        //service = Service.getInstance();
+        service = new Service();
 
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

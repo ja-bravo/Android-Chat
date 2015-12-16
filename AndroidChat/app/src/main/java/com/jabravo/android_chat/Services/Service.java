@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * Created by Josewer on 16/12/2015.
+ */
 /*
     Clase que comprueba si hay mensajes en el servidor para el usuario actual, y si los hay, los mete
     en una cola.
@@ -88,7 +90,7 @@ public class Service implements Runnable
             }
 
             //Mostramos la respuesta del servidor por consola
-            Log.i("service","Response Code : " + responseCode);
+            Log.i("service", "Response Code : " + responseCode);
             Log.i("service","Respuesta del servidor: " + response);
             System.out.println("Response Code : " + responseCode);
             System.out.println("Respuesta del servidor: " + response);
