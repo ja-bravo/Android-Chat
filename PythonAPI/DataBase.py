@@ -148,6 +148,37 @@ class DataBase():
         connection.close()
         return messageID
 
+    def send_message_group(self, message):
+        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        cursor = connection.cursor()
+
+        message = json.loads(message)
+        text = message["text"]
+        ID = message["to"]
+        idDest = message["from"]
+
+        SQL = """INSERT INTO MESSAGES ( TEXT , DATE_MESSAGE )
+	              VALUES ('%s', sysdate() );
+	              """.replace('\n',' ').replace('\t','')
+        SQL = SQL % str(text)
+
+        cursor.execute(SQL)
+        connection.commit()
+        messageID = cursor.lastrowid
+
+        SQL = """INSERT INTO  SEND_MESSAGE_GROUP
+                 (ID_MESSAGE , ID_USER , ID_GROUP)
+                 VALUES (%s , %s , %s);
+	              """.replace('\n',' ')
+        SQL = SQL % (str(messageID), str(ID), str(idDest))
+
+        cursor.execute(SQL)
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+        return messageID
+
     def insert_user(self, user):
         connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
         cursor = connection.cursor()
