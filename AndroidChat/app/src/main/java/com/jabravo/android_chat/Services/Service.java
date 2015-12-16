@@ -1,6 +1,7 @@
 package com.jabravo.android_chat.Services;
 
 import android.util.Log;
+
 import com.jabravo.android_chat.Data.Message;
 import com.jabravo.android_chat.Data.User;
 
@@ -10,11 +11,11 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 /*
@@ -29,12 +30,12 @@ public class Service implements Runnable
 
     private int id;
     private int timeSleep;
-    public static LinkedBlockingQueue<Message> buffer;
+    public static List<Message> buffer;
     private boolean run;
 
     public Service()
     {
-        buffer = new LinkedBlockingQueue<>();
+        buffer = Collections.synchronizedList(new ArrayList<Message>());
         this.id = User.getInstance().getID();
         timeSleep = 250;
         run = true;
@@ -118,20 +119,13 @@ public class Service implements Runnable
 
         for (int i = 0; i < json_array.length(); i++)
         {
-            JSONObject objetoJSON = json_array.getJSONObject(i);
+            JSONObject messageJSON = json_array.getJSONObject(i);
 
-            String text = objetoJSON.getString("TEXT");
-            int sender = objetoJSON.getInt("ID_USER_SENDER");
+            String text = messageJSON.getString("TEXT");
+            int sender = messageJSON.getInt("ID_USER_SENDER");
             int receiver = User.getInstance().getID();
 
-            try
-            {
-                buffer.put(new Message(text, sender, receiver));
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
+            buffer.add(new Message(text, sender, receiver));
         }
     }
 }
