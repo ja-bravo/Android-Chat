@@ -8,41 +8,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-
-
-import com.jabravo.android_chat.Data.Actions_DB;
-
-
-import com.jabravo.android_chat.Data.Friend;
-import com.jabravo.android_chat.Data.Message;
-import com.jabravo.android_chat.Data.MessageList;
-import com.jabravo.android_chat.Data.PausableThreadPool;
-import com.jabravo.android_chat.Data.User;
+import android.widget.*;
+import com.jabravo.android_chat.Data.*;
+import com.jabravo.android_chat.R;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
-
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import java.util.Iterator;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class ChatActivity extends AppCompatActivity implements View.OnClickListener
+public class GroupActivity extends AppCompatActivity implements View.OnClickListener
 {
     private ImageButton sendButton;
     private EditText keyboard;
@@ -104,11 +81,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         {
             e.printStackTrace();
         }
-
         executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
         executor.execute(service);
-
-        loadMessageDB();
 
     }
 
@@ -136,8 +110,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
         super.onPause();
         executor.pause();
-
-        saveMessagesDB ();
     }
 
     @Override
@@ -171,36 +143,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-    public void saveMessagesDB ()
-    {
-        for (int i = 0 ; i <  messages.size() ; i++)
-        {
-            String text =  messages.get(i).getText();
-            String date =  messages.get(i).getDate();
-            int idReceiver =  messages.get(i).getReceiver();
-            int idFriend =  toID;
-            boolean read =  messages.get(i).isRead();
-
-            Actions_DB.insertMessagePrivate( text , date ,  read , idFriend , idReceiver);
-
-            System.out.println("save: " + i);
-
-        }
-    }
-
-    public void loadMessageDB ()
-    {
-        List<Message> messagesDB = Actions_DB.loadMessages(toID);
-
-        System.out.println(messagesDB.size());
-        for (int i = 0 ; i < messagesDB.size() ; i++)
-        {
-            showMessage(messagesDB.get(i));
-            System.out.println(messagesDB.get(i).getText());
-        }
-    }
-
     public void showMessage(Message message)
     {
 
@@ -211,7 +153,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        if (message.getReceiver() != user.getID())
+        if (message.getSender() == user.getID())
         {
             params.gravity = Gravity.RIGHT;
             textView.setPadding(50, 10, 10, 10);
@@ -253,22 +195,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         if (keyboard.getText().toString().length() != 0)
         {
-            Calendar cal = new GregorianCalendar();
-            Date date = cal.getTime();
-
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            String dateFormat = df.format(date);
-
-            Message message = new Message(keyboard.getText().toString(), dateFormat , true,
-                    toID , toID); // con quien es la conversacion, y quien lo tiene que recivir
-
+            Message message = new Message(keyboard.getText().toString(), user.getID(), toID);
             messages.add(message);
 
             sendMessage(message.getText());
             showMessage(message);
         }
     }
-
 
     private void sendMessage(String message)
     {
@@ -293,21 +226,15 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void run()
                         {
-
-                            Log.i("pruebas", String.valueOf(Service.buffer.size()));
-                            Iterator<Message> it = Service.buffer.iterator();
-                            while(it.hasNext())
+                            while(!Service.buffer.isEmpty())
                             {
-
-                                Message message = it.next();
-                                Log.i("pruebas", String.valueOf(message.getSender() + "-" + toID));
-                                if(message.getReceiver() == user.getID() &&
-                                   message.getSender() == toID)
-
+                                try
                                 {
-									messages.add(message);
-                                    showMessage(message);
-                                    it.remove();
+                                    showMessage(Service.buffer.take());
+                                }
+                                catch (InterruptedException e)
+                                {
+                                    e.printStackTrace();
                                 }
                             }
                         }

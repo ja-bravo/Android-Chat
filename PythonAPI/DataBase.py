@@ -148,6 +148,37 @@ class DataBase():
         connection.close()
         return messageID
 
+    def send_message_group(self, message):
+        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        cursor = connection.cursor()
+
+        message = json.loads(message)
+        text = message["text"]
+        ID = message["to"]
+        idDest = message["from"]
+
+        SQL = """INSERT INTO MESSAGES ( TEXT , DATE_MESSAGE )
+	              VALUES ('%s', sysdate() );
+	              """.replace('\n',' ').replace('\t','')
+        SQL = SQL % str(text)
+
+        cursor.execute(SQL)
+        connection.commit()
+        messageID = cursor.lastrowid
+
+        SQL = """INSERT INTO  SEND_MESSAGE_GROUP
+                 (ID_MESSAGE , ID_USER , ID_GROUP)
+                 VALUES (%s , %s , %s);
+	              """.replace('\n',' ')
+        SQL = SQL % (str(messageID), str(ID), str(idDest))
+
+        cursor.execute(SQL)
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+        return messageID
+
     def insert_user(self, user):
         connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
         cursor = connection.cursor()
@@ -200,7 +231,7 @@ class DataBase():
 
         for friend in friends["Friends"]:
             friend["PHONE"] = friend["PHONE"].replace(' ','').replace('+34','')
-            phone = friend["PHONE"].replace(' ','')
+            phone = friend["PHONE"].replace(' ','').replace('(','').replace(')','').replace('-','')
             if phone == '':
                 phone = 0
 
@@ -209,7 +240,11 @@ class DataBase():
                      WHERE PHONE = %s""".replace('\n',' ').replace('\t','')
             SQL = SQL % (str(phone))
             SQL = SQL.replace('\u202c','').replace('\u202a','')
-            cursor.execute(SQL)
+
+            try:
+                cursor.execute(SQL)
+            except:
+                return SQL
 
             count = cursor._rows[0][0]
             if count > 0:
@@ -232,3 +267,4 @@ class DataBase():
         cursor.close()
         connection.close()
         return my_friends
+

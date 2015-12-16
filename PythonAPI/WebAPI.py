@@ -24,6 +24,10 @@ def get_messages(id):
 def send_message(message):
     return jsonify({'id': db.send_message(message)})
 
+@app.route("/api/post/group/message/<message>", methods=['GET','POST'])
+def send_message_group(message):
+    return jsonify({'id': db.send_message_group(message)})
+
 @app.route("/api/post/user/<user>", methods=['GET','POST'])
 def insert_user(user):
     return jsonify({'id': db.insert_user(user)})
