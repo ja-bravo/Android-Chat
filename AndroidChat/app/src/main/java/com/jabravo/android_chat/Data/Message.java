@@ -13,26 +13,37 @@ public class Message implements Parcelable
     private String date;
     private int id;
     private boolean read;
-    private int sender;
+    private int idFriend;
     private int receiver;
 
-    public Message(String text, String date, int id, boolean read, int sender, int receiver)
+    public Message(String text, String date, int id, boolean read, int idFriend, int receiver)
     {
         this.text = text;
         this.date = date;
         this.id = id;
         this.read = read;
-        this.sender = sender;
+        this.idFriend = idFriend;
         this.receiver = receiver;
     }
 
-    public Message(String text, int sender, int receiver)
+
+    public Message(String text, String date, boolean read, int idFriend, int receiver)
+    {
+        this.text = text;
+        this.date = date;
+        this.read = read;
+        this.idFriend = idFriend;
+        this.receiver = receiver;
+    }
+
+
+    public Message(String text, int idFriend, int receiver)
     {
         this.text = text;
         this.date = "";
         this.id = -1;
         this.read = false;
-        this.sender = sender;
+        this.idFriend = idFriend;
         this.receiver = receiver;
     }
 
@@ -42,7 +53,7 @@ public class Message implements Parcelable
         this.date = "";
         this.id = -1;
         this.read = false;
-        this.sender = -1;
+        this.idFriend = -1;
         this.receiver = -1;
     }
 
@@ -52,7 +63,7 @@ public class Message implements Parcelable
         date = in.readString();
         id = in.readInt();
         read = in.readInt() == 1; // 1 = true, 0 = false
-        sender = in.readInt();
+        idFriend = in.readInt();
         receiver = in.readInt();
     }
 
@@ -62,7 +73,7 @@ public class Message implements Parcelable
         this.date = date;
         this.id = id;
         this.read = read;
-        this.sender = sender;
+        this.idFriend = sender;
     }
 
 
@@ -71,14 +82,14 @@ public class Message implements Parcelable
         return text;
     }
 
-    public int getSender()
+    public int getIdFriend()
     {
-        return sender;
+        return idFriend;
     }
 
-    public void setSender(int sender)
+    public void setIdFriend(int idFriend)
     {
-        this.sender = sender;
+        this.idFriend = idFriend;
     }
 
     public void setText(String text)
@@ -140,7 +151,7 @@ public class Message implements Parcelable
         dest.writeString(date);
         dest.writeInt(id);
         dest.writeInt(read ? 1 : 0);
-        dest.writeInt(sender);
+        dest.writeInt(idFriend);
         dest.writeInt(receiver);
     }
 

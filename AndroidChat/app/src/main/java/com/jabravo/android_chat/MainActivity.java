@@ -53,13 +53,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         dataBase  = new DB_Android ( this , "Data Base" , null , 1); // El 1 es la version.
-        
-        List<Friend> l = Actions_DB.getAllFriends();
-
-        for (int i = 0 ; i < l.size() ; i++)
-        {
-            System.out.println(l.get(i).getNick());
-        }
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -83,6 +76,7 @@ public class MainActivity extends AppCompatActivity
 
         loadUserData();
         loadContacts();
+        insertFriendsDB ();
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -162,6 +156,36 @@ public class MainActivity extends AppCompatActivity
         // hay que darle permisos en el manifests
         Vibrator vibs = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibs.vibrate(duration); // en milisegundos
+    }
+
+
+    private void insertFriendsDB ()
+    {
+        List<Friend> listDbAndroid = Actions_DB.getAllFriends();
+        List<Friend> list = User.getInstance().getFriends();
+
+        for ( int i = 0 ; i < list.size() ; i++)
+        {
+            String phone1 = list.get(i).getPhone();
+
+            for (int j = 0 ; j < listDbAndroid.size() ; j++ )
+            {
+                String phone2 = listDbAndroid.get(j).getPhone();
+
+                System.out.println("id: " + String.valueOf(list.get(i)));
+                System.out.println("nick: " + list.get(i).getNick());
+
+                if ( !phone1.equals(phone2) )
+                {
+                    String id = String.valueOf(list.get(i).getId());
+                    String status = list.get(i).getStatus();
+                    String image = list.get(i).getImage();
+                    String nick = list.get(i).getNick();
+
+                    Actions_DB.insertFriend(id , phone1 , status , image , nick);
+                }
+            }
+        }
     }
 
     private void loadUserData()

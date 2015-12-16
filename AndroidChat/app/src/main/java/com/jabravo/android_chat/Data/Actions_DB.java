@@ -75,6 +75,8 @@ public class Actions_DB {
     {
         int idMessage = insertMessage(text, date, read);
 
+        System.out.println("id Priend " + idFriend);
+
         if (idMessage != -1) {
             SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
 
@@ -147,5 +149,44 @@ public class Actions_DB {
             db.close();
         }
         return l;
+    }
+
+
+    public static List<Message> loadMessages ( int idFriend )
+    {
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
+        List<Message> messages = new ArrayList<>();
+
+        if (db != null)
+        {
+
+            String sql = "SELECT MESSAGES.ID_MESSAGE , MESSAGES.DATE_MESSAGE , " +
+                    " MESSAGES.TEXT , MESSAGES.IS_READ ," +
+                    " ID_RECEIVER , SEND_MESSAGES_PRIVATE.ID_FRIEND " +
+                    " FROM SEND_MESSAGES_PRIVATE , MESSAGES WHERE " +
+                    " MESSAGES.ID_MESSAGE = SEND_MESSAGES_PRIVATE.ID_MESSAGE AND " +
+                    " SEND_MESSAGES_PRIVATE.ID_FRIEND =? ;";
+
+            
+            String[] m = {String.valueOf(idFriend)};
+            Cursor cursor = db.rawQuery(sql, m);
+
+            while (cursor.moveToNext())
+            {
+                boolean r;
+
+                if (cursor.getString(3).toLowerCase().equals("true"))
+                    r = true;
+                else
+                    r = false;
+
+                messages.add(new Message(cursor.getString(2), cursor.getString(1),
+                        cursor.getInt(0), r, cursor.getInt(5), cursor.getInt(4)));
+            }
+
+            db.close();
+        }
+
+        return messages;
     }
 }

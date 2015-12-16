@@ -61,7 +61,7 @@ public class MessageList extends ArrayList<Message> implements Parcelable
         {
             Message message = this.get(i);
 
-            dest.writeInt(message.getSender());
+            dest.writeInt(message.getIdFriend());
             dest.writeString(message.getText());
         }
     }

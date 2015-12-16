@@ -10,15 +10,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.jabravo.android_chat.Data.*;
+import com.jabravo.android_chat.Data.Actions_DB;
+import com.jabravo.android_chat.Data.Friend;
+import com.jabravo.android_chat.Data.Message;
+import com.jabravo.android_chat.Data.MessageList;
+import com.jabravo.android_chat.Data.PausableThreadPool;
+import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.concurrent.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -82,8 +96,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         {
             e.printStackTrace();
         }
+
         executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
         executor.execute(service);
+
+        loadMessageDB();
 
     }
 
@@ -111,6 +128,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
         super.onPause();
         executor.pause();
+
+        saveMessagesDB ();
     }
 
     @Override
@@ -144,6 +163,36 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    public void saveMessagesDB ()
+    {
+        for (int i = 0 ; i <  messages.size() ; i++)
+        {
+            String text =  messages.get(i).getText();
+            String date =  messages.get(i).getDate();
+            int idReceiver =  messages.get(i).getReceiver();
+            int idFriend =  toID;
+            boolean read =  messages.get(i).isRead();
+
+            Actions_DB.insertMessagePrivate( text , date ,  read , idFriend , idReceiver);
+
+            System.out.println("save: " + i);
+
+        }
+    }
+
+    public void loadMessageDB ()
+    {
+        List<Message> messagesDB = Actions_DB.loadMessages(toID);
+
+        System.out.println(messagesDB.size());
+        for (int i = 0 ; i < messagesDB.size() ; i++)
+        {
+            showMessage(messagesDB.get(i));
+            System.out.println(messagesDB.get(i).getText());
+        }
+    }
+
     public void showMessage(Message message)
     {
 
@@ -154,7 +203,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        if (message.getSender() == user.getID())
+        if (message.getReceiver() != user.getID())
         {
             params.gravity = Gravity.RIGHT;
             textView.setPadding(50, 10, 10, 10);
@@ -196,13 +245,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         if (keyboard.getText().toString().length() != 0)
         {
-            Message message = new Message(keyboard.getText().toString(), user.getID(), toID);
+            Calendar cal = new GregorianCalendar();
+            Date date = cal.getTime();
+
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String dateFormat = df.format(date);
+
+            Message message = new Message(keyboard.getText().toString(), dateFormat , true,
+                    toID , toID); // con quien es la conversacion, y quien lo tiene que recivir
+
             messages.add(message);
 
             sendMessage(message.getText());
             showMessage(message);
         }
     }
+
 
     private void sendMessage(String message)
     {
@@ -231,7 +289,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                             {
                                 try
                                 {
-                                    showMessage(Service.buffer.take());
+                                    Message message = Service.buffer.take();
+                                    messages.add(message);
+
+                                    showMessage(message);
                                 }
                                 catch (InterruptedException e)
                                 {

@@ -121,12 +121,17 @@ public class Service implements Runnable
             JSONObject objetoJSON = json_array.getJSONObject(i);
 
             String text = objetoJSON.getString("TEXT");
-            int sender = objetoJSON.getInt("ID_USER_SENDER");
+            //String date = objetoJSON.getString("DATE");
+            int idFriend = objetoJSON.getInt("ID_USER_SENDER");
             int receiver = User.getInstance().getID();
+            boolean isGroup = objetoJSON.getInt("ID_GROUP") != 0;
+            boolean read = true;
+
+            System.out.println("idfriend: " + idFriend );
 
             try
             {
-                buffer.put(new Message(text, sender, receiver));
+                buffer.put(new Message(text, idFriend, receiver));
             }
             catch (InterruptedException e)
             {
