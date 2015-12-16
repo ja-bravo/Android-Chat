@@ -33,7 +33,6 @@ public class Service implements Runnable
     private int id;
     private int timeSleep;
     private List<Message> buffer;
-    private boolean run;
 
 
     public Service()
@@ -41,7 +40,7 @@ public class Service implements Runnable
         buffer = Collections.synchronizedList(new ArrayList<Message>());
         this.id = User.getInstance().getID();
         timeSleep = 250;
-        run = true;
+
     }
 
     public List<Message> getBuffer()
@@ -49,15 +48,6 @@ public class Service implements Runnable
         return buffer;
     }
 
-    public void setRun(boolean run)
-    {
-        this.run = run;
-    }
-
-    public boolean isRunning()
-    {
-        return run;
-    }
 
     private String getMessage()
     {
@@ -105,10 +95,16 @@ public class Service implements Runnable
         return response.toString();
     }
 
+    public void setTimeSleep (int timeSleep)
+    {
+        this.timeSleep = timeSleep;
+    }
+
+
     @Override
     public void run()
     {
-        while (run)
+        while (true)
         {
             try
             {

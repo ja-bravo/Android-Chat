@@ -32,7 +32,6 @@ import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,6 +41,7 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
 
@@ -50,21 +50,26 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ScrollView scrollView;
     private LinearLayout messagesLayout;
     private ImageView userImage;
-
+    private int timeSleep;
     private Ringtone ringtone;
-    private PausableThreadPool executor;
+    private static PausableThreadPool executor;
     private Thread threadReceiver;
     private MessageList messages;
     private User user;
     private Friend friend;
-    private Service service;
+    private static Service service;
+    private int timeSleepMin;
+    private static LinkedBlockingQueue<Runnable> queue;
 
     private int toID;
+
+    private static boolean isStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         toID = getIntent().getExtras().getInt("toID");
 
         user = User.getInstance();
@@ -94,25 +99,31 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Uri uri = Uri.parse(alarms);
         ringtone = RingtoneManager.getRingtone(this, uri);
 
-        LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
 
-        service = new Service();
-
-        try
+        if (!isStarted)
         {
-            queue.put(service);
+            queue = new LinkedBlockingQueue<>();
+
+            isStarted = true;
+
+            service = new Service();
+
+            try
+            {
+                queue.put(service);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+
+            executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
+            executor.execute(service);
         }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
 
-        executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
-        executor.execute(service);
-
-
+        timeSleepMin = 250;
+        timeSleep = timeSleepMin;
         loadMessageDB();
-
     }
 
 
@@ -136,20 +147,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause()
     {
         saveMessagesDB();
-
-        while  (threadReceiver.isAlive())
-        {
-            threadReceiver.interrupt();
-        }
         super.onPause();
-        executor.pause();
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        service.setRun(false);
         executor.pause();
     }
 
@@ -158,7 +161,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onResume();
         threadReceiver = new Thread(Receiver);
-        service.setRun(true);
+
         threadReceiver.start();
         executor.resume();
     }
@@ -283,6 +286,32 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    Runnable runThreadTimeOut = new Runnable() {
+        @Override
+        public void run() {
+
+
+            int timeMax = 1000 * 60 * 1;
+
+            while (!MainActivity.openProgram && timeMax > timeSleep)
+            {
+                timeSleep += 1000 * 1;
+                service.setTimeSleep(timeSleep);
+
+                System.out.println("time: " + timeSleep );
+
+                try {
+                    Thread.sleep(timeSleep);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            service.setTimeSleep(timeSleepMin);
+        }
+    };
+
+
 
     public  void showNotification (Message message) {
         Intent intent = new Intent(this, Notification.class);
@@ -347,9 +376,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                 {
                                     showMessage(message);
                                 }
-                                else
-                                {
+
+                                if (!MainActivity.openProgram){
+
                                     showNotification(message);
+
                                 }
 
                                 messages.add(message);
@@ -360,11 +391,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 try
                 {
-                    Thread.sleep(250);
+                    Thread.sleep(timeSleep);
                 }
                 catch (InterruptedException e)
                 {
                     e.printStackTrace();
+                }
+
+                if (!MainActivity.openProgram && timeSleep == timeSleepMin)
+                {
+                    Thread threadOutTime = new Thread (runThreadTimeOut);
+                    threadOutTime.start();
+                    timeSleep++;
                 }
             }
         }

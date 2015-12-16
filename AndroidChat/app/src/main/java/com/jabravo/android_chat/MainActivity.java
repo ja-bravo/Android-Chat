@@ -31,7 +31,6 @@ import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Fragments.ContactsFragment;
 import com.jabravo.android_chat.Fragments.WelcomeFragment;
 
-import java.net.URI;
 import java.util.List;
 
 
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private TextView name;
     private TextView status;
     private ImageView image;
+    public static boolean openProgram;
 
     public static DB_Android dataBase;
 
@@ -86,13 +86,21 @@ public class MainActivity extends AppCompatActivity
         WelcomeFragment fragment = WelcomeFragment.newInstance();
         transaction.replace(R.id.mainlayout, fragment);
         transaction.commit();
+
+        openProgram = true;
+        System.out.println("abierto");
     }
 
+
+
     @Override
-    public void onResume()
-    {
-        super.onResume();
+    protected void onDestroy() {
+        super.onDestroy();
+        openProgram = false;
+        System.out.println("cerrado");
     }
+
+
 
     @Override
     public void onBackPressed()

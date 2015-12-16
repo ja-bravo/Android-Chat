@@ -127,7 +127,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
     protected void onStop()
     {
         super.onStop();
-        service.setRun(false);
         executor.pause();
     }
 
@@ -136,7 +135,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
     {
         super.onResume();
         threadReceiver = new Thread(Receiver);
-        service.setRun(true);
         threadReceiver.start();
         executor.resume();
     }
