@@ -61,7 +61,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         user = User.getInstance();
         friend = user.getFriendsHashMap().get(String.valueOf(toID));
 
-        service = new Service();
+        service = Service.getInstance();
 
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -129,7 +129,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         executor.pause();
 
-        saveMessagesDB ();
     }
 
     @Override
@@ -138,6 +137,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
         service.setRun(false);
         executor.pause();
+
+        saveMessagesDB ();
     }
 
     @Override
@@ -278,7 +279,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             while (!Thread.interrupted())
             {
-                if (!Service.buffer.isEmpty())
+                if (!service.getBuffer().isEmpty())
                 {
                     runOnUiThread(new Runnable()
                     {
@@ -286,15 +287,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         public void run()
                         {
 
-                            Log.i("pruebas", String.valueOf(Service.buffer.size()));
-                            Iterator<Message> it = Service.buffer.iterator();
+                            Log.i("pruebas", String.valueOf(service.getBuffer().size()));
+                            Iterator<Message> it = service.getBuffer().iterator();
                             while(it.hasNext())
                             {
 
                                 Message message = it.next();
                                 Log.i("pruebas", String.valueOf(message.getIdFriend() + "-" + toID));
-                                if(message.getReceiver() == user.getID() &&
-                                   message.getIdFriend() == toID)
+                                if(message.getReceiver() == user.getID() && message.getIdFriend() == toID)
 
                                 {
 									messages.add(message);
