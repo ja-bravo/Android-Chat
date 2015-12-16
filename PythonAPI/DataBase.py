@@ -231,7 +231,7 @@ class DataBase():
 
         for friend in friends["Friends"]:
             friend["PHONE"] = friend["PHONE"].replace(' ','').replace('+34','')
-            phone = friend["PHONE"].replace(' ','')
+            phone = friend["PHONE"].replace(' ','').replace('(','').replace(')','').replace('-','')
             if phone == '':
                 phone = 0
 
@@ -240,7 +240,11 @@ class DataBase():
                      WHERE PHONE = %s""".replace('\n',' ').replace('\t','')
             SQL = SQL % (str(phone))
             SQL = SQL.replace('\u202c','').replace('\u202a','')
-            cursor.execute(SQL)
+
+            try:
+                cursor.execute(SQL)
+            except:
+                return SQL
 
             count = cursor._rows[0][0]
             if count > 0:
@@ -263,3 +267,4 @@ class DataBase():
         cursor.close()
         connection.close()
         return my_friends
+
