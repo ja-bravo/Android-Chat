@@ -8,16 +8,27 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.jabravo.android_chat.Data.*;
+import com.jabravo.android_chat.Data.Friend;
+import com.jabravo.android_chat.Data.Message;
+import com.jabravo.android_chat.Data.MessageList;
+import com.jabravo.android_chat.Data.PausableThreadPool;
+import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
-
-import java.util.concurrent.*;
+import java.util.Iterator;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -226,15 +237,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void run()
                         {
-                            while(!Service.buffer.isEmpty())
+
+                            Log.i("pruebas", String.valueOf(Service.buffer.size()));
+                            Iterator<Message> it = Service.buffer.iterator();
+                            while(it.hasNext())
                             {
-                                try
+                                Message message = it.next();
+                                Log.i("pruebas", String.valueOf(message.getSender() + "-" + toID));
+                                if(message.getReceiver() == user.getID() &&
+                                   message.getSender() == toID)
                                 {
-                                    showMessage(Service.buffer.take());
-                                }
-                                catch (InterruptedException e)
-                                {
-                                    e.printStackTrace();
+                                    showMessage(message);
+                                    it.remove();
                                 }
                             }
                         }
