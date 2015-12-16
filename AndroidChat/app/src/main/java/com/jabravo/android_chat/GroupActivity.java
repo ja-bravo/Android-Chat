@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.*;
@@ -16,6 +17,7 @@ import com.jabravo.android_chat.R;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
+import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -153,7 +155,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        if (message.getSender() == user.getID())
+        if (message.getIdFriend() == user.getID())
         {
             params.gravity = Gravity.RIGHT;
             textView.setPadding(50, 10, 10, 10);
@@ -226,15 +228,21 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void run()
                         {
-                            while(!Service.buffer.isEmpty())
+
+                            Log.i("pruebas", String.valueOf(Service.buffer.size()));
+                            Iterator<Message> it = Service.buffer.iterator();
+                            while(it.hasNext())
                             {
-                                try
+
+                                Message message = it.next();
+                                Log.i("pruebas", String.valueOf(message.getIdFriend() + "-" + toID));
+                                if(message.getReceiver() == user.getID() &&
+                                        message.getIdFriend() == toID)
+
                                 {
-                                    showMessage(Service.buffer.take());
-                                }
-                                catch (InterruptedException e)
-                                {
-                                    e.printStackTrace();
+                                    messages.add(message);
+                                    showMessage(message);
+                                    it.remove();
                                 }
                             }
                         }

@@ -121,12 +121,12 @@ public class Service implements Runnable
         {
             JSONObject messageJSON = json_array.getJSONObject(i);
 
-            String text = objetoJSON.getString("TEXT");
-            //String date = objetoJSON.getString("DATE");
-            int idFriend = objetoJSON.getInt("ID_USER_SENDER");
+            String text = messageJSON.getString("TEXT");
+            //String date = messageJSON.getString("DATE");
+            int idFriend = messageJSON.getInt("ID_USER_SENDER");
 
             int receiver = User.getInstance().getID();
-            boolean isGroup = objetoJSON.getInt("ID_GROUP") != 0;
+            boolean isGroup = messageJSON.getInt("ID_GROUP") != 0;
             boolean read = true;
 
             System.out.println("idfriend: " + idFriend );

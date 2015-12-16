@@ -17,11 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
-
 import com.jabravo.android_chat.Data.Actions_DB;
-
-
 import com.jabravo.android_chat.Data.Friend;
 import com.jabravo.android_chat.Data.Message;
 import com.jabravo.android_chat.Data.MessageList;
@@ -29,16 +25,12 @@ import com.jabravo.android_chat.Data.PausableThreadPool;
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
-
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-
 import java.util.Iterator;
-
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -300,9 +292,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                             {
 
                                 Message message = it.next();
-                                Log.i("pruebas", String.valueOf(message.getSender() + "-" + toID));
+                                Log.i("pruebas", String.valueOf(message.getIdFriend() + "-" + toID));
                                 if(message.getReceiver() == user.getID() &&
-                                   message.getSender() == toID)
+                                   message.getIdFriend() == toID)
 
                                 {
 									messages.add(message);
