@@ -174,7 +174,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             textView.setPadding(10, 10, 50, 10);
         }
 
-        textView.setBackgroundResource(R.drawable.message);
+        textView.setBackgroundResource(R.drawable.message_1);
         textView.setLayoutParams(params);
 
         messagesLayout.addView(textView);

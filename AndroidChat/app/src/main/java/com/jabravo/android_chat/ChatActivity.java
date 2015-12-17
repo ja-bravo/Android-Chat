@@ -63,7 +63,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private int toID;
 
-    private static boolean isStarted = false;
+    private static boolean isStarted = false; // no tocar de aqui
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -212,30 +212,37 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     public void showMessage(Message message)
     {
-
-        TextView textView = new TextView(this);
-        textView.setText(message.getText());
-
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
+        params.setMargins(0, 0, 0, 20);
+
+        TextView textView = new TextView(this);
+
+        textView.setText(message.getText());
+
         if (message.getReceiver() != user.getID())
         {
             params.gravity = Gravity.RIGHT;
-            textView.setPadding(50, 10, 10, 10);
+
+            textView.setBackgroundResource(R.drawable.message_1);
         }
         else
         {
             ringtone.play();
             params.gravity = Gravity.LEFT;
-            textView.setPadding(10, 10, 50, 10);
+
+            textView.setBackgroundResource(R.drawable.message_2);
         }
 
-        textView.setBackgroundResource(R.drawable.message);
         textView.setLayoutParams(params);
-
         messagesLayout.addView(textView);
+
+        textView.setPadding(16, 16, 16, 16);
+        textView.setTextSize(16);
+
+
         keyboard.setText("");
 
         try
@@ -289,7 +296,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     Runnable runThreadTimeOut = new Runnable() {
         @Override
         public void run() {
-
 
             int timeMax = 1000 * 60 * 1;
 
@@ -400,9 +406,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (!MainActivity.openProgram && timeSleep == timeSleepMin)
                 {
+                    timeSleep++;
                     Thread threadOutTime = new Thread (runThreadTimeOut);
                     threadOutTime.start();
-                    timeSleep++;
                 }
             }
         }
