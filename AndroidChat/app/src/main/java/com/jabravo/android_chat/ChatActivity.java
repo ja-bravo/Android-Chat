@@ -193,6 +193,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void interrumptThread ()
+    {
+        //service.
+    }
+
+
     public void saveMessagesDB ()
     {
         for (int i = 0 ; i <  messages.size() ; i++)
@@ -314,7 +320,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             while (!MainActivity.openProgram && timeMax > timeSleep)
             {
-                timeSleep += 1000 * 1;
+                timeSleep += 500 * 1;
                 service.setTimeSleep(timeSleep);
 
                 System.out.println("time: " + timeSleep );
@@ -399,7 +405,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                 if (!MainActivity.openProgram){
 
                                     showNotification(message);
-
                                 }
 
                                 messages.add(message);
