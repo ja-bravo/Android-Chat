@@ -6,12 +6,13 @@ import pymysql
 import json
 from User import  User
 from Message import  Message
+import connection as db
 
 
 class DataBase():
 
     def get_users(self):
-        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM USERS")
 
@@ -33,7 +34,7 @@ class DataBase():
         return users
 
     def get_user(self, ID):
-        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
         cursor = connection.cursor()
         SQL = "SELECT * FROM USERS WHERE ID_USER = %s OR PHONE = %s;"
         SQL = SQL % (str(ID), str(ID))
@@ -52,7 +53,7 @@ class DataBase():
         return user.serialize()
 
     def get_messages(self, ID):
-        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
         cursor = connection.cursor()
 
         #Conseguir último mensaje individual.
@@ -118,7 +119,7 @@ class DataBase():
         return messages
 
     def send_message(self, message):
-        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
         cursor = connection.cursor()
 
         message = json.loads(message)
@@ -129,7 +130,7 @@ class DataBase():
         SQL = """INSERT INTO MESSAGES ( TEXT , DATE_MESSAGE )
 	              VALUES ('%s', sysdate() );
 	              """.replace('\n',' ').replace('\t','')
-        SQL = SQL % str(text)
+        SQL %= str(text)
 
         cursor.execute(SQL)
         connection.commit()
@@ -149,7 +150,7 @@ class DataBase():
         return messageID
 
     def send_message_group(self, message):
-        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
         cursor = connection.cursor()
 
         message = json.loads(message)
@@ -160,7 +161,7 @@ class DataBase():
         SQL = """INSERT INTO MESSAGES ( TEXT , DATE_MESSAGE )
 	              VALUES ('%s', sysdate() );
 	              """.replace('\n',' ').replace('\t','')
-        SQL = SQL % str(text)
+        SQL %= str(text)
 
         cursor.execute(SQL)
         connection.commit()
@@ -197,7 +198,7 @@ class DataBase():
         SQL = """SELECT ID_USER
                  FROM USERS
                  WHERE PHONE = %s""".replace('\n',' ').replace('\t','')
-        SQL = SQL % (str(number))
+        SQL %= str(number)
         cursor.execute(SQL)
 
         ID = cursor._rows[0][0]
@@ -206,13 +207,13 @@ class DataBase():
         return ID
 
     def user_exists(self, phone):
-        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
         cursor = connection.cursor()
 
         SQL = """SELECT COUNT(*)
                  FROM USERS
                  WHERE PHONE = '%s'""".replace('\n',' ').replace('\t','')
-        SQL = SQL % (str(phone))
+        SQL %= str(phone)
 
         cursor.execute(SQL)
 
@@ -222,7 +223,7 @@ class DataBase():
         return result > 0
 
     def get_friends(self,friends):
-        connection = pymysql.connect(host='146.185.155.88', port=3306, user='androiduser', passwd='12345', db='androidchat')
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
         cursor = connection.cursor()
 
         friends = json.loads(friends)
@@ -238,7 +239,7 @@ class DataBase():
             SQL = """SELECT COUNT(*)
                      FROM USERS
                      WHERE PHONE = %s""".replace('\n',' ').replace('\t','')
-            SQL = SQL % (str(phone))
+            SQL %= str(phone)
             SQL = SQL.replace('\u202c','').replace('\u202a','')
 
             try:
@@ -251,7 +252,7 @@ class DataBase():
                 SQL = """SELECT *
                      FROM USERS
                      WHERE PHONE = %s""".replace('\n',' ').replace('\t','')
-                SQL = SQL % (str(phone))
+                SQL %= str(phone)
                 SQL = SQL.replace('\u202c','').replace('\u202a','')
                 cursor.execute(SQL)
 
