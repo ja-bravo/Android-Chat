@@ -184,6 +184,7 @@ public class Actions_DB {
                         cursor.getInt(0), r, cursor.getInt(5), cursor.getInt(4)));
             }
 
+            cursor.close();
             db.close();
         }
 

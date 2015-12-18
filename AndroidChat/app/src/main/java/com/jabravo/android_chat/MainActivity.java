@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     private TextView status;
     private ImageView image;
     public static boolean openProgram;
+    public static int timeSleep;
+    public static int timeSleepStart;
 
     public static DB_Android dataBase;
 
@@ -55,6 +57,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         dataBase  = new DB_Android ( this , "Data Base" , null , 1); // El 1 es la version.
+
+        timeSleepStart = 250;
+        timeSleep = timeSleepStart;
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

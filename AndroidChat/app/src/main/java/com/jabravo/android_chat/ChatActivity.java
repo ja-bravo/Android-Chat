@@ -49,18 +49,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ScrollView scrollView;
     private LinearLayout messagesLayout;
     private ImageView userImage;
-    private int timeSleep;
     private Ringtone ringtone;
     private static PausableThreadPool executor;
-    private Thread threadReceiver;
-    private MessageList messages;
+    private static Thread threadReceiver;
+    private static MessageList messages;
     private User user;
     private Friend friend;
     private static Service service;
-    private int timeSleepMin;
     private static LinkedBlockingQueue<Runnable> queue;
 
-    private int toID;
+    private static int toID;
 
     private static boolean isStarted = false; // no tocar de aqui
 
@@ -88,7 +86,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         changeToolBar();
 
-        messages = new MessageList();
 
         // Esto es para conseguir y hacer que suene el sonido de notificacion.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -100,6 +97,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         if (!isStarted)
         {
+            messages = new MessageList();
+
             queue = new LinkedBlockingQueue<>();
             isStarted = true;
             service = new Service();
@@ -115,10 +114,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             executor = new PausableThreadPool(2,2,10, TimeUnit.SECONDS,queue);
             executor.execute(service);
+
+            threadReceiver = new Thread(Receiver);
+            threadReceiver.start();
+        }
+        else
+        {
+            while (threadReceiver.isAlive())
+            {
+                threadReceiver.interrupt();
+            }
+
+            threadReceiver = new Thread(Receiver);
+            threadReceiver.start();
+
         }
 
-        timeSleepMin = 250;
-        timeSleep = timeSleepMin;
         loadMessageDB();
 
         try
@@ -159,24 +170,28 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause()
     {
-        saveMessagesDB();
         super.onPause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        executor.pause();
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        threadReceiver = new Thread(Receiver);
+    }
 
-        threadReceiver.start();
-        executor.resume();
+    @Override
+    protected void onDestroy()
+    {
+        saveMessagesDB();
+        System.out.println("Estoy en el destroy");
+        toID = 0;
+        super.onDestroy();
+
     }
 
     // Load the messages and the counter when the app changes orientation.
@@ -193,12 +208,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void interrumptThread ()
-    {
-        //service.
-    }
-
-
     public void saveMessagesDB ()
     {
         for (int i = 0 ; i <  messages.size() ; i++)
@@ -212,7 +221,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             Actions_DB.insertMessagePrivate(text, date, read, idFriend, idReceiver);
         }
 
-        messages.clear();
+       messages.clear();
     }
 
 
@@ -220,7 +229,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         List<Message> messagesDB = Actions_DB.loadMessages(toID);
 
-        System.out.println(messagesDB.size());
+        System.out.println("Total mensajes: " + messagesDB.size());
         for (int i = 0 ; i < messagesDB.size() ; i++)
         {
             showMessage(messagesDB.get(i));
@@ -229,7 +238,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void showMessage(Message message)
+    private void showMessage(Message message)
     {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -237,21 +246,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         params.setMargins(0, 0, 0, 20);
 
-        TextView textView = new TextView(this);
+        TextView textView = new TextView(ChatActivity.this);
 
         textView.setText(message.getText());
+
 
         if (message.getReceiver() != user.getID())
         {
             params.gravity = Gravity.RIGHT;
-
             textView.setBackgroundResource(R.drawable.message_1);
         }
         else
         {
-            ringtone.play();
             params.gravity = Gravity.LEFT;
-
             textView.setBackgroundResource(R.drawable.message_2);
         }
 
@@ -318,21 +325,21 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             int timeMax = 1000 * 60 * 1;
 
-            while (!MainActivity.openProgram && timeMax > timeSleep)
+            while (!MainActivity.openProgram && timeMax > MainActivity.timeSleep)
             {
-                timeSleep += 500 * 1;
-                service.setTimeSleep(timeSleep);
+                MainActivity.timeSleep += 500 * 1;
+                service.setTimeSleep(MainActivity.timeSleep);
 
-                System.out.println("time: " + timeSleep );
+                System.out.println("time: " + MainActivity.timeSleep );
 
                 try {
-                    Thread.sleep(timeSleep);
+                    Thread.sleep(MainActivity.timeSleep);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
 
-            service.setTimeSleep(timeSleepMin);
+            service.setTimeSleep(MainActivity.timeSleepStart);
         }
     };
 
@@ -389,25 +396,29 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void run()
                         {
-
                             Log.i("pruebas", String.valueOf(service.getBuffer().size()));
                             Iterator<Message> it = service.getBuffer().iterator();
                             while(it.hasNext())
                             {
                                 Message message = it.next();
                                 Log.i("pruebas", String.valueOf(message.getIdFriend() + "-" + toID));
+                                messages.add(message);
 
                                 if(message.getIdFriend() == toID)
                                 {
                                     showMessage(message);
+                                    ringtone.play();
+                                }
+                                else
+                                {
+                                    saveMessagesDB();
                                 }
 
-                                if (!MainActivity.openProgram){
-
+                                if (!MainActivity.openProgram || message.getIdFriend() != toID)
+                                {
                                     showNotification(message);
                                 }
 
-                                messages.add(message);
                                 it.remove();
                             }
                         }
@@ -415,16 +426,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 try
                 {
-                    Thread.sleep(timeSleep);
+                    Thread.sleep(MainActivity.timeSleep);
                 }
                 catch (InterruptedException e)
                 {
                     e.printStackTrace();
                 }
 
-                if (!MainActivity.openProgram && timeSleep == timeSleepMin)
+                if (!MainActivity.openProgram && MainActivity.timeSleep == MainActivity.timeSleepStart)
                 {
-                    timeSleep++;
+                    MainActivity.timeSleep++;
                     Thread threadOutTime = new Thread (runThreadTimeOut);
                     threadOutTime.start();
                 }
