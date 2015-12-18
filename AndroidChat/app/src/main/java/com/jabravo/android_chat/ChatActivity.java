@@ -44,7 +44,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener
 {
-
     private ImageButton sendButton;
     private EditText keyboard;
     private ScrollView scrollView;
@@ -75,7 +74,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         user = User.getInstance();
         friend = user.getFriendsHashMap().get(String.valueOf(toID));
 
-
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,9 +101,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         if (!isStarted)
         {
             queue = new LinkedBlockingQueue<>();
-
             isStarted = true;
-
             service = new Service();
 
             try
@@ -124,6 +120,23 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         timeSleepMin = 250;
         timeSleep = timeSleepMin;
         loadMessageDB();
+
+        try
+        {
+            // This scrolls the ScrollView after the message has been added
+            scrollView.post(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    scrollView.fullScroll(View.FOCUS_DOWN);
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
