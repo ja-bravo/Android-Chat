@@ -91,3 +91,5 @@ proguard/
 # Android Studio captures folder
 captures/
 PythonAPI/connection.py
+
+*.sh
