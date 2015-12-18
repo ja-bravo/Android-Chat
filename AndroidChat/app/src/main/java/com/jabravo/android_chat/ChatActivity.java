@@ -97,6 +97,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         if (!isStarted)
         {
+            // Si es la primera vez que entro, lo inicializo todo y asi evito que se creen varias veces y pasen las cosas raras
+
             messages = new MessageList();
 
             queue = new LinkedBlockingQueue<>();
@@ -120,6 +122,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
         else
         {
+            // Si no es la primera vez que entro, me tengo que cargar este hilo para rehacerlo,
+            // porque el que era su hilo principal, ya no es el hilo principal que ha creado esta nueva interfaz.
+            // asi evito el problema de que no me salieran los mensajes que recibia..
+
             while (threadReceiver.isAlive())
             {
                 threadReceiver.interrupt();
@@ -404,8 +410,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                 Log.i("pruebas", String.valueOf(message.getIdFriend() + "-" + toID));
                                 messages.add(message);
 
-                                if(message.getIdFriend() == toID)
-                                {
+                                if(message.getIdFriend() == toID) {
                                     showMessage(message);
                                     ringtone.play();
                                 }
