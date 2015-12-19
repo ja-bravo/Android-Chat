@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -208,6 +207,9 @@ public class User
                         String fNumber = String.valueOf(row.getInt("PHONE"));
                         String fStatus = row.getString("STATUS");
                         String fImage = row.getString("USER_IMAGE");
+
+                        // Para que siempre salga la primera letra en mayuscula
+                        fNick = String.valueOf(fNick.charAt(0)).toUpperCase() + fNick.substring(1);
 
                         friends.put(fID,new Friend(fID,fNumber, fStatus, fImage, fNick));
                     }

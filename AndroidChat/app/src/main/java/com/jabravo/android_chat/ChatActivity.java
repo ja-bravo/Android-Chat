@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -197,7 +198,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         System.out.println("Estoy en el destroy");
         toID = 0;
         super.onDestroy();
-
     }
 
     // Load the messages and the counter when the app changes orientation.
@@ -254,19 +254,26 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView textView = new TextView(ChatActivity.this);
 
-        textView.setText(message.getText());
-
+        String nameSender;
 
         if (message.getReceiver() != user.getID())
         {
             params.gravity = Gravity.RIGHT;
             textView.setBackgroundResource(R.drawable.message_1);
+
+            nameSender = user.getNick();
         }
         else
         {
             params.gravity = Gravity.LEFT;
             textView.setBackgroundResource(R.drawable.message_2);
+
+            nameSender = User.getInstance().getFriendsHashMap().get(String.valueOf(message.getIdFriend())).getNick();
         }
+
+        String text = "<font color=#161F89><small><b>"+nameSender+":"+"</b></small></font><br/>" +message.getText();
+
+        textView.setText(Html.fromHtml(text));
 
         textView.setLayoutParams(params);
         messagesLayout.addView(textView);
