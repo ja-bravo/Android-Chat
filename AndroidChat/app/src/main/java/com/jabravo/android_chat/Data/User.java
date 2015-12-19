@@ -129,8 +129,19 @@ public class User
             {
                 phone = phone.replace(" ", "");
             }
-            friends.put(phone,new Friend(phone));
+
+            if (isNumeric(phone)) {
+                friends.put(phone, new Friend(phone));
+            }
         }
+    }
+
+    public static boolean isNumeric (String n )
+    {
+        if (n.matches("[0-9]*"))
+            return true;
+        else
+            return false;
     }
 
     public List<Friend> getFriends()
@@ -162,6 +173,8 @@ public class User
 
     public void updateFriends()
     {
+        System.out.println("actualizando");
+
         final StringBuffer response = new StringBuffer();
         Thread thread = new Thread(new Runnable()
         {
@@ -198,6 +211,9 @@ public class User
 
                     JSONObject jsonResponse = new JSONObject(response.toString().replace("\\",""));
                     JSONArray array = jsonResponse.getJSONArray("friends");
+
+                    System.out.println("me devuelve: " + array.toString());
+
                     for(int i = 0; i < array.length(); i++)
                     {
                         JSONObject row = array.getJSONObject(i).getJSONObject("friend");
@@ -214,7 +230,10 @@ public class User
                         friends.put(fID,new Friend(fID,fNumber, fStatus, fImage, fNick));
                     }
                 }
-                catch(Exception e) {e.printStackTrace();}
+                catch(Exception e) {e.printStackTrace();
+
+                    System.out.println("pete al actualizar: " + e);
+                }
             }
         });
         thread.start();

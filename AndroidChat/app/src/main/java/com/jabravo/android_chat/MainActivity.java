@@ -234,14 +234,18 @@ public class MainActivity extends AppCompatActivity
             cursor = getContentResolver().query(Phone.CONTENT_URI, null, null, null, null);
             int phoneNumberIdx = cursor.getColumnIndex(Phone.NUMBER);
 
+            System.out.println("Entro a leer" );
+
             cursor.moveToFirst();
             do
             {
                 String phoneNumber = cursor.getString(phoneNumberIdx);
 
+                System.out.println("numeros de telefono: " + phoneNumber );
+
                 User.getInstance().addFriend(phoneNumber);
-            }
-            while (cursor.moveToNext());
+            } while (cursor.moveToNext());
+
             User.getInstance().updateFriends();
         }
         catch (Exception e)
