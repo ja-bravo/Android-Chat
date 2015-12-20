@@ -2,6 +2,7 @@ package com.jabravo.android_chat.Services;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
@@ -28,12 +29,12 @@ public class Sender extends AsyncTask<String, Integer, Void>
             String fromID = params[2];
 
             JSONObject message = new JSONObject();
-            message.put("to",toID);
-            message.put("from",fromID);
-            message.put("text",text);
+            message.put("to", toID);
+            message.put("from", fromID);
+            message.put("text", text);
 
-            String json = URLEncoder.encode(message.toString(), "ISO-8859-9").replaceAll("\\+","%20");
-            URL url = new URL("http://146.185.155.88:8080/api/post/message/"+ json);
+            String json = URLEncoder.encode(message.toString(), "ISO-8859-9").replaceAll("\\+", "%20");
+            URL url = new URL("http://146.185.155.88:8080/api/post/message/" + json);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");

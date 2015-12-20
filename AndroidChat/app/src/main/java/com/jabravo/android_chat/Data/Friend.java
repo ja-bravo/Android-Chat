@@ -6,6 +6,7 @@ package com.jabravo.android_chat.Data;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import com.jabravo.android_chat.MainActivity;
 
 import java.util.ArrayList;
@@ -93,9 +94,13 @@ public class Friend
                 boolean r;
 
                 if (cursor.getString(3).toLowerCase().equals("true"))
+                {
                     r = true;
+                }
                 else
+                {
                     r = false;
+                }
 
                 messages.add(new Message(cursor.getString(2), cursor.getString(1),
                         cursor.getInt(0), r, cursor.getInt(4), cursor.getInt(5)));

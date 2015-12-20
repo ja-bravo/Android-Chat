@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:chat="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_save"
+          chat:showAsAction="withText"
+          android:icon="@drawable/common_google_signin_btn_icon_dark_focused"
+          android:title="@string/attach_location"/>
+</menu>

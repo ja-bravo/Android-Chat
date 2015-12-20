@@ -29,18 +29,21 @@ public class Conversation
             if (group.getMessages().size() != 0)
             {
                 show = true;
-            } else
+            }
+            else
             {
                 show = false;
             }
-        } else
+        }
+        else
         {
             friend = new Friend(idFiendOrGroup);
 
             if (friend.getMessages().size() != 0)
             {
                 show = true;
-            } else
+            }
+            else
             {
                 show = false;
             }

@@ -36,10 +36,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-                   ChatsListFragment.OnFragmentInteractionListener, View.OnClickListener
+        ChatsListFragment.OnFragmentInteractionListener, View.OnClickListener
 {
 
-    private  NavigationView navigationView;
+    private NavigationView navigationView;
 
     private View view;
     private TextView name;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
 
-        dataBase  = new DB_Android ( this , "Data Base" , null , 1); // El 1 es la version.
+        dataBase = new DB_Android(this, "Data Base", null, 1); // El 1 es la version.
 
         timeSleepStart = 250;
         timeSleep = timeSleepStart;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
 
         loadUserData();
         loadContacts();
-        insertFriendsDB ();
+        insertFriendsDB();
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -94,24 +94,25 @@ public class MainActivity extends AppCompatActivity
 
         openProgram = true;
         System.out.println("abierto");
+
     }
 
 
-
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
         openProgram = false;
         System.out.println("cerrado");
     }
 
 
-
     @Override
     public void onBackPressed()
     {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START))
+        {
             drawer.closeDrawer(GravityCompat.START);
         }
         else
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_settings:
-                intent = new Intent(this,Preferences.class);
+                intent = new Intent(this, Preferences.class);
                 startActivity(intent);
                 break;
         }
@@ -174,30 +175,30 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void insertFriendsDB ()
+    private void insertFriendsDB()
     {
         List<Friend> listDbAndroid = Actions_DB.getAllFriends();
         List<Friend> list = User.getInstance().getFriends();
 
-        for ( int i = 0 ; i < list.size() ; i++)
+        for (int i = 0; i < list.size(); i++)
         {
             String phone1 = list.get(i).getPhone();
 
-            for (int j = 0 ; j < listDbAndroid.size() ; j++ )
+            for (int j = 0; j < listDbAndroid.size(); j++)
             {
                 String phone2 = listDbAndroid.get(j).getPhone();
 
                 System.out.println("id: " + String.valueOf(list.get(i)));
                 System.out.println("nick: " + list.get(i).getNick());
 
-                if ( !phone1.equals(phone2) )
+                if (!phone1.equals(phone2))
                 {
                     String id = String.valueOf(list.get(i).getId());
                     String status = list.get(i).getStatus();
                     String image = list.get(i).getImage();
                     String nick = list.get(i).getNick();
 
-                    Actions_DB.insertFriend(id , phone1 , status , image , nick);
+                    Actions_DB.insertFriend(id, phone1, status, image, nick);
                 }
             }
         }
@@ -210,20 +211,20 @@ public class MainActivity extends AppCompatActivity
         User user = User.getInstance(getBaseContext());
         user.setID(prefs.getInt("ID", -1));
 
-        if(nick.equals(""))
+        if (nick.equals(""))
         {
-            Intent intent = new Intent(this,StartUpActivity.class);
+            Intent intent = new Intent(this, StartUpActivity.class);
             startActivity(intent);
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        user.setNick(preferences.getString("username",""));
+        user.setNick(preferences.getString("username", ""));
         user.setNumber(preferences.getString("numberPhone", ""));
         user.setStatus(preferences.getString("status", ""));
 
         name.setText(user.getNick());
         status.setText(user.getStatus());
-        image.setImageURI(Uri.parse(preferences.getString("image","")));
+        image.setImageURI(Uri.parse(preferences.getString("image", "")));
     }
 
     private void loadContacts()
@@ -234,17 +235,18 @@ public class MainActivity extends AppCompatActivity
             cursor = getContentResolver().query(Phone.CONTENT_URI, null, null, null, null);
             int phoneNumberIdx = cursor.getColumnIndex(Phone.NUMBER);
 
-            System.out.println("Entro a leer" );
+            System.out.println("Entro a leer");
 
             cursor.moveToFirst();
             do
             {
                 String phoneNumber = cursor.getString(phoneNumberIdx);
 
-                System.out.println("numeros de telefono: " + phoneNumber );
+                System.out.println("numeros de telefono: " + phoneNumber);
 
                 User.getInstance().addFriend(phoneNumber);
-            } while (cursor.moveToNext());
+            }
+            while (cursor.moveToNext());
 
             User.getInstance().updateFriends();
         }
@@ -275,14 +277,14 @@ public class MainActivity extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        if(resultCode == RESULT_OK)
+        if (resultCode == RESULT_OK)
         {
             image.setImageURI(imageReturnedIntent.getData());
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putString("image", imageReturnedIntent.getDataString()).apply();
 
-            Log.i("image",prefs.getString("image",""));
+            Log.i("image", prefs.getString("image", ""));
         }
     }
 }

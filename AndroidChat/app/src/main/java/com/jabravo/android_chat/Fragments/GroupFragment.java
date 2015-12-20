@@ -83,7 +83,7 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
         Bundle bundle = new Bundle();
-        bundle.putInt("toID",contacts.get(position).getId());
+        bundle.putInt("toID", contacts.get(position).getId());
 
         Intent intent = new Intent(getActivity(), ChatActivity.class);
         intent.putExtras(bundle);

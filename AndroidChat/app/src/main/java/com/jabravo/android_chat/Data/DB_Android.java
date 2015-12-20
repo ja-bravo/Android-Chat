@@ -11,10 +11,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Josewer on 15/11/2015.
  */
-public class DB_Android extends SQLiteOpenHelper {
+public class DB_Android extends SQLiteOpenHelper
+{
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
 
         String createTableFriends =
                 "CREATE TABLE FRIENDS " +
@@ -51,7 +53,7 @@ public class DB_Android extends SQLiteOpenHelper {
                         " );";
 
 
-        String createTableSendMessagesPrivate=
+        String createTableSendMessagesPrivate =
                 "CREATE TABLE SEND_MESSAGES_PRIVATE " +
                         " ( " +
                         " ID_MESSAGE INT NOT NULL ," +
@@ -68,7 +70,7 @@ public class DB_Android extends SQLiteOpenHelper {
                         " );";
 
 
-        String createTableSendMessagesGroup=
+        String createTableSendMessagesGroup =
                 " CREATE TABLE SEND_MESSAGES_GROUP " +
                         " ( " +
                         " ID_MESSAGE INT NOT NULL , " +
@@ -94,11 +96,13 @@ public class DB_Android extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
 
     }
 
-    public DB_Android(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DB_Android(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
+    {
         super(context, name, factory, version);
     }
 }

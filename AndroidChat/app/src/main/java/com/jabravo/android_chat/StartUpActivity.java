@@ -16,8 +16,6 @@ import com.jabravo.android_chat.Services.UserService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-
 public class StartUpActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener
 {
     private EditText phone1, phone2, nick;
@@ -52,27 +50,27 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v)
     {
-        if(option.isChecked())
+        if (option.isChecked())
         {
-            if(isValid(phone1.getText().toString()))
+            if (isValid(phone1.getText().toString()))
             {
                 loadOrCreateUser();
             }
             else
             {
-                Toast.makeText(this,getResources().getString(R.string.incorrect_number),Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.incorrect_number), Toast.LENGTH_LONG).show();
             }
         }
         else
         {
-            if(isValid(phone1.getText().toString()) &&
+            if (isValid(phone1.getText().toString()) &&
                     isValid(phone2.getText().toString()))
             {
                 loadOrCreateUser();
             }
             else
             {
-                Toast.makeText(this,getResources().getString(R.string.incorrect_number),Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.incorrect_number), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -85,7 +83,7 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
 
     private void loadOrCreateUser()
     {
-        if(service.phoneExists(phone1.getText().toString()))
+        if (service.phoneExists(phone1.getText().toString()))
         {
             loadUserData();
         }
@@ -100,7 +98,7 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
     {
         try
         {
-            service.insertUser(nick.getText().toString(),phone1.getText().toString());
+            service.insertUser(nick.getText().toString(), phone1.getText().toString());
             loadUserData();
         }
         catch (Exception e)
@@ -136,7 +134,7 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
-        if(isChecked)
+        if (isChecked)
         {
             textNick.setVisibility(View.INVISIBLE);
             textRepeatPhone.setVisibility(View.INVISIBLE);

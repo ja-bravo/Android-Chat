@@ -11,32 +11,31 @@ import java.util.List;
 /**
  * Created by Josewer on 15/12/2015.
  */
-public class Actions_DB {
+public class Actions_DB
+{
 
-    public static void insertFriend (String id, String phone, String status, String image, String nick)
+    public static void insertFriend(String id, String phone, String status, String image, String nick)
     {
         SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
-
         if (db != null)
         {
             String sql = "INSERT INTO FRIENDS (ID_FRIEND , NICK , STATUS , PHONE, IMAGE ) " +
                     "VALUES ( '<ID_FRIEND>' , '<NICK>' , '<STATUS>' , '<PHONE>' , '<IMAGE>' );";
 
             sql = sql
-                    .replace("<ID_FRIEND>" , id)
+                    .replace("<ID_FRIEND>", id)
                     .replace("<NICK>", nick)
-                    .replace("<STATUS>" , status)
-                    .replace("<PHONE>" , phone)
-                    .replace("<IMAGE>" , image);
+                    .replace("<STATUS>", status)
+                    .replace("<PHONE>", phone)
+                    .replace("<IMAGE>", image);
 
             db.execSQL(sql);
-
             db.close();
         }
     }
 
 
-    private static int insertMessage (String text, String date , boolean read)
+    private static int insertMessage(String text, String date, boolean read)
     {
         SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
         int id = -1;
@@ -54,8 +53,8 @@ public class Actions_DB {
             db.execSQL(sql);
 
             sql = "SELECT MAX(ID_MESSAGE) AS ID FROM MESSAGES;";
-            String [] m = {};
-            Cursor c = db.rawQuery(sql , m);
+            String[] m = {};
+            Cursor c = db.rawQuery(sql, m);
 
             String t = "";
             c.moveToNext();
@@ -70,17 +69,19 @@ public class Actions_DB {
     }
 
 
-    public static void insertMessagePrivate (String text, String date , boolean read
-            , int idFriend , int idReceiver)
+    public static void insertMessagePrivate(String text, String date, boolean read
+            , int idFriend, int idReceiver)
     {
         int idMessage = insertMessage(text, date, read);
 
         System.out.println("id Priend " + idFriend);
 
-        if (idMessage != -1) {
+        if (idMessage != -1)
+        {
             SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
 
-            if (db != null) {
+            if (db != null)
+            {
                 String sql = "INSERT INTO SEND_MESSAGES_PRIVATE (ID_MESSAGE , ID_FRIEND , ID_RECEIVER ) " +
                         "VALUES ( <ID_MESSAGE> , <ID_FRIEND> , <ID_RECEIVER> );";
 
@@ -97,15 +98,17 @@ public class Actions_DB {
     }
 
 
-    public static void insertMessageGroup (String text, String date , boolean read
-            , int idGroup , int idFriend)
+    public static void insertMessageGroup(String text, String date, boolean read
+            , int idGroup, int idFriend)
     {
         int idMessage = insertMessage(text, date, read);
 
-        if (idMessage != -1) {
+        if (idMessage != -1)
+        {
             SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
 
-            if (db != null) {
+            if (db != null)
+            {
                 String sql = "INSERT INTO SEND_MESSAGES_GROUP (ID_MESSAGE , ID_GROUP , ID_FRIEND ) " +
                         "VALUES ( <ID_MESSAGE> , <ID_GROUP> , <ID_FRIEND> );";
 
@@ -122,7 +125,7 @@ public class Actions_DB {
     }
 
 
-    public static List<Friend> getAllFriends ()
+    public static List<Friend> getAllFriends()
     {
         List<Friend> l = new ArrayList<>();
 
@@ -142,7 +145,7 @@ public class Actions_DB {
                 String image = cursor.getString(3);
                 String nick = cursor.getString(4);
 
-                l.add(new Friend( id, phone, status, image, nick));
+                l.add(new Friend(id, phone, status, image, nick));
             }
 
             cursor.close();
@@ -152,7 +155,7 @@ public class Actions_DB {
     }
 
 
-    public static List<Message> loadMessages ( int idFriend )
+    public static List<Message> loadMessages(int idFriend)
     {
         SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
         List<Message> messages = new ArrayList<>();
@@ -167,7 +170,7 @@ public class Actions_DB {
                     " MESSAGES.ID_MESSAGE = SEND_MESSAGES_PRIVATE.ID_MESSAGE AND " +
                     " SEND_MESSAGES_PRIVATE.ID_FRIEND =? ;";
 
-            
+
             String[] m = {String.valueOf(idFriend)};
             Cursor cursor = db.rawQuery(sql, m);
 
@@ -176,9 +179,13 @@ public class Actions_DB {
                 boolean r;
 
                 if (cursor.getString(3).toLowerCase().equals("true"))
+                {
                     r = true;
+                }
                 else
+                {
                     r = false;
+                }
 
                 messages.add(new Message(cursor.getString(2), cursor.getString(1),
                         cursor.getInt(0), r, cursor.getInt(5), cursor.getInt(4)));
