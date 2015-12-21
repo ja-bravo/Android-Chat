@@ -1,10 +1,15 @@
 package com.jabravo.android_chat;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -12,6 +17,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
@@ -22,12 +28,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.support.v7.widget.PopupMenu;
-
-
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.jabravo.android_chat.Data.Actions_DB;
 import com.jabravo.android_chat.Data.Friend;
 import com.jabravo.android_chat.Data.Message;
@@ -36,6 +44,9 @@ import com.jabravo.android_chat.Data.PausableThreadPool;
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,7 +58,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 
-public class ChatActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener,
+        PopupMenu.OnMenuItemClickListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LocationListener
 {
     private ImageButton sendButton;
     private EditText keyboard;
@@ -72,6 +85,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private PopupMenu popupMenu;
 
+    private GoogleApiClient mGoogleApiClient;
+    private Location location;
+    private LocationRequest locationRequest;
+    private LocationManager locationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -80,6 +98,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+
+        locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(20000)
+                .setFastestInterval(10000);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         toID = getIntent().getExtras().getInt("toID");
         user = User.getInstance();
         friend = user.getFriendsHashMap().get(String.valueOf(toID));
@@ -183,6 +213,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause()
     {
+        if (mGoogleApiClient.isConnected())
+        {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            mGoogleApiClient.disconnect();
+        }
         super.onPause();
     }
 
@@ -195,6 +230,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume()
     {
+        mGoogleApiClient.connect();
         super.onResume();
     }
 
@@ -472,6 +508,83 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onMenuItemClick(MenuItem item)
     {
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            Calendar cal = new GregorianCalendar();
+            Date date = cal.getTime();
+
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String dateFormat = df.format(date);
+
+            try
+            {
+                JSONObject position = new JSONObject();
+                position.put("latitude",location.getLatitude());
+                position.put("longitude",location.getLongitude());
+
+                Message message = new Message("MAP"+position.toString(), dateFormat, true, toID, toID);
+                messages.add(message);
+
+                sendMessage(message.getText());
+                showMessage(message);
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+        else
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getResources().getString(R.string.gps_off))
+                    .setCancelable(false)
+                    .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(final DialogInterface dialog, final int id)
+                        {
+                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(final DialogInterface dialog, final int id)
+                        {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+
+        }
+
         return false;
+    }
+
+    @Override
+    public void onConnected(Bundle bundle)
+    {
+        location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (location == null)
+        {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i)
+    {
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult)
+    {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location)
+    {
+        this.location = location;
     }
 }
