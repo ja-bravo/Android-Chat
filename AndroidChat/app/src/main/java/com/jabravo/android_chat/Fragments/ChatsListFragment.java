@@ -53,7 +53,8 @@ public class ChatsListFragment extends Fragment
 
     public void onButtonPressed(Uri uri)
     {
-        if (mListener != null) {
+        if (mListener != null)
+        {
             mListener.onFragmentInteraction(uri);
         }
     }

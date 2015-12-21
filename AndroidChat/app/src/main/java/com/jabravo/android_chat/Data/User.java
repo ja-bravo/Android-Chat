@@ -29,7 +29,7 @@ public class User
     private String number;
     private String status;
     private String nick;
-    private HashMap<String,Friend> friends;
+    private HashMap<String, Friend> friends;
 
     private Context context;
 
@@ -54,9 +54,9 @@ public class User
 
     public static User getInstance()
     {
-        if(user == null)
+        if (user == null)
         {
-            user = new User(-1,"1","1","1");
+            user = new User(-1, "1", "1", "1");
         }
 
         return user;
@@ -64,9 +64,9 @@ public class User
 
     public static User getInstance(Context context)
     {
-        if(user == null)
+        if (user == null)
         {
-            user = new User(-1,"1","1","1",context);
+            user = new User(-1, "1", "1", "1", context);
         }
         return user;
     }
@@ -114,34 +114,39 @@ public class User
     public void updatePreferences()
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefs.edit().putString("username",nick).apply();
-        prefs.edit().putString("numberPhone",number).apply();
-        prefs.edit().putString("status",status).apply();
+        prefs.edit().putString("username", nick).apply();
+        prefs.edit().putString("numberPhone", number).apply();
+        prefs.edit().putString("status", status).apply();
         prefs.edit().putInt("ID", ID).apply();
     }
 
     public void addFriend(String phone)
     {
-        if(!friends.containsKey(phone))
+        if (!friends.containsKey(phone))
         {
-            phone = phone.replace("+34","");
-            while(phone.contains(" "))
+            phone = phone.replace("+34", "");
+            while (phone.contains(" "))
             {
                 phone = phone.replace(" ", "");
             }
 
-            if (isNumeric(phone)) {
+            if (isNumeric(phone))
+            {
                 friends.put(phone, new Friend(phone));
             }
         }
     }
 
-    public static boolean isNumeric (String n )
+    public static boolean isNumeric(String n)
     {
         if (n.matches("[0-9]*"))
+        {
             return true;
+        }
         else
+        {
             return false;
+        }
     }
 
     public List<Friend> getFriends()
@@ -149,7 +154,7 @@ public class User
         return new ArrayList<>(friends.values());
     }
 
-    public HashMap<String,Friend> getFriendsHashMap()
+    public HashMap<String, Friend> getFriendsHashMap()
     {
         return friends;
     }
@@ -200,7 +205,7 @@ public class User
                     con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                     con.setDoOutput(false);
 
-                    BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()));
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
                     String inputLine;
                     while ((inputLine = in.readLine()) != null)
@@ -209,12 +214,12 @@ public class User
                     }
                     in.close();
 
-                    JSONObject jsonResponse = new JSONObject(response.toString().replace("\\",""));
+                    JSONObject jsonResponse = new JSONObject(response.toString().replace("\\", ""));
                     JSONArray array = jsonResponse.getJSONArray("friends");
 
                     System.out.println("me devuelve: " + array.toString());
 
-                    for(int i = 0; i < array.length(); i++)
+                    for (int i = 0; i < array.length(); i++)
                     {
                         JSONObject row = array.getJSONObject(i).getJSONObject("friend");
 
@@ -227,10 +232,12 @@ public class User
                         // Para que siempre salga la primera letra en mayuscula
                         fNick = String.valueOf(fNick.charAt(0)).toUpperCase() + fNick.substring(1);
 
-                        friends.put(fID,new Friend(fID,fNumber, fStatus, fImage, fNick));
+                        friends.put(fID, new Friend(fID, fNumber, fStatus, fImage, fNick));
                     }
                 }
-                catch(Exception e) {e.printStackTrace();
+                catch (Exception e)
+                {
+                    e.printStackTrace();
 
                     System.out.println("pete al actualizar: " + e);
                 }
@@ -241,15 +248,16 @@ public class User
         try
         {
             thread.join();
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
 
-        for(Iterator<Map.Entry<String, Friend>> it = friends.entrySet().iterator(); it.hasNext(); )
+        for (Iterator<Map.Entry<String, Friend>> it = friends.entrySet().iterator(); it.hasNext(); )
         {
             Map.Entry<String, Friend> entry = it.next();
-            if(entry.getValue().getId() == -1 || entry.getValue().getPhone().equals(User.getInstance().getNumber()))
+            if (entry.getValue().getId() == -1 || entry.getValue().getPhone().equals(User.getInstance().getNumber()))
             {
                 it.remove();
             }

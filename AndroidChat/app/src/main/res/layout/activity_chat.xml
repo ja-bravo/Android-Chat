@@ -21,11 +21,31 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:src="@android:drawable/sym_def_app_icon"
-                    android:id="@+id/chat_user_image"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:src="@android:drawable/sym_def_app_icon"
+                android:id="@+id/chat_user_image"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chat_user_name"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:maxWidth="250dp"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_attach"
+                android:cropToPadding="false"
+                android:clickable="true"
+                android:layout_marginRight="10dp"
+                android:minHeight="80dp"
+                android:minWidth="40dp"
+                android:id="@+id/chat_attach"/>
 
         </android.support.v7.widget.Toolbar>
 

@@ -81,7 +81,7 @@ public class Service implements Runnable
 
             //Mostramos la respuesta del servidor por consola
             Log.i("service", "Response Code : " + responseCode);
-            Log.i("service","Respuesta del servidor: " + response);
+            Log.i("service", "Respuesta del servidor: " + response);
             System.out.println("Response Code : " + responseCode);
             System.out.println("Respuesta del servidor: " + response);
 
@@ -95,7 +95,7 @@ public class Service implements Runnable
         return response.toString();
     }
 
-    public void setTimeSleep (int timeSleep)
+    public void setTimeSleep(int timeSleep)
     {
         this.timeSleep = timeSleep;
     }
@@ -111,7 +111,10 @@ public class Service implements Runnable
                 showJSON(getMessage());
                 Thread.sleep(timeSleep);
             }
-            catch (Exception e)  { e.printStackTrace(); }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -132,7 +135,7 @@ public class Service implements Runnable
             boolean isGroup = messageJSON.getInt("ID_GROUP") != 0;
             boolean read = true;
 
-            System.out.println("idfriend: " + idFriend );
+            System.out.println("idfriend: " + idFriend);
 
 
             buffer.add(new Message(text, idFriend, receiver));

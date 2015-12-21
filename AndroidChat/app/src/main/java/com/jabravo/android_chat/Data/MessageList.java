@@ -39,7 +39,7 @@ public class MessageList extends ArrayList<Message> implements Parcelable
             int sender = in.readInt();
             int receiver = in.readInt();
 
-            Message message = new Message(text,date,id,read,sender,receiver);
+            Message message = new Message(text, date, id, read, sender, receiver);
             this.add(message);
         }
     }

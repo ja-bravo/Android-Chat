@@ -43,7 +43,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/chat_keyboard"
             android:layout_weight="90"
-            android:hint="@string/chat_hint"/>
+            android:hint="@string/chat_hint"
+            android:inputType="textCapSentences|textAutoCorrect"/>
 
         <ImageButton
             android:layout_width="wrap_content"

@@ -26,7 +26,10 @@ public class PausableThreadPool extends ThreadPoolExecutor
         pauseLock.lock();
         try
         {
-            while (isPaused) unpaused.await();
+            while (isPaused)
+            {
+                unpaused.await();
+            }
         }
         catch (InterruptedException ie)
         {
