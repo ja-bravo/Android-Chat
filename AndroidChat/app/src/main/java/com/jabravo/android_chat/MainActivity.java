@@ -6,17 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +34,9 @@ import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Fragments.ContactsFragment;
 import com.jabravo.android_chat.Fragments.WelcomeFragment;
+import com.jabravo.android_chat.Services.UploadImage;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     public static boolean openProgram;
     public static int timeSleep;
     public static int timeSleepStart;
+    Bitmap photobmp;
 
     public static DB_Android dataBase;
 
@@ -275,14 +282,51 @@ public class MainActivity extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        if(resultCode == RESULT_OK)
-        {
-            image.setImageURI(imageReturnedIntent.getData());
+        if ( resultCode == RESULT_OK) {
+            Uri selectedImageUri = imageReturnedIntent.getData();
+
+            String pathReal = getRealPathFromURI(selectedImageUri);
+
+            photobmp = BitmapFactory.decodeFile(pathReal);
+
+            image.setImageBitmap(photobmp);
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putString("image", imageReturnedIntent.getDataString()).apply();
 
-            Log.i("image",prefs.getString("image",""));
+            Log.i("image", prefs.getString("image", ""));
+
+            // Al cambiar la imagen, la subo.
+            uploadImage ();
+        }
+    }
+
+    public void uploadImage ()
+    {
+        //Codifica la imagen con Base64
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        photobmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+        //Se ejecuta en segundo plano para no colgar la aplicacion
+        new UploadImage(MainActivity.this).execute(encodedImage);
+
+    }
+
+    // COn esta funcion saco la ruta real de donde esta la imagen.
+    private String getRealPathFromURI(Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = getApplicationContext().getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
     }
 }
