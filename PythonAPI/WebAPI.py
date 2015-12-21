@@ -40,5 +40,9 @@ def user_exists(phone):
 def get_friends(friendList):
     return jsonify({'friends': db.get_friends(friendList)})
 
+@app.route("/api/post/user/update/<json>", methods=['GET','POST'])
+def update_image(json):
+    return jsonify({'result': db.update_image(json)})
+
 if __name__ == "__main__":
     app.run(host='146.185.155.88', port=8080)

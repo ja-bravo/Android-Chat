@@ -269,3 +269,26 @@ class DataBase():
         connection.close()
         return my_friends
 
+    def update_image(self, input):
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
+        cursor = connection.cursor()
+
+        input = json.loads(input)
+
+        path = input["PATH"]
+        id = input["ID"]
+
+        SQL = """UPDATE USERS
+                 SET USER_IMAGE = '%s'
+                 WHERE ID_USER = %s""".replace('\n',' ').replace('\t','')
+        SQL = SQL % (str(path),str(id))
+
+        try:
+            cursor.execute(SQL)
+            connection.commit()
+        except:
+            return "Error"
+        cursor.close()
+        connection.close()
+
+        return "OK"
