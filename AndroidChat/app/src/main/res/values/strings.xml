@@ -51,10 +51,9 @@
     <string name="attach">Attach</string>
     <string name="gps_off">Your GPS seems to be disabled, do you want to enable it?</string>
     <string name="yes">Yes</string>
-    
+    <string name="gps_disabled">Can not connect to GPS.</string>
+
     <string name="contacts">My contacts</string>
     <string name="title_activity_chat">Chat Activity</string>
     <string name="title_activity_maps">Map</string>
-
-
 </resources>
