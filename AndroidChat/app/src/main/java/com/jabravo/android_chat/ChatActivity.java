@@ -89,14 +89,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private Friend friend;
     private static Service service;
     private static LinkedBlockingQueue<Runnable> queue;
-    private Message messageLoad;
 
     private static int toID;
 
     private static boolean isStarted = false; // no tocar de aqui
 
     private PopupMenu popupMenu;
-    private Thread threadLoadMessages;
 
     private GoogleApiClient mGoogleApiClient;
     private Location location;
@@ -187,8 +185,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             threadReceiver.start();
         }
 
-        threadLoadMessages = new Thread(loadDBMessages) ;
-        threadLoadMessages.start();
+        loadDBMessages();
 
         try
         {
@@ -254,15 +251,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy()
     {
         saveDBMessages();
-
-        if (threadLoadMessages.isAlive())
-        {
-            try {
-                threadLoadMessages.interrupt();
-            } catch (Exception e) {  e.printStackTrace();};
-
-        }
-
         System.out.println("Estoy en el destroy");
         toID = 0;
         super.onDestroy();
@@ -331,42 +319,31 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         messages.clear();
     }
 
+    public void loadDBMessages()
+    {
+        List<Message> messagesDB = Actions_DB.loadMessages(toID);
 
-    Runnable loadDBMessages = new Runnable() {
-        @Override
-        public void run() {
+        for (int i = 0; i < messagesDB.size(); i++)
+        {
+            Message message = messagesDB.get(i);
 
-            List<Message> messagesDB = Actions_DB.loadMessages(toID);
-
-            for (int i = 0; i < messagesDB.size(); i++)
+            if(isAMap(message.getText()))
             {
-                messageLoad = messagesDB.get(i);
-
-                if(isAMap(messageLoad.getText()))
+                try
                 {
-                    try
-                    {
-                        showMap(messageLoad);
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    showMap(message);
                 }
-                else
+                catch (JSONException e)
                 {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            showMessage(messageLoad);
-                        }
-                    });
+                    e.printStackTrace();
                 }
             }
+            else
+            {
+                showMessage(message);
+            }
         }
-    };
-
-
+    }
 
     private void showMessage(Message message)
     {
@@ -604,61 +581,69 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         try
         {
-            Bitmap imageMap = getGoogleMapThumbnail(URL);
-            final ImageView imageView = new ImageView(ChatActivity.this);
-            imageView.setImageBitmap(imageMap);
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-
-            if (message.getReceiver() != user.getID())
-            {
-                params.gravity = Gravity.RIGHT;
-                imageView.setBackgroundResource(R.drawable.message_1);
-            }
-            else
-            {
-                params.gravity = Gravity.LEFT;
-                imageView.setBackgroundResource(R.drawable.message_2);
-            }
-
-            params.setMargins(0, 0, 0, 20);
-
-            imageView.setLayoutParams(params);
-            imageView.setPadding(16, 16, 16, 16);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-            imageView.setMaxHeight(height);
-            imageView.setMaxWidth(width);
-            imageView.setMinimumHeight(height);
-            imageView.setMinimumWidth(width);
-
-            runOnUiThread(new Runnable()
+            Thread thread = new Thread(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    messagesLayout.addView(imageView);
+                    Bitmap imageMap = getGoogleMapThumbnail(URL);
+                    final ImageView imageView = new ImageView(ChatActivity.this);
+                    imageView.setImageBitmap(imageMap);
 
-                    keyboard.setText("");
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                    try
+                    if (message.getReceiver() != user.getID())
                     {
-                        // This scrolls the ScrollView after the message has been added
-                        scrollView.post(new Runnable()
+                        params.gravity = Gravity.RIGHT;
+                        imageView.setBackgroundResource(R.drawable.message_1);
+                    }
+                    else
+                    {
+                        params.gravity = Gravity.LEFT;
+                        imageView.setBackgroundResource(R.drawable.message_2);
+                    }
+
+                    params.setMargins(0, 0, 0, 20);
+
+                    imageView.setLayoutParams(params);
+                    imageView.setPadding(16, 16, 16, 16);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                    imageView.setMaxHeight(height);
+                    imageView.setMaxWidth(width);
+                    imageView.setMinimumHeight(height);
+                    imageView.setMinimumWidth(width);
+
+                    runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
                         {
-                            @Override
-                            public void run()
-                            {
-                                scrollView.fullScroll(View.FOCUS_DOWN);
-                            }
-                        });
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
+                            messagesLayout.addView(imageView);
+                        }
+                    });
+                }
+            });
+
+            thread.start();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        keyboard.setText("");
+        try
+        {
+            // This scrolls the ScrollView after the message has been added
+            scrollView.post(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });
         }
@@ -752,6 +737,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     });
             AlertDialog alert = builder.create();
             alert.show();
+
         }
 
         return false;
