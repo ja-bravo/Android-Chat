@@ -89,12 +89,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private Friend friend;
     private static Service service;
     private static LinkedBlockingQueue<Runnable> queue;
+    private Message messageLoad;
 
     private static int toID;
 
     private static boolean isStarted = false; // no tocar de aqui
 
     private PopupMenu popupMenu;
+    private Thread threadLoadMessages;
 
     private GoogleApiClient mGoogleApiClient;
     private Location location;
@@ -185,7 +187,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             threadReceiver.start();
         }
 
-        loadDBMessages();
+        threadLoadMessages = new Thread(loadDBMessages) ;
+        threadLoadMessages.start();
 
         try
         {
@@ -251,6 +254,15 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy()
     {
         saveDBMessages();
+
+        if (threadLoadMessages.isAlive())
+        {
+            try {
+                threadLoadMessages.interrupt();
+            } catch (Exception e) {  e.printStackTrace();};
+
+        }
+
         System.out.println("Estoy en el destroy");
         toID = 0;
         super.onDestroy();
@@ -319,31 +331,42 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         messages.clear();
     }
 
-    public void loadDBMessages()
-    {
-        List<Message> messagesDB = Actions_DB.loadMessages(toID);
 
-        for (int i = 0; i < messagesDB.size(); i++)
-        {
-            Message message = messagesDB.get(i);
+    Runnable loadDBMessages = new Runnable() {
+        @Override
+        public void run() {
 
-            if(isAMap(message.getText()))
+            List<Message> messagesDB = Actions_DB.loadMessages(toID);
+
+            for (int i = 0; i < messagesDB.size(); i++)
             {
-                try
+                messageLoad = messagesDB.get(i);
+
+                if(isAMap(messageLoad.getText()))
                 {
-                    showMap(message);
+                    try
+                    {
+                        showMap(messageLoad);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-                catch (JSONException e)
+                else
                 {
-                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showMessage(messageLoad);
+                        }
+                    });
                 }
-            }
-            else
-            {
-                showMessage(message);
             }
         }
-    }
+    };
+
+
 
     private void showMessage(Message message)
     {
@@ -581,69 +604,61 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         try
         {
-            Thread thread = new Thread(new Runnable()
+            Bitmap imageMap = getGoogleMapThumbnail(URL);
+            final ImageView imageView = new ImageView(ChatActivity.this);
+            imageView.setImageBitmap(imageMap);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            if (message.getReceiver() != user.getID())
+            {
+                params.gravity = Gravity.RIGHT;
+                imageView.setBackgroundResource(R.drawable.message_1);
+            }
+            else
+            {
+                params.gravity = Gravity.LEFT;
+                imageView.setBackgroundResource(R.drawable.message_2);
+            }
+
+            params.setMargins(0, 0, 0, 20);
+
+            imageView.setLayoutParams(params);
+            imageView.setPadding(16, 16, 16, 16);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            imageView.setMaxHeight(height);
+            imageView.setMaxWidth(width);
+            imageView.setMinimumHeight(height);
+            imageView.setMinimumWidth(width);
+
+            runOnUiThread(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    Bitmap imageMap = getGoogleMapThumbnail(URL);
-                    final ImageView imageView = new ImageView(ChatActivity.this);
-                    imageView.setImageBitmap(imageMap);
+                    messagesLayout.addView(imageView);
 
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    keyboard.setText("");
 
-                    if (message.getReceiver() != user.getID())
+                    try
                     {
-                        params.gravity = Gravity.RIGHT;
-                        imageView.setBackgroundResource(R.drawable.message_1);
-                    }
-                    else
-                    {
-                        params.gravity = Gravity.LEFT;
-                        imageView.setBackgroundResource(R.drawable.message_2);
-                    }
-
-                    params.setMargins(0, 0, 0, 20);
-
-                    imageView.setLayoutParams(params);
-                    imageView.setPadding(16, 16, 16, 16);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-                    imageView.setMaxHeight(height);
-                    imageView.setMaxWidth(width);
-                    imageView.setMinimumHeight(height);
-                    imageView.setMinimumWidth(width);
-
-                    runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
+                        // This scrolls the ScrollView after the message has been added
+                        scrollView.post(new Runnable()
                         {
-                            messagesLayout.addView(imageView);
-                        }
-                    });
-                }
-            });
-
-            thread.start();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        keyboard.setText("");
-        try
-        {
-            // This scrolls the ScrollView after the message has been added
-            scrollView.post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    scrollView.fullScroll(View.FOCUS_DOWN);
+                            @Override
+                            public void run()
+                            {
+                                scrollView.fullScroll(View.FOCUS_DOWN);
+                            }
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -737,7 +752,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     });
             AlertDialog alert = builder.create();
             alert.show();
-
         }
 
         return false;
