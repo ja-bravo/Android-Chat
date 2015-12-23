@@ -130,22 +130,11 @@ public class User
                 phone = phone.replace(" ", "");
             }
 
-            if (isNumeric(phone))
-            {
-                friends.put(phone, new Friend(phone));
-            }
-        }
-    }
-
-    public static boolean isNumeric(String n)
-    {
-        if (n.matches("[0-9]*"))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
+            /* Si compruebas aqui que no tenga caracteres no numericos no permites
+               que se suba un número así: (617) 123 123.
+               En Python ya se quita los caracteres que sobran en DataBase.py función get_friends
+             */
+            friends.put(phone, new Friend(phone));
         }
     }
 
