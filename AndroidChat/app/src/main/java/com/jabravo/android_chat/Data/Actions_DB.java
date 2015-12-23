@@ -35,6 +35,25 @@ public class Actions_DB
     }
 
 
+    public static void upDateImageFriend( String id , String image )
+    {
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
+        if (db != null)
+        {
+            String sql = "UPDATE FRIENDS " +
+                    "SET IMAGE='<IMAGE>' " +
+                    "WHERE ID_FRIEND='<ID_FRIEND>';";
+
+            sql = sql
+                    .replace("<ID_FRIEND>", id)
+                    .replace("<IMAGE>", image);
+
+            db.execSQL(sql);
+            db.close();
+        }
+    }
+
+
     private static int insertMessage(String text, String date, boolean read)
     {
         SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
@@ -146,6 +165,7 @@ public class Actions_DB
                 String nick = cursor.getString(4);
 
                 l.add(new Friend(id, phone, status, image, nick));
+
             }
 
             cursor.close();

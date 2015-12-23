@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * Created by Josewer on 21/12/2015.
@@ -24,10 +25,38 @@ public class UploadImage extends AsyncTask<String,Void,Boolean> {
     private ProgressDialog progressDialog;
     private AlertDialog.Builder builder;
     private Context context;
+    private String nameFile;
 
-    public UploadImage(Context context) {
+    public UploadImage(Context context , String nameFile) {
         this.context = context;
+        this.nameFile = nameFile;
         builder = new AlertDialog.Builder(context);
+    }
+
+
+    private void updateImageDB ()
+    {
+        try
+        {
+
+            JSONObject image = new JSONObject();
+            image.put("ID", User.getInstance().getID());
+            image.put("PATH", nameFile);
+
+            String json = URLEncoder.encode(image.toString(), "ISO-8859-9").replaceAll("\\+", "%20");
+            URL url = new URL("http://146.185.155.88:8080/api/post/user/update/" + json);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            connection.setDoOutput(true);
+
+            Log.i("test", String.valueOf(connection.getResponseCode()));
+        }
+        catch (Exception e)
+        {
+            Log.i("test", String.valueOf(e.toString()) + " pete");
+        }
     }
 
     // Antes de comenzar la tarea muestra el progressDialog
@@ -55,7 +84,7 @@ public class UploadImage extends AsyncTask<String,Void,Boolean> {
 
             int idUser = User.getInstance().getID(); ;
 
-            String urlParameters = "idUser="+idUser+"&json="+json;
+            String urlParameters = "nameFile="+nameFile+"&json="+json;
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -73,6 +102,9 @@ public class UploadImage extends AsyncTask<String,Void,Boolean> {
             wr.close();
 
             Log.i("test", String.valueOf(connection.getResponseCode()));
+
+
+            updateImageDB ();
 
             return true;
         }

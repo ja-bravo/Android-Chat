@@ -34,6 +34,7 @@ import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Fragments.ContactsFragment;
 import com.jabravo.android_chat.Fragments.WelcomeFragment;
+import com.jabravo.android_chat.Services.DownloadImage;
 import com.jabravo.android_chat.Services.UploadImage;
 
 import java.io.ByteArrayOutputStream;
@@ -92,6 +93,8 @@ public class MainActivity extends AppCompatActivity
         loadContacts();
         insertFriendsDB();
 
+        new Thread(checkAndLoadImages).start();
+
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
@@ -101,7 +104,6 @@ public class MainActivity extends AppCompatActivity
 
         openProgram = true;
         System.out.println("abierto");
-
     }
 
 
@@ -187,29 +189,83 @@ public class MainActivity extends AppCompatActivity
         List<Friend> listDbAndroid = Actions_DB.getAllFriends();
         List<Friend> list = User.getInstance().getFriends();
 
-        for (int i = 0; i < list.size(); i++)
+        for (int i = 0 ; i < list.size() ; i++)
         {
-            String phone1 = list.get(i).getPhone();
+            String phone_1 = list.get(i).getPhone();
+            String phone_2 ="";
 
-            for (int j = 0; j < listDbAndroid.size(); j++)
+            boolean found = false;
+
+            for (int j = 0 ; j < listDbAndroid.size() && !found ; j++)
             {
-                String phone2 = listDbAndroid.get(j).getPhone();
+                phone_2 = listDbAndroid.get(j).getPhone();
 
-                System.out.println("id: " + String.valueOf(list.get(i)));
-                System.out.println("nick: " + list.get(i).getNick());
-
-                if (!phone1.equals(phone2))
+                if (phone_1.equals(phone_2))
                 {
-                    String id = String.valueOf(list.get(i).getId());
-                    String status = list.get(i).getStatus();
-                    String image = list.get(i).getImage();
-                    String nick = list.get(i).getNick();
-
-                    Actions_DB.insertFriend(id, phone1, status, image, nick);
+                    found = true;
                 }
+            }
+
+            if (!found)
+            {
+                System.out.println(phone_1 + " - " + phone_2);
+
+                String id = String.valueOf(list.get(i).getId());
+                String status = list.get(i).getStatus();
+                String image = list.get(i).getImage();
+                String nick = list.get(i).getNick();
+                String phone = list.get(i).getPhone();
+
+                Actions_DB.insertFriend(id, phone, status, image, nick);
             }
         }
     }
+
+
+    Runnable checkAndLoadImages = new Runnable() {
+        @Override
+        public void run() {
+
+            List<Friend> listDbAndroid = Actions_DB.getAllFriends();
+            List<Friend> list = User.getInstance().getFriends();
+
+            for (int i = 0 ; i < list.size() ; i++)
+            {
+
+                String image_1 = list.get(i).getImage();
+                String image_2 = "";
+
+                String id = String.valueOf(list.get(i).getId());
+
+
+                boolean found = false;
+
+                for (int j = 0 ; j < listDbAndroid.size() && !found ; j++)
+                {
+                    image_2 = listDbAndroid.get(j).getImage();
+
+                    if (image_1.equals(image_2))
+                    {
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    if (image_1 != "" && image_1 != null)
+                    {
+                        System.out.println("Descargando...");
+
+                        new DownloadImage(image_1);
+                    }
+
+                    Actions_DB.upDateImageFriend(id, image_1);
+
+                }
+            }
+        }
+    };
+
 
     private void loadUserData()
     {
@@ -294,19 +350,20 @@ public class MainActivity extends AppCompatActivity
 
             image.setImageBitmap(photobmp);
 
-
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putString("image", imageReturnedIntent.getDataString()).apply();
 
             Log.i("image", prefs.getString("image", ""));
 
             // Al cambiar la imagen, la subo.
-            uploadImage ();
+            uploadImage (pathReal);
         }
     }
 
-    public void uploadImage ()
+    public void uploadImage (String pathReal )
     {
+        String nameImage = pathReal.substring(pathReal.lastIndexOf("/") + 1 , pathReal.lastIndexOf("."));
+
         //Codifica la imagen con Base64
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         photobmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -314,8 +371,7 @@ public class MainActivity extends AppCompatActivity
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
         //Se ejecuta en segundo plano para no colgar la aplicacion
-        new UploadImage(MainActivity.this).execute(encodedImage);
-
+        new UploadImage(MainActivity.this , nameImage).execute(encodedImage);
     }
 
     // COn esta funcion saco la ruta real de donde esta la imagen.

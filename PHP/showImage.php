@@ -1,11 +1,11 @@
 <?php
 
-// Programa que le pasar una id del usuario y te muestra su imagen cargandola de un fichero txt 
+// Programa que le pasas el nombre de una imagen y te muestra su imagen cargandola de un fichero txt 
 // codificado en base64.
 // Nota: es fichero lo crea uploadImage.php.
 
-$idUser = $_REQUEST["idUser"];
-$file = 'images/photo_'.$idUser.'.txt';
+$nameFile = $_REQUEST["nameFile"];
+$file = 'images/photo_'.$nameFile.'.txt';
 
 if (file_exists($file)) 
 {

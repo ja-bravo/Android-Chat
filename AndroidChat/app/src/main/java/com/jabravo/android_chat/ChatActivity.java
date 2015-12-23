@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
@@ -14,6 +16,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +51,7 @@ import com.jabravo.android_chat.Services.Service;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -192,6 +196,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         {
             e.printStackTrace();
         }
+
+        loadImage ();
     }
 
     private void changeToolBar()
@@ -241,6 +247,26 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         System.out.println("Estoy en el destroy");
         toID = 0;
         super.onDestroy();
+    }
+
+
+    public void loadImage ()
+    {
+        String nameFile = User.getInstance().getFriendsHashMap().get(String.valueOf(toID)).getImage();
+
+        if (!nameFile.equals("") && !nameFile.equals(null)) {
+            File ruta_sd = Environment.getExternalStorageDirectory();
+
+            String ruta = ruta_sd.getAbsolutePath() + "/IMAGES_CHAT_ANDROID/" + nameFile + ".jpg";
+
+            File file = new File(ruta);
+
+            if (file.exists()) {
+
+                Bitmap photobmp = BitmapFactory.decodeFile(ruta);
+                userImage.setImageBitmap(photobmp);
+            }
+        }
     }
 
     // Load the messages and the counter when the app changes orientation.

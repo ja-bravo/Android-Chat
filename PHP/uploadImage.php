@@ -9,26 +9,26 @@
 	$data = str_replace ( "+" , " " , $data  );	
 	$data = str_replace ( "SUMAR" , "+" , $data );
 	
-	$idUser = $_REQUEST["idUser"];
+	$nameFile = $_REQUEST["nameFile"];
 	
 	// Guardo tal cual el json que me han enviado en un txt, por si luego quiero mandar el txt en vez de un jpg
 	// NOTA: para visualizar este fichero en forma de imagen, puedo usar el fichero showImage.php.
-	saveJSON($data , $idUser); 
+	saveJSON($data , $nameFile); 
 
 	// Ahora, en vez de guardar el json tal cual en un txt, genero un jpg fisico.
-	createImage ($data , $idUser);
+	createImage ($data , $nameFile);
 	
-   function saveJSON($data , $idUser)
+   function saveJSON($data , $nameFile)
    { 
-      $file = 'images/photo_'.$idUser.'txt';
+      $file = 'images/photo_'.$nameFile.'.txt';
       $success = file_put_contents($file, $data);
    }
    
-   function createImage ($json , $idUser)
+   function createImage ($json , $nameFile)
    {
 		header("Content-type: image/gif");
 		$obj = json_decode($json);
-		$file = 'images/photo_'.$idUser.'.jpg';
+		$file = 'images/photo_'.$nameFile.'.jpg';
 		$success = file_put_contents($file, base64_decode( $obj->{'json'} ));
    }
 ?>
