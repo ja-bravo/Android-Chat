@@ -567,8 +567,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private void showMap(final Message message) throws JSONException
     {
         JSONObject json = new JSONObject(message.getText().substring(3));
-        double longitude = json.getDouble("longitude");
-        double latitude = json.getDouble("latitude");
+        final double longitude = json.getDouble("longitude");
+        final double latitude = json.getDouble("latitude");
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -589,6 +589,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     Bitmap imageMap = getGoogleMapThumbnail(URL);
                     final ImageView imageView = new ImageView(ChatActivity.this);
                     imageView.setImageBitmap(imageMap);
+                    imageView.setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View v)
+                        {
+                            Toast.makeText(ChatActivity.this, "Click en mapa:" + longitude + "-" + latitude, Toast.LENGTH_LONG).show();
+                        }
+                    });
 
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.WRAP_CONTENT,
