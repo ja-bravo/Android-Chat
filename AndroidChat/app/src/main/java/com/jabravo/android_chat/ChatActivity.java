@@ -54,7 +54,6 @@ import com.jabravo.android_chat.Services.Service;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 import java.io.File;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -89,6 +88,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private Friend friend;
     private static Service service;
     private static LinkedBlockingQueue<Runnable> queue;
+
+
+    private ImageView imageMapView;
 
     private static int toID;
 
@@ -357,15 +359,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         String nameSender;
 
-        if (message.getReceiver() != user.getID())
-        {
+        if (message.getReceiver() != user.getID()) {
             params.gravity = Gravity.RIGHT;
             textView.setBackgroundResource(R.drawable.message_1);
 
             nameSender = user.getNick();
-        }
-        else
-        {
+        } else {
             params.gravity = Gravity.LEFT;
             textView.setBackgroundResource(R.drawable.message_2);
 
@@ -383,22 +382,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         textView.setTextSize(16);
 
         keyboard.setText("");
-        try
-        {
+        try {
             // This scrolls the ScrollView after the message has been added
-            scrollView.post(new Runnable()
-            {
+            scrollView.post(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -527,7 +522,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                                 if (message.getIdFriend() == toID)
                                 {
-                                    showMessage(message);
+                                    if(isAMap(message.getText()))
+                                    {
+                                        try
+                                        {
+                                            showMap(message);
+                                        }
+                                        catch (JSONException e)
+                                        {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        showMessage(message);
+                                    }
+
                                     ringtone.play();
                                 }
                                 else
@@ -579,21 +589,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         final String URL = "http://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude
                 + "&zoom=18&size=1200x1000&sensor=false&markers=color:blue%7C" + latitude + "," + longitude;
 
-        try
-        {
-            Thread thread = new Thread(new Runnable()
-            {
+        try {
+            Thread thread = new Thread(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     Bitmap imageMap = getGoogleMapThumbnail(URL);
-                    final ImageView imageView = new ImageView(ChatActivity.this);
-                    imageView.setImageBitmap(imageMap);
-                    imageView.setOnClickListener(new View.OnClickListener()
-                    {
+                    imageMapView= new ImageView(ChatActivity.this);
+                    imageMapView.setImageBitmap(imageMap);
+                    imageMapView.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View v)
-                        {
+                        public void onClick(View v) {
                             Toast.makeText(ChatActivity.this, "Click en mapa:" + longitude + "-" + latitude, Toast.LENGTH_LONG).show();
                         }
                     });
@@ -602,63 +607,49 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                             LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                    if (message.getReceiver() != user.getID())
-                    {
+                    if (message.getReceiver() != user.getID()) {
                         params.gravity = Gravity.RIGHT;
-                        imageView.setBackgroundResource(R.drawable.message_1);
-                    }
-                    else
-                    {
+                        imageMapView.setBackgroundResource(R.drawable.message_1);
+                    } else {
                         params.gravity = Gravity.LEFT;
-                        imageView.setBackgroundResource(R.drawable.message_2);
+                        imageMapView.setBackgroundResource(R.drawable.message_2);
                     }
 
                     params.setMargins(0, 0, 0, 20);
 
-                    imageView.setLayoutParams(params);
-                    imageView.setPadding(16, 16, 16, 16);
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    imageMapView.setLayoutParams(params);
+                    imageMapView.setPadding(16, 16, 16, 16);
+                    imageMapView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-                    imageView.setMaxHeight(height);
-                    imageView.setMaxWidth(width);
-                    imageView.setMinimumHeight(height);
-                    imageView.setMinimumWidth(width);
-
-                    runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            messagesLayout.addView(imageView);
-                        }
-                    });
+                    imageMapView.setMaxHeight(height);
+                    imageMapView.setMaxWidth(width);
+                    imageMapView.setMinimumHeight(height);
+                    imageMapView.setMinimumWidth(width);
                 }
             });
 
             thread.start();
-        }
-        catch (Exception e)
-        {
+            thread.join();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
+        messagesLayout.addView(imageMapView);
+
         keyboard.setText("");
-        try
-        {
+        try {
             // This scrolls the ScrollView after the message has been added
-            scrollView.post(new Runnable()
-            {
+            scrollView.post(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public static Bitmap getGoogleMapThumbnail(String url)
