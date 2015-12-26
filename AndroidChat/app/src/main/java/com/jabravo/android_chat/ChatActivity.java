@@ -96,6 +96,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private static boolean isStarted = false; // no tocar de aqui
 
+    private Intent intentViewImages;
     private PopupMenu popupMenu;
 
     private GoogleApiClient mGoogleApiClient;
@@ -274,6 +275,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                 Bitmap photobmp = BitmapFactory.decodeFile(ruta);
                 userImage.setImageBitmap(photobmp);
+
+                intentViewImages = new Intent(this, ViewImage.class);
+                intentViewImages.putExtra("path" , ruta);
+
+                userImage.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+
+                        System.out.println("Ver imagen!!!!!!!!!!!!!");
+                        startActivity(intentViewImages);
+
+                    }
+
+                });
             }
         }
     }
@@ -393,7 +407,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 
