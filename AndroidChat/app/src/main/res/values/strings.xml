@@ -53,6 +53,12 @@
     <string name="yes">Yes</string>
     <string name="gps_disabled">Can not connect to GPS.</string>
 
+    <!-- Strings related to Images -->
+    <string name="uploading">Uploading...</string>
+    <string name="please_wait">Please wait</string>
+    <string name="image_success">Image uploaded</string>
+    <string name="image_fail">Please wait</string>
+
     <string name="contacts">My contacts</string>
     <string name="title_activity_chat">Chat Activity</string>
     <string name="title_activity_maps">Map</string>

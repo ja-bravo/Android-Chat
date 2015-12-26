@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.jabravo.android_chat.Data.User;
+import com.jabravo.android_chat.R;
 
 import org.json.JSONObject;
 
@@ -20,21 +21,23 @@ import java.net.URLEncoder;
  * Created by Josewer on 21/12/2015.
  */
 
-public class UploadImage extends AsyncTask<String,Void,Boolean> {
+public class UploadImage extends AsyncTask<String, Void, Boolean>
+{
 
     private ProgressDialog progressDialog;
     private AlertDialog.Builder builder;
     private Context context;
     private String nameFile;
 
-    public UploadImage(Context context , String nameFile) {
+    public UploadImage(Context context, String nameFile)
+    {
         this.context = context;
         this.nameFile = nameFile;
         builder = new AlertDialog.Builder(context);
     }
 
 
-    private void updateImageDB ()
+    private void updateImageDB()
     {
         try
         {
@@ -61,13 +64,15 @@ public class UploadImage extends AsyncTask<String,Void,Boolean> {
 
     // Antes de comenzar la tarea muestra el progressDialog
     @Override
-    protected void onPreExecute() {
+    protected void onPreExecute()
+    {
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(context, "Por favor espere", "Subiendo...");
+        progressDialog = ProgressDialog.show(context, context.getResources().getString(R.string.please_wait), context.getResources().getString(R.string.uploading));
     }
 
     @Override
-    protected Boolean doInBackground(String... params) {
+    protected Boolean doInBackground(String... params)
+    {
 
         String encodedImage = params[0];
 
@@ -82,9 +87,9 @@ public class UploadImage extends AsyncTask<String,Void,Boolean> {
 
             URL url = new URL("http://146.185.155.88/uploadImage.php/");
 
-            int idUser = User.getInstance().getID(); ;
+            int idUser = User.getInstance().getID();
 
-            String urlParameters = "nameFile="+nameFile+"&json="+json;
+            String urlParameters = "nameFile=" + nameFile + "&json=" + json;
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -104,7 +109,7 @@ public class UploadImage extends AsyncTask<String,Void,Boolean> {
             Log.i("test", String.valueOf(connection.getResponseCode()));
 
 
-            updateImageDB ();
+            updateImageDB();
 
             return true;
         }
@@ -120,24 +125,29 @@ public class UploadImage extends AsyncTask<String,Void,Boolean> {
     //Cuando se termina de ejecutar, cierra el progressDialog y avisa
 
     @Override
-    protected void onPostExecute(Boolean resul) {
+    protected void onPostExecute(Boolean result)
+    {
         progressDialog.dismiss();
-        if( resul )
+        if (result)
         {
-            builder.setMessage("Imagen subida al servidor")
-                    .setTitle("Android chat:")
-                    .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int which) {
+            builder.setMessage(context.getResources().getString(R.string.image_success))
+                    .setTitle("Android chat")
+                    .setNeutralButton("Ok", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
                             dialog.cancel();
                         }
                     }).create().show();
         }
         else
         {
-            builder.setMessage("No se pudo subir la imagen")
-                    .setTitle("Android chat:")
-                    .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int which) {
+            builder.setMessage(context.getResources().getString(R.string.image_fail))
+                    .setTitle("Android chat")
+                    .setNeutralButton("Ok", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
                             dialog.cancel();
                         }
                     }).create().show();
