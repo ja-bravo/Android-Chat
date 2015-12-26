@@ -6,6 +6,7 @@ import pymysql
 import json
 from User import  User
 from Message import  Message
+from puntuacion import Puntuacion
 import connection as db
 
 
@@ -17,7 +18,6 @@ class DataBase():
         cursor.execute("SELECT * FROM USERS")
 
         users = list()
-
         for row in cursor:
             user = User()
             user.ID = row[0]
@@ -292,3 +292,57 @@ class DataBase():
         connection.close()
 
         return "OK"
+
+    def casillas(self, input):
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db='casillas')
+        cursor = connection.cursor()
+
+        input = json.loads(input)
+
+        clicks = input["CLICKS"]
+        tiempo = input["TIEMPO"]
+        latitud = input["LATITUD"]
+        longitud = input["LONGITUD"]
+
+        SQL = """INSERT INTO puntuaciones
+                 (clicks,latitud,longitud,tiempo)
+                 VALUES
+                 (%s,'%s','%s','%s')""".replace('\n',' ').replace('\t','')
+        SQL = SQL % (str(clicks),str(latitud),str(longitud),str(tiempo))
+
+        try:
+            cursor.execute(SQL)
+            connection.commit()
+        except:
+            return SQL
+        cursor.close()
+        connection.close()
+
+        return "OK"
+
+    def get_puntuaciones(self):
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db='casillas')
+        cursor = connection.cursor()
+
+        SQL = """SELECT * FROM puntuaciones order by id desc limit 10;""".replace('\n',' ').replace('\t','')
+
+        try:
+            cursor.execute(SQL)
+            connection.commit()
+        except:
+            return SQL
+
+        puntuaciones = list()
+        for row in cursor:
+            puntuacion = Puntuacion()
+            puntuacion.CLICKS = row[1]
+            puntuacion.LATITUD = row[2]
+            puntuacion.LONGITUD = row[3]
+            puntuacion.TIEMPO = row[4]
+
+            puntuaciones.append(puntuacion.serialize())
+
+        cursor.close()
+        connection.close()
+
+        return puntuaciones

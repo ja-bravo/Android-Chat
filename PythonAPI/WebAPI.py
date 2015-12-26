@@ -44,5 +44,15 @@ def get_friends(friendList):
 def update_image(json):
     return jsonify({'result': db.update_image(json)})
 
+# Esto es para la practica de casillas
+@app.route("/api/post/casillas/<json>", methods=['GET','POST'])
+def upload_casillas(json):
+    return jsonify({'result': db.casillas(json)})
+
+# Esto es para la practica de casillas
+@app.route("/api/get/casillas/", methods=['GET','POST'])
+def get_puntuaciones():
+    return jsonify({'result': db.get_puntuaciones()})
+
 if __name__ == "__main__":
     app.run(host='146.185.155.88', port=8080)
