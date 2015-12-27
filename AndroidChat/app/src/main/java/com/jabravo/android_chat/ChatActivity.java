@@ -609,10 +609,23 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     Bitmap imageMap = getGoogleMapThumbnail(URL);
                     imageMapView= new ImageView(ChatActivity.this);
                     imageMapView.setImageBitmap(imageMap);
-                    imageMapView.setOnClickListener(new View.OnClickListener() {
+                    imageMapView.setOnClickListener(new View.OnClickListener()
+                    {
                         @Override
-                        public void onClick(View v) {
-                            Toast.makeText(ChatActivity.this, "Click en mapa:" + longitude + "-" + latitude, Toast.LENGTH_LONG).show();
+                        public void onClick(View v)
+                        {
+                            Location targetLocation = new Location(location);
+                            targetLocation.setLongitude(longitude);
+                            targetLocation.setLatitude(latitude);
+
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("my_position",location);
+                            bundle.putParcelable("target_position",targetLocation);
+
+                            Intent intent = new Intent(ChatActivity.this,MapsActivity.class);
+                            intent.putExtras(bundle);
+
+                            startActivity(intent);
                         }
                     });
 
@@ -653,9 +666,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         keyboard.setText("");
         try {
             // This scrolls the ScrollView after the message has been added
-            scrollView.post(new Runnable() {
+            scrollView.post(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });

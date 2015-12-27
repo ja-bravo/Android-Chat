@@ -12,7 +12,8 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical"
     tools:showIn="@layout/activity_chat"
-    tools:context="com.jabravo.android_chat.ChatActivity">
+    tools:context="com.jabravo.android_chat.ChatActivity"
+    android:background="@color/background">
 
     <ScrollView
         android:id="@+id/chat_scroll"
