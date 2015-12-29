@@ -87,10 +87,11 @@ class DataBase():
                 UNION
                 SELECT USERS.ID_USER AS ID_USER_SENDER, MESSAGES.TEXT , BELONG.ID_GROUP
                 FROM USERS , MESSAGES , SEND_MESSAGE_GROUP , BELONG
-                WHERE USERS.ID_USER = BELONG.ID_USER AND BELONG.ID_GROUP = SEND_MESSAGE_GROUP.ID_GROUP
-                      AND SEND_MESSAGE_GROUP.ID_MESSAGE = MESSAGES.ID_MESSAGE AND
-                      USERS.ID_USER = %s AND
-                      MESSAGES.ID_MESSAGE > USERS.LAST_RECEIVED_MESSAGE_GROUP
+                WHERE USERS.ID_USER = BELONG.ID_USER
+                      AND BELONG.ID_GROUP = SEND_MESSAGE_GROUP.ID_GROUP
+                      AND SEND_MESSAGE_GROUP.ID_MESSAGE = MESSAGES.ID_MESSAGE
+                      AND USERS.ID_USER = %s
+                      AND MESSAGES.ID_MESSAGE > USERS.LAST_RECEIVED_MESSAGE_GROUP
                       AND MESSAGES.ID_MESSAGE <= %s ;""".replace('\n',' ')
 
         SQL = SQL % (str(ID),str(maxI),str(ID),str(maxG))
@@ -124,8 +125,8 @@ class DataBase():
 
         message = json.loads(message)
         text = message["text"]
-        ID = message["to"]
-        idDest = message["from"]
+        toID = message["to"]
+        fromID = message["from"]
 
         SQL = """INSERT INTO MESSAGES ( TEXT , DATE_MESSAGE )
 	              VALUES ('%s', sysdate() );
@@ -140,7 +141,7 @@ class DataBase():
                  (ID_MESSAGE , ID_USER_RECEIVER, ID_USER_SENDER)
                  VALUES (%s , %s , %s);
 	              """.replace('\n',' ')
-        SQL = SQL % (str(messageID), str(ID), str(idDest))
+        SQL = SQL % (str(messageID), str(toID), str(fromID))
 
         cursor.execute(SQL)
         connection.commit()
@@ -155,8 +156,8 @@ class DataBase():
 
         message = json.loads(message)
         text = message["text"]
-        ID = message["to"]
-        idDest = message["from"]
+        toID = message["to"]
+        fromID = message["from"]
 
         SQL = """INSERT INTO MESSAGES ( TEXT , DATE_MESSAGE )
 	              VALUES ('%s', sysdate() );
@@ -171,7 +172,7 @@ class DataBase():
                  (ID_MESSAGE , ID_USER , ID_GROUP)
                  VALUES (%s , %s , %s);
 	              """.replace('\n',' ')
-        SQL = SQL % (str(messageID), str(ID), str(idDest))
+        SQL = SQL % (str(messageID), str(fromID), str(toID))
 
         cursor.execute(SQL)
         connection.commit()

@@ -154,7 +154,13 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_newGroup:
-                vibrate(200);
+                intent = new Intent(this,GroupActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("groupID",2);
+
+                intent.putExtras(bundle);
+
+                startActivity(intent);
                 break;
 
             case R.id.nav_settings:
