@@ -250,6 +250,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
     protected void onResume()
     {
         mGoogleApiClient.connect();
+        MainActivity.isChatPrivate = false;
         super.onResume();
     }
 
@@ -330,7 +331,10 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             int idFriend = messages.get(i).getIdFriend();
             boolean read = messages.get(i).isRead();
 
-            Actions_DB.insertMessageGroup(text, date, read, idFriend , groupID);
+            Actions_DB.insertMessageGroup(text, date, read, groupID  , idFriend);
+
+            System.out.println("GUARDANDO EN GRUPO.");
+
         }
 
         messages.clear();
@@ -374,7 +378,12 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
         String nameSender;
 
-        if (message.getReceiver() != user.getID())
+        System.out.println("JJJ MI ID :" + user.getID());
+        System.out.println("JJJ ID MENSAJE:" + message.getIdFriend());
+        System.out.println("JJJ ID MENSAJE recive:" + message.getReceiver());
+
+
+        if (message.getIdFriend() == user.getID())
         {
             params.gravity = Gravity.RIGHT;
             textView.setBackgroundResource(R.drawable.message_1);
@@ -560,7 +569,11 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                                     }
                                     else
                                     {
-                                        showMessage(message);
+                                        if ((!message.getIsGroup() && MainActivity.isChatPrivate) ||
+                                                (message.getIsGroup() && !MainActivity.isChatPrivate))
+                                        {
+                                            showMessage(message);
+                                        }
                                     }
 
                                     ringtone.play();

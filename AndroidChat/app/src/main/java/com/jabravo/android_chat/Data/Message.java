@@ -15,6 +15,7 @@ public class Message implements Parcelable
     private boolean read;
     private int idFriend;
     private int receiver;
+    private boolean isGroup;
 
     public Message(String text, String date, int id, boolean read, int idFriend, int receiver)
     {
@@ -27,6 +28,15 @@ public class Message implements Parcelable
     }
 
 
+    public Message(String text, String date, int id, boolean read, int sender)
+    {
+        this.text = text;
+        this.date = date;
+        this.id = id;
+        this.read = read;
+        this.idFriend = sender;
+    }
+
     public Message(String text, String date, boolean read, int idFriend, int receiver)
     {
         this.text = text;
@@ -37,7 +47,7 @@ public class Message implements Parcelable
     }
 
 
-    public Message(String text, int idFriend, int receiver)
+    public Message(String text, int idFriend, int receiver , boolean isGroup )
     {
         this.text = text;
         this.date = "";
@@ -45,6 +55,7 @@ public class Message implements Parcelable
         this.read = false;
         this.idFriend = idFriend;
         this.receiver = receiver;
+        this.isGroup = isGroup;
     }
 
     public Message()
@@ -67,14 +78,7 @@ public class Message implements Parcelable
         receiver = in.readInt();
     }
 
-    public Message(String text, String date, int id, boolean read, int sender)
-    {
-        this.text = text;
-        this.date = date;
-        this.id = id;
-        this.read = read;
-        this.idFriend = sender;
-    }
+
 
 
     public String getText()
@@ -111,6 +115,8 @@ public class Message implements Parcelable
     {
         return id;
     }
+
+    public boolean getIsGroup () {return isGroup;}
 
     public void setId(int id)
     {

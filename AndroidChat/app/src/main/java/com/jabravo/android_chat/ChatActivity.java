@@ -247,6 +247,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume()
     {
         mGoogleApiClient.connect();
+        MainActivity.isChatPrivate = true;
         super.onResume();
     }
 
@@ -548,7 +549,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                     else
                                     {
-                                        showMessage(message);
+                                        System.out.println("MM mensajes es grupo: " + message.getIsGroup());
+                                        System.out.println("MM es chat es privado: " +  MainActivity.isChatPrivate);
+
+                                        if ((!message.getIsGroup() && MainActivity.isChatPrivate) ||
+                                                (message.getIsGroup() && !MainActivity.isChatPrivate))
+                                        {
+                                            showMessage(message);
+                                        }
                                     }
 
                                     ringtone.play();
@@ -783,6 +791,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onConnectionSuspended(int i)
     {
+
     }
 
     @Override

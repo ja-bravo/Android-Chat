@@ -128,17 +128,14 @@ public class Service implements Runnable
             JSONObject messageJSON = json_array.getJSONObject(i);
 
             String text = messageJSON.getString("TEXT");
-            //String date = messageJSON.getString("DATE");
             int idFriend = messageJSON.getInt("ID_USER_SENDER");
 
             int receiver = User.getInstance().getID();
             boolean isGroup = messageJSON.getInt("ID_GROUP") != 0;
-            boolean read = true;
 
-            System.out.println("idfriend: " + idFriend);
+            System.out.println("Es grupo: " + isGroup);
 
-
-            buffer.add(new Message(text, idFriend, receiver));
+            buffer.add(new Message(text, idFriend, receiver , isGroup));
         }
     }
 }

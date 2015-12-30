@@ -251,6 +251,7 @@ public class Actions_DB
                     read = false;
                 }
 
+
                 messages.add(new Message(cursor.getString(2), cursor.getString(1),
                         cursor.getInt(0), read, cursor.getInt(5), cursor.getInt(4)));
             }
