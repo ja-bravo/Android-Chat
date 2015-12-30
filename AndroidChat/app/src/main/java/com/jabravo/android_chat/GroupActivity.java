@@ -327,11 +327,10 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         {
             String text = messages.get(i).getText();
             String date = messages.get(i).getDate();
-            int idReceiver = messages.get(i).getReceiver();
             int idFriend = messages.get(i).getIdFriend();
             boolean read = messages.get(i).isRead();
 
-            Actions_DB.insertMessageGroup(text, date, read, idFriend, idReceiver);
+            Actions_DB.insertMessageGroup(text, date, read, idFriend , groupID);
         }
 
         messages.clear();
@@ -339,7 +338,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
     public void loadDBMessages()
     {
-        List<Message> messagesDB = Actions_DB.loadMessages(groupID);
+        List<Message> messagesDB = Actions_DB.loadMessagesGroup(groupID);
 
         for (int i = 0; i < messagesDB.size(); i++)
         {

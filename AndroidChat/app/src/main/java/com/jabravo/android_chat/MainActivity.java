@@ -293,7 +293,10 @@ public class MainActivity extends AppCompatActivity
 
         name.setText(user.getNick());
         status.setText(user.getStatus());
-        image.setImageURI(Uri.parse(preferences.getString("image", "")));
+
+        try {
+            image.setImageURI(Uri.parse(preferences.getString("image", "")));
+        } catch (Exception e) {e.printStackTrace();}
     }
 
     private void loadContacts()

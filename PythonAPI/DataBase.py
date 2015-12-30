@@ -91,9 +91,11 @@ class DataBase():
                       AND BELONG.ID_GROUP = SEND_MESSAGE_GROUP.ID_GROUP
                       AND SEND_MESSAGE_GROUP.ID_MESSAGE = MESSAGES.ID_MESSAGE
                       AND USERS.ID_USER = %s
+					  AND SEND_MESSAGE_GROUP.ID_USER != USERS.ID_USER
                       AND MESSAGES.ID_MESSAGE > USERS.LAST_RECEIVED_MESSAGE_GROUP
                       AND MESSAGES.ID_MESSAGE <= %s ;""".replace('\n',' ')
 
+					  
         SQL = SQL % (str(ID),str(maxI),str(ID),str(maxG))
         cursor.execute(SQL)
 

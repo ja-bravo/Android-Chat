@@ -175,7 +175,7 @@ public class Actions_DB
     }
 
 
-    public static List<Message> loadMessages(int idFriend)
+    public static List<Message> loadMessagesPrivate(int idFriend)
     {
         SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
         List<Message> messages = new ArrayList<>();
@@ -196,19 +196,19 @@ public class Actions_DB
 
             while (cursor.moveToNext())
             {
-                boolean r;
+                boolean read;
 
                 if (cursor.getString(3).toLowerCase().equals("true"))
                 {
-                    r = true;
+                    read = true;
                 }
                 else
                 {
-                    r = false;
+                    read = false;
                 }
 
                 messages.add(new Message(cursor.getString(2), cursor.getString(1),
-                        cursor.getInt(0), r, cursor.getInt(5), cursor.getInt(4)));
+                        cursor.getInt(0), read, cursor.getInt(5), cursor.getInt(4)));
             }
 
             cursor.close();
@@ -217,4 +217,49 @@ public class Actions_DB
 
         return messages;
     }
+
+
+    public static List<Message> loadMessagesGroup (int idGroup)
+    {
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
+        List<Message> messages = new ArrayList<>();
+
+        if (db != null)
+        {
+
+            String sql = "SELECT MESSAGES.ID_MESSAGE , MESSAGES.DATE_MESSAGE , " +
+                    " MESSAGES.TEXT , MESSAGES.IS_READ ," +
+                    " SEND_MESSAGES_GROUP.ID_GROUP , SEND_MESSAGES_GROUP.ID_FRIEND " +
+                    " FROM SEND_MESSAGES_GROUP , MESSAGES WHERE " +
+                    " MESSAGES.ID_MESSAGE = SEND_MESSAGES_GROUP.ID_MESSAGE AND " +
+                    " SEND_MESSAGES_GROUP.ID_GROUP =? ;";
+
+
+            String[] m = {String.valueOf(idGroup)};
+            Cursor cursor = db.rawQuery(sql, m);
+
+            while (cursor.moveToNext())
+            {
+                boolean read;
+
+                if (cursor.getString(3).toLowerCase().equals("true"))
+                {
+                    read = true;
+                }
+                else
+                {
+                    read = false;
+                }
+
+                messages.add(new Message(cursor.getString(2), cursor.getString(1),
+                        cursor.getInt(0), read, cursor.getInt(5), cursor.getInt(4)));
+            }
+
+            cursor.close();
+            db.close();
+        }
+
+        return messages;
+    }
+
 }

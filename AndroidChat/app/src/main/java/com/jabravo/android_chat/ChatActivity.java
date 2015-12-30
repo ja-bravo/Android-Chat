@@ -337,7 +337,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     public void loadDBMessages()
     {
-        List<Message> messagesDB = Actions_DB.loadMessages(toID);
+        List<Message> messagesDB = Actions_DB.loadMessagesPrivate(toID);
 
         for (int i = 0; i < messagesDB.size(); i++)
         {
