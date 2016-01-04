@@ -44,12 +44,12 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.jabravo.android_chat.Data.Actions_DB;
 import com.jabravo.android_chat.Data.Friend;
+import com.jabravo.android_chat.Data.Group;
 import com.jabravo.android_chat.Data.Message;
 import com.jabravo.android_chat.Data.MessageList;
 import com.jabravo.android_chat.Data.PausableThreadPool;
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Services.GroupSender;
-import com.jabravo.android_chat.Services.Sender;
 import com.jabravo.android_chat.Services.Service;
 
 import org.json.JSONException;
@@ -87,7 +87,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
     private static Thread threadReceiver;
     private static MessageList messages;
     private User user;
-    private Friend friend;
+    private Group group;
     private static Service service;
     private static LinkedBlockingQueue<Runnable> queue;
 
@@ -128,7 +128,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         groupID = getIntent().getExtras().getInt("groupID");
         user = User.getInstance();
-        friend = user.getFriendsHashMap().get(String.valueOf(groupID));
+        group = user.getGroupsHashMap().get(String.valueOf(groupID));
 
         popupMenu = new PopupMenu(this, toolbar, Gravity.RIGHT);
         popupMenu.setOnMenuItemClickListener(this);
@@ -216,8 +216,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
     {
         // TODO: 14/12/2015 CAMBIAR LA IMAGEN POR LA DEL USUARIO
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //userName.setText(friend.getNick());
-        userName.setText("Test grupo");
+        userName.setText(group.getName());
         //userImage.setImageURI();
     }
 
@@ -285,7 +284,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                 userImage.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
 
-                        System.out.println("Ver imagen!!!!!!!!!!!!!");
                         startActivity(intentViewImages);
 
                     }
@@ -396,9 +394,15 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             textView.setBackgroundResource(R.drawable.message_2);
 
             String friendID = String.valueOf(message.getIdFriend());
-            HashMap<String,Friend> hashMap = user.getFriendsHashMap();
-            //nameSender = hashMap.get(friendID).getNick();
-            nameSender = "Grupo";
+
+            if(user.getFriendsHashMap().get(friendID) != null)
+            {
+                nameSender = user.getFriendsHashMap().get(friendID).getNick();
+            }
+            else
+            {
+                nameSender = message.getPhone();
+            }
         }
 
         String text = "<font color=#161F89><small><b>" + nameSender + ":" + "</b></small></font><br/>" + message.getText();

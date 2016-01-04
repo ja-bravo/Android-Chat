@@ -2,7 +2,6 @@ package com.jabravo.android_chat;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -10,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.MediaStore;
@@ -34,6 +32,7 @@ import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Fragments.ContactsFragment;
 import com.jabravo.android_chat.Fragments.GroupCreatorFragment;
+import com.jabravo.android_chat.Fragments.GroupsListFragment;
 import com.jabravo.android_chat.Fragments.WelcomeFragment;
 import com.jabravo.android_chat.Services.DownloadImage;
 import com.jabravo.android_chat.Services.UploadImage;
@@ -155,14 +154,12 @@ public class MainActivity extends AppCompatActivity
                 transaction.replace(R.id.mainlayout, contactsFragment);
                 break;
 
+            case R.id.nav_groups:
+                GroupsListFragment groupsListFragment = GroupsListFragment.newInstance();
+                transaction.replace(R.id.mainlayout, groupsListFragment);
+                break;
+
             case R.id.nav_newGroup:
-                //intent = new Intent(this,GroupActivity.class);
-                //Bundle bundle = new Bundle();
-                //bundle.putInt("groupID",2);
-
-                //intent.putExtras(bundle);
-
-                //startActivity(intent);
                 GroupCreatorFragment groupCreatorFragment = GroupCreatorFragment.newInstance();
                 transaction.replace(R.id.mainlayout, groupCreatorFragment);
                 break;
@@ -185,14 +182,6 @@ public class MainActivity extends AppCompatActivity
     {
 
     }
-
-    public void vibrate(int duration)
-    {
-        // hay que darle permisos en el manifests
-        Vibrator vibs = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        vibs.vibrate(duration); // en milisegundos
-    }
-
 
     private void insertFriendsDB()
     {
@@ -298,9 +287,11 @@ public class MainActivity extends AppCompatActivity
         name.setText(user.getNick());
         status.setText(user.getStatus());
 
-        try {
+        try
+        {
             image.setImageURI(Uri.parse(preferences.getString("image", "")));
-        } catch (Exception e) {e.printStackTrace();}
+        }
+        catch (Exception e) {e.printStackTrace();}
     }
 
     private void loadContacts()

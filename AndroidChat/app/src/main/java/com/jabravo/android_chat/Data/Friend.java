@@ -166,7 +166,7 @@ public class Friend
 
     public String getNick()
     {
-        return nick;
+        return String.valueOf(nick.charAt(0)).toUpperCase() + nick.substring(1);
     }
 
 

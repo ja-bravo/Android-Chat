@@ -17,6 +17,11 @@
                         android:title="@string/action_chats"/>
 
                 <item
+                    android:id="@+id/nav_groups"
+                    android:icon="@drawable/ic_groups"
+                    android:title="@string/action_groups"/>
+
+                <item
                         android:id="@+id/nav_newGroup"
                         android:icon="@drawable/ic_new_group"
                         android:title="@string/action_newGroup"/>

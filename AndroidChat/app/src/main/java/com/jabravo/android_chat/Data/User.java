@@ -30,6 +30,7 @@ public class User
     private String status;
     private String nick;
     private HashMap<String, Friend> friends;
+    private HashMap<String, Group> groups;
 
     private Context context;
 
@@ -40,6 +41,7 @@ public class User
         this.status = status;
         this.nick = nick;
         friends = new HashMap<>();
+        groups = new HashMap<>();
     }
 
     private User(int ID, String number, String status, String nick, Context context)
@@ -50,6 +52,7 @@ public class User
         this.nick = nick;
         this.context = context;
         friends = new HashMap<>();
+        groups = new HashMap<>();
     }
 
     public static User getInstance()
@@ -83,7 +86,7 @@ public class User
 
     public String getNick()
     {
-        return nick;
+        return String.valueOf(nick.charAt(0)).toUpperCase() + nick.substring(1);
     }
 
     public void setNick(String nick)
@@ -130,12 +133,75 @@ public class User
                 phone = phone.replace(" ", "");
             }
 
-            /* Si compruebas aqui que no tenga caracteres no numericos no permites
-               que se suba un número así: (617) 123 123.
-               En Python ya se quita los caracteres que sobran en DataBase.py función get_friends
-             */
             friends.put(phone, new Friend(phone));
         }
+    }
+
+    public List<Group> getGroups()
+    {
+        final StringBuffer response = new StringBuffer();
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    String url = "http://146.185.155.88:8080/api/get/groups/" + ID;
+                    URL obj = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                    con.setRequestMethod("GET");
+                    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                    con.setDoOutput(false);
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null)
+                    {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    JSONObject jsonResponse = new JSONObject(response.toString());
+                    JSONArray array = jsonResponse.getJSONArray("groups");
+
+                    for (int i = 0; i < array.length(); i++)
+                    {
+                        JSONObject row = array.getJSONObject(i);
+
+                        String groupID = String.valueOf(row.getInt("ID"));
+                        String adminID = String.valueOf(row.getInt("ADMIN"));
+                        String groupImage = row.getString("IMAGE");
+                        String groupName = row.getString("NAME");
+
+                        groups.put(groupID, new Group(Integer.parseInt(groupID), groupName,
+                                                      Integer.parseInt(adminID), groupImage));
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        try
+        {
+            thread.join();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>(groups.values());
+    }
+
+    public HashMap<String, Group> getGroupsHashMap()
+    {
+        return groups;
     }
 
     public List<Friend> getFriends()
@@ -185,8 +251,6 @@ public class User
 
     public void updateFriends()
     {
-        System.out.println("actualizando");
-
         final StringBuffer response = new StringBuffer();
         Thread thread = new Thread(new Runnable()
         {
@@ -224,8 +288,6 @@ public class User
                     JSONObject jsonResponse = new JSONObject(response.toString().replace("\\", ""));
                     JSONArray array = jsonResponse.getJSONArray("friends");
 
-                    System.out.println("me devuelve: " + array.toString());
-
                     for (int i = 0; i < array.length(); i++)
                     {
                         JSONObject row = array.getJSONObject(i).getJSONObject("friend");
@@ -236,7 +298,6 @@ public class User
                         String fStatus = row.getString("STATUS");
                         String fImage = row.getString("USER_IMAGE");
 
-                        // Para que siempre salga la primera letra en mayuscula
                         fNick = String.valueOf(fNick.charAt(0)).toUpperCase() + fNick.substring(1);
 
                         friends.put(fID, new Friend(fID, fNumber, fStatus, fImage, fNick));
@@ -245,8 +306,6 @@ public class User
                 catch (Exception e)
                 {
                     e.printStackTrace();
-
-                    System.out.println("pete al actualizar: " + e);
                 }
             }
         });

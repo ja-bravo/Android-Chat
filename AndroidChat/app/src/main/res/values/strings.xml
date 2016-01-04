@@ -35,6 +35,7 @@
     <string name="action_newChat">New Chat</string>
     <string name="action_search">Search</string>
     <string name="action_newGroup">New Group</string>
+    <string name="action_groups">Groups</string>
     <string name="action_attach">Attach</string>
     <string name="action_chats">Chats</string>
     <string name="action_contacts">Contacts</string>
@@ -52,22 +53,26 @@
     <string name="gps_off">Your GPS seems to be disabled, do you want to enable it?</string>
     <string name="yes">Yes</string>
     <string name="gps_disabled">Can not connect to GPS.</string>
-
+    
     <!-- Strings related to Images -->
     <string name="uploading">Uploading…</string>
     <string name="please_wait">Please wait</string>
     <string name="image_success">Image uploaded</string>
     <string name="image_fail">Please wait</string>
 
-    <!-- Strings related to Images -->
+    <!-- Strings related to Maps -->
     <string name="map_change">Change map style</string>
     <string name="map_target">Friend position</string>
     <string name="map_mine">My position</string>
 
     <string name="contacts">My contacts</string>
+    <string name="groups">My groups</string>
     <string name="title_activity_chat">Chat Activity</string>
     <string name="title_activity_maps">Map</string>
     <string name="create_group">Create group</string>
     <string name="create_hint">Type the group name</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

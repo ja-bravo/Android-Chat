@@ -16,6 +16,7 @@ public class Message implements Parcelable
     private int idFriend;
     private int receiver;
     private boolean isGroup;
+    private String phone;
 
     public Message(String text, String date, int id, boolean read, int idFriend, int receiver)
     {
@@ -25,6 +26,7 @@ public class Message implements Parcelable
         this.read = read;
         this.idFriend = idFriend;
         this.receiver = receiver;
+        phone = "";
     }
 
 
@@ -35,6 +37,7 @@ public class Message implements Parcelable
         this.id = id;
         this.read = read;
         this.idFriend = sender;
+        phone = "";
     }
 
     public Message(String text, String date, boolean read, int idFriend, int receiver)
@@ -56,6 +59,7 @@ public class Message implements Parcelable
         this.idFriend = idFriend;
         this.receiver = receiver;
         this.isGroup = isGroup;
+        phone = "";
     }
 
     public Message()
@@ -66,6 +70,7 @@ public class Message implements Parcelable
         this.read = false;
         this.idFriend = -1;
         this.receiver = -1;
+        phone = "";
     }
 
     public Message(Parcel in)
@@ -80,6 +85,15 @@ public class Message implements Parcelable
 
 
 
+    public String getPhone()
+    {
+        return phone;
+    }
+
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
+    }
 
     public String getText()
     {

@@ -109,21 +109,20 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
         JSONObject object = null;
         try
         {
-           object = new JSONObject();
-           object.put("NAME",text.getText().toString());
-           object.put("ADMIN",User.getInstance().getID());
-           object.put("IMAGE","");
+            object = new JSONObject();
+            object.put("NAME",text.getText().toString());
+            object.put("ADMIN",User.getInstance().getID());
+            object.put("IMAGE","");
 
-
-           JSONArray users = new JSONArray();
-           for(FriendRow row : rows)
-           {
+            JSONArray users = new JSONArray();
+            for(FriendRow row : rows)
+            {
                if(row.isChecked())
                {
                    users.put(row.getId());
                }
-           }
-           object.put("USERS", users);
+            }
+            object.put("USERS", users);
 
             int groupID = new UserService().createGroup(object);
             Intent intent = new Intent(getActivity(), GroupActivity.class);

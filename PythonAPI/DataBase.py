@@ -5,6 +5,7 @@ __author__ = 'JoseAntonio'
 import pymysql
 import json
 from User import  User
+from Group import  Group
 from Message import  Message
 from puntuacion import Puntuacion
 import connection as db
@@ -77,23 +78,23 @@ class DataBase():
             maxI = 0
 
         #Recibir mensajes
-        SQL = """SELECT ID_USER_SENDER , MESSAGES.TEXT , 0 AS ID_GROUP
-                 FROM USERS , MESSAGES , SEND_INDIVIDUAL_MESSAGE
+        SQL = """SELECT ID_USER_SENDER, MESSAGES.TEXT, 0 AS ID_GROUP, (SELECT U.PHONE FROM USERS U WHERE U.ID_USER = ID_USER_SENDER) AS SENDER_PHONE
+                 FROM USERS, MESSAGES, SEND_INDIVIDUAL_MESSAGE
                  WHERE USERS.ID_USER = SEND_INDIVIDUAL_MESSAGE.ID_USER_RECEIVER
-                       AND SEND_INDIVIDUAL_MESSAGE.ID_MESSAGE = MESSAGES.ID_MESSAGE
-                       AND USERS.ID_USER = %s
-                       AND MESSAGES.ID_MESSAGE > USERS.LAST_RECEIVED_MESSAGE_INDIVIDUAL
-                       AND MESSAGES.ID_MESSAGE <= %s
-                UNION
-                SELECT SEND_MESSAGE_GROUP.ID_USER AS ID_USER_SENDER, MESSAGES.TEXT , BELONG.ID_GROUP
-                FROM USERS , MESSAGES , SEND_MESSAGE_GROUP , BELONG
-                WHERE USERS.ID_USER = BELONG.ID_USER
-                      AND BELONG.ID_GROUP = SEND_MESSAGE_GROUP.ID_GROUP
-                      AND SEND_MESSAGE_GROUP.ID_MESSAGE = MESSAGES.ID_MESSAGE
-                      AND USERS.ID_USER = %s
-					  AND SEND_MESSAGE_GROUP.ID_USER != USERS.ID_USER
-                      AND MESSAGES.ID_MESSAGE > USERS.LAST_RECEIVED_MESSAGE_GROUP
-                      AND MESSAGES.ID_MESSAGE <= %s ;""".replace('\n',' ')
+                     AND SEND_INDIVIDUAL_MESSAGE.ID_MESSAGE = MESSAGES.ID_MESSAGE
+                     AND USERS.ID_USER = %s
+                     AND MESSAGES.ID_MESSAGE > USERS.LAST_RECEIVED_MESSAGE_INDIVIDUAL
+                     AND MESSAGES.ID_MESSAGE <= %s
+                 UNION
+                 SELECT SEND_MESSAGE_GROUP.ID_USER AS ID_USER_SENDER, MESSAGES.TEXT , BELONG.ID_GROUP, (SELECT U.PHONE FROM USERS U WHERE U.ID_USER = ID_USER_SENDER) AS SENDER_PHONE
+                 FROM USERS , MESSAGES , SEND_MESSAGE_GROUP , BELONG
+                 WHERE USERS.ID_USER = BELONG.ID_USER
+                     AND BELONG.ID_GROUP = SEND_MESSAGE_GROUP.ID_GROUP
+                     AND SEND_MESSAGE_GROUP.ID_MESSAGE = MESSAGES.ID_MESSAGE
+                     AND USERS.ID_USER = %s
+                     AND SEND_MESSAGE_GROUP.ID_USER != USERS.ID_USER
+                     AND MESSAGES.ID_MESSAGE > USERS.LAST_RECEIVED_MESSAGE_GROUP
+                     AND MESSAGES.ID_MESSAGE <= %s;""".replace('\n',' ')
 
 					  
         SQL = SQL % (str(ID),str(maxI),str(ID),str(maxG))
@@ -105,6 +106,7 @@ class DataBase():
             message.ID_USER_SENDER = row[0]
             message.TEXT = row[1]
             message.ID_GROUP = row[2]
+            message.PHONE = row[3]
 
             messages.append(message.serialize())
 
@@ -386,7 +388,7 @@ class DataBase():
         connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
         cursor = connection.cursor()
 
-        SQL = "SELECT BELONG.ID_GROUP, NAME_GROUP FROM BELONG, GROUPS WHERE id_user = %s and BELONG.ID_GROUP = GROUPS.ID_GROUP" % str(userID)
+        SQL = "SELECT B.ID_GROUP, NAME_GROUP, ID_GROUP_ADMIN, IMAGE_GROUP FROM BELONG B, GROUPS G WHERE id_user = %s AND B.ID_GROUP = G.ID_GROUP" % str(userID)
 
         try:
             cursor.execute(SQL)
@@ -395,8 +397,13 @@ class DataBase():
 
         groups = list()
         for row in cursor:
-            data = (row[0],row[1])
-            groups.append(data)
+            group = Group()
+            group.ID = row[0]
+            group.NAME = row[1]
+            group.ADMIN = row[2]
+            group.IMAGE = row[3]
+
+            groups.append(group.serialize())
 
         cursor.close()
         connection.close()

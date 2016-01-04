@@ -135,7 +135,9 @@ public class Service implements Runnable
 
             System.out.println("Es grupo: " + isGroup);
 
-            buffer.add(new Message(text, idFriend, receiver , isGroup));
+            Message message = new Message(text, idFriend, receiver , isGroup);
+            message.setPhone(messageJSON.getString("PHONE"));
+            buffer.add(message);
         }
     }
 }

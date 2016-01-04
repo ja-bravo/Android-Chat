@@ -1,4 +1,4 @@
-__author__ = 'JoseAntonio'
+__author__ = 'Jose Antonio'
 
 class User():
     def __init__(self):

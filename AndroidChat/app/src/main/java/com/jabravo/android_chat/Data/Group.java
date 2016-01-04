@@ -107,7 +107,7 @@ public class Group
 
     public String getName()
     {
-        return name;
+        return String.valueOf(name.charAt(0)).toUpperCase() + name.substring(1);
     }
 
 
@@ -152,4 +152,9 @@ public class Group
         this.messages = messages;
     }
 
+    @Override
+    public String toString()
+    {
+        return String.valueOf(name.charAt(0)).toUpperCase() + name.substring(1);
+    }
 }
