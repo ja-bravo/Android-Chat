@@ -326,13 +326,21 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         {
             String text = messages.get(i).getText();
             String date = messages.get(i).getDate();
+            int idReceiver = messages.get(i).getReceiver();
             int idFriend = messages.get(i).getIdFriend();
             boolean read = messages.get(i).isRead();
 
-            Actions_DB.insertMessageGroup(text, date, read, groupID  , idFriend);
 
-            System.out.println("GUARDANDO EN GRUPO.");
-
+            if (!messages.get(i).getIsGroup())
+            {
+                Actions_DB.insertMessagePrivate(text, date, read, idFriend, idReceiver);
+                System.out.println("GUARDANDO EN PRIVADO - GRUPPO.");
+            }
+            else
+            {
+                Actions_DB.insertMessageGroup(text, date, read, idReceiver  , idFriend);
+                System.out.println("GUARDANDO EN GRUPO - GRUPPO .");
+            }
         }
 
         messages.clear();
@@ -502,18 +510,31 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
     {
         Intent intent = new Intent(this, Notification.class);
 
-        int notificationID = message.getIdFriend(); // con esto consigo que no salgan nuevas notoficaciones para este usuario
+        boolean isGroup = message.getIsGroup();
+
+        int notificationID = isGroup? message.getReceiver(): message.getIdFriend();
+
         intent.putExtra("notificationID", notificationID);
+        intent.putExtra("isGroup", isGroup);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        //String friendName = User.getInstance().getFriendsHashMap().get(String.valueOf(notificationID)).getNick();
-        String friendName = "Grupo";
+        String name = "";
+
+        if (isGroup)
+        {
+            Group group = user.getGroupsHashMap().get(String.valueOf(notificationID));
+            name = group.getName();
+        }
+        else
+        {
+            name = User.getInstance().getFriendsHashMap().get(String.valueOf(notificationID)).getNick();
+        }
 
         CharSequence ticker = message.getText();
         CharSequence contentTitle = "Android Chat";
-        CharSequence contentText = "Message from " + friendName;
+        CharSequence contentText = "Message from " + name;
 
         android.app.Notification noti = new NotificationCompat.Builder(this)
                 .setContentIntent(pendingIntent)
@@ -528,7 +549,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                 .setVibrate(new long[]{100, 250, 100, 500})
                 .build();
 
-        nm.notify(notificationID, noti);
+        nm.notify(notificationID , noti);
         ringtone.play();
     }
 
@@ -545,6 +566,8 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
             while (!Thread.interrupted())
             {
+                System.out.println("UUU SOY RECEIVER GRUPO");
+
                 if (!service.getBuffer().isEmpty())
                 {
                     runOnUiThread(new Runnable()
@@ -557,14 +580,21 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                             {
                                 Message message = it.next();
                                 messages.add(message);
+                                boolean messageIsDisplay = false;
+                                boolean isGroup = message.getIsGroup();
 
-                                if (message.getReceiver() == user.getID())
+                                System.out.println("UUU receiver group " +  message.getReceiver());
+                                System.out.println("UUU es group " +  isGroup);
+                                System.out.println("UUU el grupo esta abierto " +  !MainActivity.isChatPrivate);
+
+                                if ( isGroup && message.getReceiver() == groupID && !MainActivity.isChatPrivate )
                                 {
                                     if(isAMap(message.getText()))
                                     {
                                         try
                                         {
                                             showMap(message);
+                                            messageIsDisplay = true;
                                         }
                                         catch (JSONException e)
                                         {
@@ -573,11 +603,8 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                                     }
                                     else
                                     {
-                                        if ((!message.getIsGroup() && MainActivity.isChatPrivate) ||
-                                                (message.getIsGroup() && !MainActivity.isChatPrivate))
-                                        {
-                                            showMessage(message);
-                                        }
+                                        showMessage(message);
+                                        messageIsDisplay = true;
                                     }
 
                                     ringtone.play();
@@ -587,9 +614,9 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                                     saveDBMessages();
                                 }
 
-                                if (!MainActivity.openProgram || message.getIdFriend() != groupID)
+                                if (!MainActivity.openProgram || !messageIsDisplay)
                                 {
-                                    //showNotification(message);
+                                   // showNotification(message);
                                 }
 
                                 it.remove();
@@ -794,7 +821,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                     });
             AlertDialog alert = builder.create();
             alert.show();
-
         }
 
         return false;

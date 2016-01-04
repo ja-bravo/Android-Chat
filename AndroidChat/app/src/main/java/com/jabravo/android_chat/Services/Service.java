@@ -129,13 +129,17 @@ public class Service implements Runnable
 
             String text = messageJSON.getString("TEXT");
             int idFriend = messageJSON.getInt("ID_USER_SENDER");
+            int idGroup =  messageJSON.getInt("ID_GROUP");
 
-            int receiver = User.getInstance().getID();
-            boolean isGroup = messageJSON.getInt("ID_GROUP") != 0;
+            boolean isGroup = idGroup != 0;
 
-            System.out.println("Es grupo: " + isGroup);
+            // Si es mensaje de grupo, el receiver es la id del grupo
+            int receiver = isGroup?idGroup:User.getInstance().getID();
+
+            System.out.println("Es grupo Service: " + isGroup);
 
             Message message = new Message(text, idFriend, receiver , isGroup);
+
             message.setPhone(messageJSON.getString("PHONE"));
             buffer.add(message);
         }

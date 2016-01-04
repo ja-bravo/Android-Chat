@@ -44,6 +44,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.jabravo.android_chat.Data.Actions_DB;
 import com.jabravo.android_chat.Data.Friend;
+import com.jabravo.android_chat.Data.Group;
 import com.jabravo.android_chat.Data.Message;
 import com.jabravo.android_chat.Data.MessageList;
 import com.jabravo.android_chat.Data.PausableThreadPool;
@@ -330,7 +331,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             int idFriend = messages.get(i).getIdFriend();
             boolean read = messages.get(i).isRead();
 
-            Actions_DB.insertMessagePrivate(text, date, read, idFriend, idReceiver);
+
+            if (!messages.get(i).getIsGroup())
+            {
+                Actions_DB.insertMessagePrivate(text, date, read, idFriend, idReceiver);
+                System.out.println("GUARDANDO EN PRIVADO - PRIVADO.");
+            }
+            else
+            {
+                Actions_DB.insertMessageGroup(text, date, read, idReceiver  , idFriend);
+                System.out.println("GUARDANDO EN GRUPO - PRIVADO .");
+            }
         }
 
         messages.clear();
@@ -478,17 +489,32 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         Intent intent = new Intent(this, Notification.class);
 
-        int notificationID = message.getIdFriend(); // con esto consigo que no salgan nuevas notoficaciones para este usuario
+        boolean isGroup = message.getIsGroup();
+
+        int notificationID = isGroup? message.getReceiver(): message.getIdFriend();
+
+        System.out.println("FGFDGFDGFG: " +notificationID );
         intent.putExtra("notificationID", notificationID);
+        intent.putExtra("isGroup", isGroup);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        String friendName = User.getInstance().getFriendsHashMap().get(String.valueOf(notificationID)).getNick();
+        String name = "";
+
+        if (isGroup)
+        {
+           // Group group = user.getGroupsHashMap().get(String.valueOf(notificationID));
+           // name = group.getName();
+        }
+        else
+        {
+            name = User.getInstance().getFriendsHashMap().get(String.valueOf(notificationID)).getNick();
+        }
 
         CharSequence ticker = message.getText();
         CharSequence contentTitle = "Android Chat";
-        CharSequence contentText = "Message from " + friendName;
+        CharSequence contentText = "Message from " + name;
 
         android.app.Notification noti = new NotificationCompat.Builder(this)
                 .setContentIntent(pendingIntent)
@@ -520,6 +546,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             while (!Thread.interrupted())
             {
+                System.out.println("UUU SOY RECEIVER INVI");
+
                 if (!service.getBuffer().isEmpty())
                 {
                     runOnUiThread(new Runnable()
@@ -533,14 +561,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                             {
                                 Message message = it.next();
                                 messages.add(message);
+                                boolean messageIsDisplay = false;
+                                boolean isGroup = message.getIsGroup();
 
-                                if (message.getIdFriend() == toID)
+                                System.out.println("UUU el grupo esta abierto " +  !MainActivity.isChatPrivate);
+
+                                if (!isGroup && message.getIdFriend() == toID && MainActivity.isChatPrivate)
                                 {
                                     if(isAMap(message.getText()))
                                     {
                                         try
                                         {
                                             showMap(message);
+                                            messageIsDisplay = true;
                                         }
                                         catch (JSONException e)
                                         {
@@ -552,10 +585,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                         System.out.println("MM mensajes es grupo: " + message.getIsGroup());
                                         System.out.println("MM es chat es privado: " +  MainActivity.isChatPrivate);
 
-                                        if ((!message.getIsGroup() && MainActivity.isChatPrivate) ||
-                                                (message.getIsGroup() && !MainActivity.isChatPrivate))
-                                        {
+                                        if ((!message.getIsGroup() && MainActivity.isChatPrivate) ) {
                                             showMessage(message);
+                                            messageIsDisplay = true;
                                         }
                                     }
 
@@ -566,10 +598,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                     saveDBMessages();
                                 }
 
-                                if (!MainActivity.openProgram || message.getIdFriend() != toID)
+                                if (!MainActivity.openProgram || !messageIsDisplay)
                                 {
-                                    showNotification(message);
+                                    //showNotification(message);
                                 }
+
 
                                 it.remove();
                             }

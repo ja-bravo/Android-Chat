@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     public static int timeSleepStart;
     Bitmap photobmp;
     public static boolean isChatPrivate;
+    public static boolean serviceOpen;
 
     public static DB_Android dataBase;
 

@@ -16,9 +16,26 @@ public class Notification extends AppCompatActivity {
 
         // para cancelar la notificacion
 
-        Intent intentViewImages = new Intent(this, ChatActivity.class);
-        intentViewImages.putExtra("toID" , getIntent().getExtras().getInt("notificationID"));
-        startActivity(intentViewImages);
+
+        boolean isGroup = getIntent().getExtras().getBoolean("isGroup");
+
+        System.out.println("NOTIFICATION es group " +  isGroup);
+        System.out.println("NOTIFICATION es group " +  getIntent().getExtras().getInt("notificationID"));
+
+
+        if (!isGroup)
+        {
+            Intent intentViewImages = new Intent(this, ChatActivity.class);
+            intentViewImages.putExtra("toID" , getIntent().getExtras().getString("notificationID"));
+            startActivity(intentViewImages);
+        }
+        else
+        {
+            Intent intentViewImages = new Intent(this, GroupActivity.class);
+            intentViewImages.putExtra("groupID" , getIntent().getExtras().getString("notificationID"));
+            startActivity(intentViewImages);
+        }
+
 
         nm.cancel(getIntent().getExtras().getInt("notificationID"));
 
