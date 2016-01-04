@@ -349,3 +349,56 @@ class DataBase():
         connection.close()
 
         return puntuaciones
+
+    def create_group(self, request):
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
+        cursor = connection.cursor()
+
+        request = json.loads(request)
+        adminID = request["ADMIN"]
+        group_name = request["NAME"]
+        group_image = request["IMAGE"]
+
+        SQL = "INSERT INTO GROUPS (NAME_GROUP,ID_GROUP_ADMIN,IMAGE_GROUP) VALUES ('%s',%s,'%s')" % (str(group_name),str(adminID),str(group_image))
+
+        ID = -1
+        try:
+            cursor.execute(SQL)
+            ID = cursor.lastrowid
+            connection.commit()
+        except:
+            return SQL
+
+        SQL = "INSERT INTO BELONG (ID_USER,ID_GROUP) VALUES (%s,%s)" % (str(adminID),ID)
+        cursor.execute(SQL)
+        connection.commit()
+
+        for userID in request["USERS"]:
+            SQL = "INSERT INTO BELONG (ID_USER,ID_GROUP) VALUES (%s,%s)" % (str(userID),ID)
+            cursor.execute(SQL)
+            connection.commit()
+
+        cursor.close()
+        connection.close()
+        return ID
+
+    def get_groups(self, userID):
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
+        cursor = connection.cursor()
+
+        SQL = "SELECT BELONG.ID_GROUP, NAME_GROUP FROM BELONG, GROUPS WHERE id_user = %s and BELONG.ID_GROUP = GROUPS.ID_GROUP" % str(userID)
+
+        try:
+            cursor.execute(SQL)
+        except:
+            return SQL
+
+        groups = list()
+        for row in cursor:
+            data = (row[0],row[1])
+            groups.append(data)
+
+        cursor.close()
+        connection.close()
+
+        return groups

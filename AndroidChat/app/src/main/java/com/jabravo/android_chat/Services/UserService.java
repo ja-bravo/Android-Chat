@@ -65,6 +65,58 @@ public class UserService
         return exists.get();
     }
 
+    public int createGroup(JSONObject jsonObject) throws UnsupportedEncodingException, JSONException
+    {
+        final AtomicInteger ID = new AtomicInteger(-1);
+
+        final String json = URLEncoder.encode(jsonObject.toString(),"ISO-8859-9").replaceAll("\\+","%20");
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                String url = "http://146.185.155.88:8080/api/post/group/" + json;
+                StringBuffer response = new StringBuffer();
+                try
+                {
+                    URL obj = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                    con.setDoOutput(true);
+
+                    BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()));
+
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null)
+                    {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    String result = response.toString();
+                    int index = result.lastIndexOf("}");
+                    result = result.substring(index-3);
+                    result = result.trim();
+                    int userID = Integer.parseInt(result.substring(0,result.length() - 1));
+
+                    ID.set(userID);
+                }
+                catch(Exception e) {e.printStackTrace();}
+            }
+        });
+        thread.start();
+
+        try
+        {
+            thread.join();
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        return ID.get();
+    }
+
     public int insertUser(String nick, final String phone) throws UnsupportedEncodingException, JSONException
     {
         final AtomicInteger ID = new AtomicInteger(-1);

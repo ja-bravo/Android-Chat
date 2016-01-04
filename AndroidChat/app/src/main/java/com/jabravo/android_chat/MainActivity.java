@@ -33,6 +33,7 @@ import com.jabravo.android_chat.Data.Friend;
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.Fragments.ChatsListFragment;
 import com.jabravo.android_chat.Fragments.ContactsFragment;
+import com.jabravo.android_chat.Fragments.GroupCreatorFragment;
 import com.jabravo.android_chat.Fragments.WelcomeFragment;
 import com.jabravo.android_chat.Services.DownloadImage;
 import com.jabravo.android_chat.Services.UploadImage;
@@ -155,13 +156,15 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_newGroup:
-                intent = new Intent(this,GroupActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("groupID",2);
+                //intent = new Intent(this,GroupActivity.class);
+                //Bundle bundle = new Bundle();
+                //bundle.putInt("groupID",2);
 
-                intent.putExtras(bundle);
+                //intent.putExtras(bundle);
 
-                startActivity(intent);
+                //startActivity(intent);
+                GroupCreatorFragment groupCreatorFragment = GroupCreatorFragment.newInstance();
+                transaction.replace(R.id.mainlayout, groupCreatorFragment);
                 break;
 
             case R.id.nav_settings:

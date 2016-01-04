@@ -22,47 +22,50 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DataBase.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DataBase.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataBase.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35185185">
-              <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="386" column="36" selection-start-line="386" selection-start-column="36" selection-end-line="386" selection-end-column="36" />
               <folding>
                 <element signature="e#49#63#0" expanded="true" />
-                <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-                <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-                <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-                <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-                <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-                <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-                <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-                <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-                <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-                <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-                <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-                <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-                <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-                <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-                <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-                <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-                <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-                <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-                <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-                <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-                <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-                <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-                <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-                <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+                <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+                <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+                <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+                <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+                <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+                <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+                <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+                <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+                <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+                <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+                <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+                <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+                <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+                <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+                <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+                <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+                <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+                <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+                <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+                <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+                <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+                <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+                <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+                <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+                <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+                <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+                <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WebAPI.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WebAPI.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WebAPI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.46296296">
+              <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -84,8 +87,8 @@
         <option value="$PROJECT_DIR$/Message.py" />
         <option value="$PROJECT_DIR$/connection.py" />
         <option value="$PROJECT_DIR$/puntuacion.py" />
-        <option value="$PROJECT_DIR$/WebAPI.py" />
         <option value="$PROJECT_DIR$/DataBase.py" />
+        <option value="$PROJECT_DIR$/WebAPI.py" />
       </list>
     </option>
   </component>
@@ -144,7 +147,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -166,6 +168,7 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -387,7 +390,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24479167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -439,30 +442,33 @@
           <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -495,30 +501,33 @@
           <caret line="147" column="0" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -551,30 +560,33 @@
           <caret line="138" column="24" selection-start-line="138" selection-start-column="24" selection-end-line="138" selection-end-column="24" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -607,30 +619,33 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -663,30 +678,33 @@
           <caret line="115" column="46" selection-start-line="115" selection-start-column="46" selection-end-line="115" selection-end-column="46" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -719,30 +737,33 @@
           <caret line="110" column="8" selection-start-line="110" selection-start-column="8" selection-end-line="110" selection-end-column="8" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -775,30 +796,33 @@
           <caret line="110" column="8" selection-start-line="110" selection-start-column="8" selection-end-line="110" selection-end-column="8" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -831,30 +855,33 @@
           <caret line="110" column="8" selection-start-line="110" selection-start-column="8" selection-end-line="110" selection-end-column="8" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -887,30 +914,33 @@
           <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -943,30 +973,33 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -992,30 +1025,33 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -1041,30 +1077,33 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
           </folding>
         </state>
       </provider>
@@ -1112,45 +1151,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebAPI.py">
+    <entry file="file://$PROJECT_DIR$/DataBase.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
-          <folding />
+          <caret line="386" column="36" selection-start-line="386" selection-start-column="36" selection-end-line="386" selection-end-column="36" />
+          <folding>
+            <element signature="e#49#63#0" expanded="true" />
+            <marker date="1451864349599" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="2363:3458" placeholder="SELECT ID_US..." />
+            <marker date="1451864349599" expanded="true" signature="2871:3309" placeholder="SELECT SEND_..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="3885:4052" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="4599:4684" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="4877:5017" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
+            <marker date="1451864349599" expanded="true" signature="5605:5690" placeholder="INSERT INTO MESSAGES..." />
+            <marker date="1451864349599" expanded="true" signature="5883:6004" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
+            <marker date="1451864349599" expanded="true" signature="6543:6615" placeholder="INSERT INTO ..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="6775:6849" placeholder="SELECT ID_US..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="7260:7339" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8110:8193" placeholder="SELECT COUNT..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="8520:8596" placeholder="SELECT * FRO..USERS..." />
+            <marker date="1451864349599" expanded="true" signature="9495:9580" placeholder="UPDATE USERS..." />
+            <marker date="1451864349599" expanded="true" signature="10238:10373" placeholder="INSERT INTO puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="10885:10937" placeholder="SELECT * FRO..puntuaciones..." />
+            <marker date="1451864349599" expanded="true" signature="11851:11931" placeholder="INSERT INTO GROUPS..." />
+            <marker date="1451864349599" expanded="true" signature="12166:12218" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12356:12408" placeholder="INSERT INTO BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12808" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12828" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12845" placeholder="SELECT BELON..BELONG..." />
+            <marker date="1451864349599" expanded="true" signature="12774:12885" placeholder="INSERT INTO GROUPS..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DataBase.py">
+    <entry file="file://$PROJECT_DIR$/WebAPI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35185185">
-          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-          <folding>
-            <element signature="e#49#63#0" expanded="true" />
-            <marker date="1451405831164" expanded="true" signature="417:436" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1047:1097" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="1791:1901" placeholder="SELECT MAX(S..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="2046:2140" placeholder="SELECT MAX(S..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="2363:2830" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="2363:3390" placeholder="SELECT ID_US..." />
-            <marker date="1451405831164" expanded="true" signature="2871:3390" placeholder="SELECT USERS..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="3809:3976" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="4523:4608" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="4801:4941" placeholder="INSERT INTO ..SEND_INDIVIDUAL_MESSAGE..." />
-            <marker date="1451405831164" expanded="true" signature="5529:5614" placeholder="INSERT INTO MESSAGES..." />
-            <marker date="1451405831164" expanded="true" signature="5807:5928" placeholder="INSERT INTO ..SEND_MESSAGE_GROUP..." />
-            <marker date="1451405831164" expanded="true" signature="6467:6539" placeholder="INSERT INTO ..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="6699:6773" placeholder="SELECT ID_US..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="7184:7263" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8034:8117" placeholder="SELECT COUNT..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="8444:8520" placeholder="SELECT * FRO..USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9470" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9493" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="9419:9504" placeholder="UPDATE USERS..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10260" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10162:10297" placeholder="INSERT INTO PUNTUACIONES..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10861" placeholder="SELECT * FRO..puntuaciones..." />
-            <marker date="1451405831164" expanded="true" signature="10809:10862" placeholder="SELECT * fro..puntuaciones..." />
-          </folding>
+        <state vertical-scroll-proportion="0.46296296">
+          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>

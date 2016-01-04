@@ -143,6 +143,24 @@ public class User
         return new ArrayList<>(friends.values());
     }
 
+    public List<FriendRow> getFriendsRows()
+    {
+        List<FriendRow> rows = new ArrayList<>();
+        for(Friend friend : friends.values())
+        {
+            FriendRow row = new FriendRow(friend.getId());
+            row.setImage(friend.getImage());
+            row.setNick(friend.getNick());
+            row.setPhone(friend.getPhone());
+            row.setMessages(friend.getMessages());
+            row.setStatus(friend.getStatus());
+
+            rows.add(row);
+        }
+
+        return rows;
+    }
+
     public HashMap<String, Friend> getFriendsHashMap()
     {
         return friends;

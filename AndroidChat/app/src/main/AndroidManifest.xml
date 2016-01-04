@@ -57,8 +57,9 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps">
         </activity>
-        <activity android:name=".GroupActivity"
-                  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".GroupActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

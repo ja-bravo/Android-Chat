@@ -32,6 +32,14 @@ def send_message_group(message):
 def insert_user(user):
     return jsonify({'id': db.insert_user(user)})
 
+@app.route("/api/post/group/<json>", methods=['GET','POST'])
+def create_group(json):
+    return jsonify({'id': db.create_group(json)})
+
+@app.route("/api/get/groups/<int:id>", methods=['GET','POST'])
+def get_groups(id):
+    return jsonify({'groups': db.get_groups(id)})
+
 @app.route("/api/get/user/exists/<phone>", methods=['GET','POST'])
 def user_exists(phone):
     return jsonify({'response': db.user_exists(phone)})

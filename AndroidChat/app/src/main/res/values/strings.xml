@@ -67,4 +67,7 @@
     <string name="contacts">My contacts</string>
     <string name="title_activity_chat">Chat Activity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="create_group">Create group</string>
+    <string name="create_hint">Type the group name</string>
+
 </resources>
