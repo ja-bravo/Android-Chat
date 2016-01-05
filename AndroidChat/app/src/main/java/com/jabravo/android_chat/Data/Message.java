@@ -18,9 +18,10 @@ public class Message implements Parcelable
     private boolean isGroup;
     private String phone;
 
-    public Message(String text, String date, int id, boolean read, int idFriend, int receiver)
+    public Message(String text, String date, int id, boolean read, int idFriend, int receiver )
     {
         this.text = text;
+
         this.date = date;
         this.id = id;
         this.read = read;
@@ -28,7 +29,6 @@ public class Message implements Parcelable
         this.receiver = receiver;
         phone = "";
     }
-
 
     public Message(String text, String date, int id, boolean read, int sender)
     {
@@ -40,8 +40,9 @@ public class Message implements Parcelable
         phone = "";
     }
 
-    public Message(String text, String date, boolean read, int idFriend, int receiver)
+    public Message(String text, String date, boolean read, int idFriend, int receiver  , boolean isGroup)
     {
+        this.isGroup = isGroup;
         this.text = text;
         this.date = date;
         this.read = read;

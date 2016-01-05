@@ -454,8 +454,10 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             String dateFormat = df.format(date);
 
+            boolean isGroup = true;
+
             Message message = new Message(keyboard.getText().toString(), dateFormat, true,
-                    user.getID(), groupID); // con quien es la conversacion, y quien lo tiene que recivir
+                    user.getID(), groupID , isGroup); // con quien es la conversacion, y quien lo tiene que recivir
 
             messages.add(message);
 
@@ -511,14 +513,12 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = new Intent(this, Notification.class);
 
         boolean isGroup = message.getIsGroup();
-
         int notificationID = isGroup? message.getReceiver(): message.getIdFriend();
 
         intent.putExtra("notificationID", notificationID);
         intent.putExtra("isGroup", isGroup);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         String name = "";
 
@@ -536,7 +536,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         CharSequence contentTitle = "Android Chat";
         CharSequence contentText = "Message from " + name;
 
-        android.app.Notification noti = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder noti = new NotificationCompat.Builder(this)
                 .setContentIntent(pendingIntent)
                 .setTicker(ticker)
                 .setContentTitle(contentTitle)
@@ -546,10 +546,11 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                 .setPriority(android.app.Notification.PRIORITY_MAX)
                 .setAutoCancel(true)
                 .addAction(R.mipmap.ic_ini, ticker, pendingIntent)
-                .setVibrate(new long[]{100, 250, 100, 500})
-                .build();
+                .setVibrate(new long[]{100, 250, 100, 500});
 
-        nm.notify(notificationID , noti);
+
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(notificationID , noti.build());
         ringtone.play();
     }
 
@@ -616,7 +617,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
                                 if (!MainActivity.openProgram || !messageIsDisplay)
                                 {
-                                   // showNotification(message);
+                                   showNotification(message);
                                 }
 
                                 it.remove();
@@ -783,7 +784,9 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                     position.put("latitude",location.getLatitude());
                     position.put("longitude",location.getLongitude());
 
-                    Message message = new Message("MAP"+position.toString(), dateFormat, true, user.getID(), groupID);
+                    boolean isGroup = true;
+
+                    Message message = new Message("MAP"+position.toString(), dateFormat, true, user.getID(), groupID , isGroup);
                     messages.add(message);
 
                     sendMessage(message.getText());

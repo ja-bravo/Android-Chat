@@ -433,8 +433,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             String dateFormat = df.format(date);
 
+            boolean isGroup = false;
+
             Message message = new Message(keyboard.getText().toString(), dateFormat, true,
-                    toID, toID); // con quien es la conversacion, y quien lo tiene que recivir
+                    toID, toID , isGroup); // con quien es la conversacion, y quien lo tiene que recivir
 
             messages.add(message);
 
@@ -490,22 +492,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, Notification.class);
 
         boolean isGroup = message.getIsGroup();
-
         int notificationID = isGroup? message.getReceiver(): message.getIdFriend();
 
-        System.out.println("FGFDGFDGFG: " +notificationID );
         intent.putExtra("notificationID", notificationID);
         intent.putExtra("isGroup", isGroup);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         String name = "";
 
         if (isGroup)
         {
-           // Group group = user.getGroupsHashMap().get(String.valueOf(notificationID));
-           // name = group.getName();
+            Group group = user.getGroupsHashMap().get(String.valueOf(notificationID));
+            name = group.getName();
         }
         else
         {
@@ -516,7 +515,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         CharSequence contentTitle = "Android Chat";
         CharSequence contentText = "Message from " + name;
 
-        android.app.Notification noti = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder noti = new NotificationCompat.Builder(this)
                 .setContentIntent(pendingIntent)
                 .setTicker(ticker)
                 .setContentTitle(contentTitle)
@@ -526,10 +525,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 .setPriority(android.app.Notification.PRIORITY_MAX)
                 .setAutoCancel(true)
                 .addAction(R.mipmap.ic_ini, ticker, pendingIntent)
-                .setVibrate(new long[]{100, 250, 100, 500})
-                .build();
+                .setVibrate(new long[]{100, 250, 100, 500});
 
-        nm.notify(notificationID, noti);
+
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(notificationID , noti.build());
         ringtone.play();
     }
 
@@ -600,7 +600,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                                 if (!MainActivity.openProgram || !messageIsDisplay)
                                 {
-                                    //showNotification(message);
+                                    showNotification(message);
                                 }
 
 
@@ -767,7 +767,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     position.put("latitude",location.getLatitude());
                     position.put("longitude",location.getLongitude());
 
-                    Message message = new Message("MAP"+position.toString(), dateFormat, true, toID, toID);
+                    boolean isGroup = false;
+
+                    Message message = new Message("MAP"+position.toString(), dateFormat, true, toID, toID , isGroup);
                     messages.add(message);
 
                     sendMessage(message.getText());
