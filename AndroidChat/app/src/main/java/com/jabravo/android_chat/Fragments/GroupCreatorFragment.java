@@ -2,7 +2,6 @@ package com.jabravo.android_chat.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,12 +11,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.jabravo.android_chat.ChatActivity;
 import com.jabravo.android_chat.CustomArrayAdapter;
 import com.jabravo.android_chat.Data.FriendRow;
 import com.jabravo.android_chat.Data.User;
-import com.jabravo.android_chat.GroupActivity;
+import com.jabravo.android_chat.GroupInvite;
+import com.jabravo.android_chat.MainActivity;
 import com.jabravo.android_chat.R;
 import com.jabravo.android_chat.Services.UserService;
 
@@ -34,6 +34,8 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
 
     private Button button;
     private TextView text;
+
+    private int groupID;
 
     public static GroupCreatorFragment newInstance()
     {
@@ -61,12 +63,20 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
         text = (TextView) view.findViewById(R.id.editText);
 
         button.setOnClickListener(this);
+        groupID = -1;
 
         User user = User.getInstance();
         rows =  user.getFriendsRows();
         list.setAdapter(new CustomArrayAdapter(view.getContext(), rows));
 
         list.setOnItemClickListener(this);
+
+        if(getActivity() instanceof GroupInvite)
+        {
+            text.setVisibility(View.INVISIBLE);
+            button.setText(getResources().getString(R.string.invite));
+            groupID = getArguments().getInt("groupID");
+        }
         return view;
     }
 
@@ -94,45 +104,61 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        Bundle bundle = new Bundle();
-        bundle.putInt("toID", rows.get(position).getId());
 
-        Intent intent = new Intent(getActivity(), ChatActivity.class);
-        intent.putExtras(bundle);
-
-        startActivity(intent);
     }
 
     @Override
     public void onClick(View v)
     {
-        JSONObject object = null;
-        try
+        if(getActivity() instanceof MainActivity)
         {
-            object = new JSONObject();
-            object.put("NAME",text.getText().toString());
-            object.put("ADMIN",User.getInstance().getID());
-            object.put("IMAGE","");
-
-            JSONArray users = new JSONArray();
-            for(FriendRow row : rows)
+            JSONObject object = null;
+            try
             {
-               if(row.isChecked())
-               {
-                   users.put(row.getId());
-               }
+                object = new JSONObject();
+                object.put("NAME",text.getText().toString());
+                object.put("ADMIN",User.getInstance().getID());
+                object.put("IMAGE","");
+
+                JSONArray users = new JSONArray();
+                for(FriendRow row : rows)
+                {
+                    if(row.isChecked())
+                    {
+                        users.put(row.getId());
+                    }
+                }
+                object.put("USERS", users);
+
+                int groupID = new UserService().createGroup(object);
+                Toast.makeText(getActivity(),getResources().getString(R.string.group_created),Toast.LENGTH_LONG).show();
+                button.setEnabled(false);
             }
-            object.put("USERS", users);
-
-            int groupID = new UserService().createGroup(object);
-            Intent intent = new Intent(getActivity(), GroupActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt("groupID",groupID);
-            intent.putExtras(bundle);
-
-            startActivity(intent);
+            catch(Exception e){e.printStackTrace();}
         }
-        catch(Exception e){e.printStackTrace();}
+        else if (getActivity() instanceof GroupInvite)
+        {
+            JSONObject object = null;
+            try
+            {
+                object = new JSONObject();
+                object.put("ID",groupID);
+
+                JSONArray users = new JSONArray();
+                for(FriendRow row : rows)
+                {
+                    if(row.isChecked())
+                    {
+                        users.put(row.getId());
+                    }
+                }
+                object.put("USERS", users);
+
+                new UserService().inviteToGroup(object);
+                getActivity().finish();
+            }
+            catch(Exception e){e.printStackTrace();}
+        }
     }
 
     public interface OnFragmentInteractionListener

@@ -53,7 +53,7 @@
     <string name="gps_off">Your GPS seems to be disabled, do you want to enable it?</string>
     <string name="yes">Yes</string>
     <string name="gps_disabled">Can not connect to GPS.</string>
-    
+
     <!-- Strings related to Images -->
     <string name="uploading">Uploading…</string>
     <string name="please_wait">Please wait</string>
@@ -71,6 +71,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="create_group">Create group</string>
     <string name="create_hint">Type the group name</string>
+    <string name="add_people">Add people to this chat</string>
+    <string name="invite">Invite</string>
+    <string name="group_created">Group created</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

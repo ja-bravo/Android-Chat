@@ -407,5 +407,24 @@ class DataBase():
 
         cursor.close()
         connection.close()
-
         return groups
+
+    def invite_to_group(self, data):
+        connection = pymysql.connect(host=db.db_host, port=db.db_port, user=db.db_user, passwd=db.db_passwd, db=db.db_name)
+        cursor = connection.cursor()
+
+        data = json.loads(data)
+        groupID = data["ID"]
+        users = data["USERS"]
+
+        try:
+            for user in users:
+                SQL = "INSERT INTO BELONG (ID_USER,ID_GROUP) (SELECT %s, %s FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM BELONG WHERE ID_USER = %sAND ID_GROUP = %s));" % (str(user),groupID,str(user),groupID)
+                cursor.execute(SQL)
+                connection.commit()
+        except:
+            return SQL
+
+        cursor.close()
+        connection.close()
+        return "OK"

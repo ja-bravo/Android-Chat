@@ -1,6 +1,8 @@
 package com.jabravo.android_chat;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -43,12 +45,12 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.jabravo.android_chat.Data.Actions_DB;
-import com.jabravo.android_chat.Data.Friend;
 import com.jabravo.android_chat.Data.Group;
 import com.jabravo.android_chat.Data.Message;
 import com.jabravo.android_chat.Data.MessageList;
 import com.jabravo.android_chat.Data.PausableThreadPool;
 import com.jabravo.android_chat.Data.User;
+import com.jabravo.android_chat.Fragments.GroupCreatorFragment;
 import com.jabravo.android_chat.Services.GroupSender;
 import com.jabravo.android_chat.Services.Service;
 
@@ -63,7 +65,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -594,7 +595,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
                                 System.out.println("UUU receiver group " +  message.getReceiver());
                                 System.out.println("UUU es group " +  isGroup);
-                                System.out.println("UUU el grupo esta abierto " +  !MainActivity.isChatPrivate);
+                                System.out.println("UUU el grupo esta abierto " + !MainActivity.isChatPrivate);
 
                                 if ( isGroup && message.getReceiver() == groupID && !MainActivity.isChatPrivate )
                                 {
@@ -776,62 +777,74 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onMenuItemClick(MenuItem item)
     {
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        if(item.getItemId() == R.id.menu_add)
         {
-            Calendar cal = new GregorianCalendar();
-            Date date = cal.getTime();
+            Intent intent = new Intent(this, GroupInvite.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("groupID",groupID);
+            intent.putExtras(bundle);
 
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            String dateFormat = df.format(date);
-
-            if (location != null)
+            startActivity(intent);
+        }
+        else if (item.getItemId() == R.id.menu_map)
+        {
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
             {
-                try
+                Calendar cal = new GregorianCalendar();
+                Date date = cal.getTime();
+
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                String dateFormat = df.format(date);
+
+                if (location != null)
                 {
-                    JSONObject position = new JSONObject();
-                    position.put("latitude",location.getLatitude());
-                    position.put("longitude",location.getLongitude());
+                    try
+                    {
+                        JSONObject position = new JSONObject();
+                        position.put("latitude",location.getLatitude());
+                        position.put("longitude",location.getLongitude());
 
-                    boolean isGroup = true;
+                        boolean isGroup = true;
 
-                    Message message = new Message("MAP"+position.toString(), dateFormat, true, user.getID(), groupID , isGroup);
-                    messages.add(message);
+                        Message message = new Message("MAP"+position.toString(), dateFormat, true, user.getID(), groupID , isGroup);
+                        messages.add(message);
 
-                    sendMessage(message.getText());
-                    showMap(message);
+                        sendMessage(message.getText());
+                        showMap(message);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-                catch (JSONException e)
+                else
                 {
-                    e.printStackTrace();
+                    Toast.makeText(this,getResources().getString(R.string.gps_disabled),Toast.LENGTH_LONG).show();
                 }
+
             }
             else
             {
-                Toast.makeText(this,getResources().getString(R.string.gps_disabled),Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getResources().getString(R.string.gps_off))
+                        .setCancelable(false)
+                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(final DialogInterface dialog, final int id)
+                            {
+                                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(final DialogInterface dialog, final int id)
+                            {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
-
-        }
-        else
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getResources().getString(R.string.gps_off))
-                    .setCancelable(false)
-                    .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(final DialogInterface dialog, final int id)
-                        {
-                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(final DialogInterface dialog, final int id)
-                        {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
         }
 
         return false;

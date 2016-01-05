@@ -285,12 +285,11 @@ public class MainActivity extends AppCompatActivity
         user.setNumber(preferences.getString("numberPhone", ""));
         user.setStatus(preferences.getString("status", ""));
 
-        name.setText(user.getNick());
-        status.setText(user.getStatus());
-
         try
         {
             image.setImageURI(Uri.parse(preferences.getString("image", "")));
+            name.setText(user.getNick());
+            status.setText(user.getStatus());
         }
         catch (Exception e) {e.printStackTrace();}
     }

@@ -117,6 +117,49 @@ public class UserService
         return ID.get();
     }
 
+    public void inviteToGroup(JSONObject jsonObject) throws UnsupportedEncodingException, JSONException
+    {
+        final String json = URLEncoder.encode(jsonObject.toString(),"ISO-8859-9").replaceAll("\\+","%20");
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                String url = "http://146.185.155.88:8080/api/post/invite/" + json;
+                StringBuffer response = new StringBuffer();
+                try
+                {
+                    URL obj = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                    con.setDoOutput(true);
+
+                    BufferedReader in = new BufferedReader( new InputStreamReader(con.getInputStream()));
+
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null)
+                    {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    String result = response.toString();
+                }
+                catch(Exception e) {e.printStackTrace();}
+            }
+        });
+        thread.start();
+
+        try
+        {
+            thread.join();
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public int insertUser(String nick, final String phone) throws UnsupportedEncodingException, JSONException
     {
         final AtomicInteger ID = new AtomicInteger(-1);

@@ -40,6 +40,10 @@ def create_group(json):
 def get_groups(id):
     return jsonify({'groups': db.get_groups(id)})
 
+@app.route("/api/post/invite/<json>", methods=['GET','POST'])
+def invite_to_group(json):
+    return jsonify({'result': db.invite_to_group(json)})
+
 @app.route("/api/get/user/exists/<phone>", methods=['GET','POST'])
 def user_exists(phone):
     return jsonify({'response': db.user_exists(phone)})
