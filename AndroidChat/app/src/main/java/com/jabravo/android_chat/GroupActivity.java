@@ -236,6 +236,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
         }
+        saveDBMessages();
         super.onPause();
     }
 
@@ -259,6 +260,13 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         saveDBMessages();
         groupID = 0;
         super.onDestroy();
+    }
+
+
+    @Override
+    protected void finalize() throws Throwable {
+        saveDBMessages();
+        super.finalize();
     }
 
 

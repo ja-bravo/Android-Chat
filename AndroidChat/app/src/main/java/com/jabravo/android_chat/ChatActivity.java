@@ -235,6 +235,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
         }
+        saveDBMessages();
         super.onPause();
     }
 
@@ -261,6 +262,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        saveDBMessages();
+        super.finalize();
+    }
 
     public void loadImage ()
     {
