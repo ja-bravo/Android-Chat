@@ -32,5 +32,3 @@
 		$success = file_put_contents($file, base64_decode( $obj->{'json'} ));
    }
 ?>
-
-

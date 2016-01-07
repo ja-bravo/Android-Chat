@@ -357,9 +357,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         List<Message> messagesDB = Actions_DB.loadMessagesPrivate(toID);
 
+        String lastDate = "";
+
         for (int i = 0; i < messagesDB.size(); i++)
         {
             Message message = messagesDB.get(i);
+
+            if (!message.getDate().equals( lastDate))
+            {
+                lastDate = message.getDate();
+                showDate(lastDate);
+            }
 
             if(isAMap(message.getText()))
             {
@@ -379,6 +387,28 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void showDate (String date)
+    {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.setMargins(0, 0, 0, 20);
+
+        TextView textView = new TextView(ChatActivity.this);
+        params.gravity =  Gravity.CENTER;
+        textView.setBackgroundResource(R.drawable.message_date);
+
+        textView.setText(date);
+
+        textView.setLayoutParams(params);
+        messagesLayout.addView(textView);
+
+        textView.setPadding(16, 16, 16, 16);
+        textView.setTextSize(16);
+    }
+
+
     private void showMessage(Message message)
     {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -392,7 +422,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String nameSender;
 
         if (message.getReceiver() != user.getID()) {
-            params.gravity = Gravity.RIGHT;
+            params.gravity =  Gravity.RIGHT;
             textView.setBackgroundResource(R.drawable.message_1);
 
             nameSender = user.getNick();

@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity
 
         //Codifica la imagen con Base64
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        photobmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        photobmp.compress(Bitmap.CompressFormat.JPEG, 20, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
