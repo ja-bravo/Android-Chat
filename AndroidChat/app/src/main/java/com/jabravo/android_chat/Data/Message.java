@@ -51,10 +51,10 @@ public class Message implements Parcelable
     }
 
 
-    public Message(String text, int idFriend, int receiver , boolean isGroup )
+    public Message(String text, int idFriend, int receiver , boolean isGroup , String date)
     {
         this.text = text;
-        this.date = "";
+        this.date = date;
         this.id = -1;
         this.read = false;
         this.idFriend = idFriend;

@@ -263,4 +263,34 @@ public class Actions_DB
         return messages;
     }
 
+
+    public static boolean  existConversation  (int ID)
+    {
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
+        int result = 0;
+
+        if (db != null)
+        {
+
+            String sql = "SELECT COUNT(*) " +
+                    "FROM SEND_MESSAGES_PRIVATE " +
+                    "WHERE ID_FRIEND=? OR ID_RECEIVER=? ;";
+
+            String[] m = {String.valueOf(ID),String.valueOf(ID)};
+            Cursor cursor = db.rawQuery(sql, m);
+
+            while (cursor.moveToNext())
+            {
+               result = cursor.getInt(0) ;
+            }
+
+            cursor.close();
+            db.close();
+        }
+
+
+        if (result == 0) {return false;}
+        else { return true; }
+    }
+
 }

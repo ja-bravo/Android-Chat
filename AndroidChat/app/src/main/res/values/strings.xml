@@ -66,6 +66,7 @@
     <string name="map_mine">My position</string>
 
     <string name="contacts">My contacts</string>
+    <string name="chats">Chats</string>
     <string name="groups">My groups</string>
     <string name="title_activity_chat">Chat Activity</string>
     <string name="title_activity_maps">Map</string>

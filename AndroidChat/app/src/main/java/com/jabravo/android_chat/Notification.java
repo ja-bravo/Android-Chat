@@ -20,10 +20,7 @@ public class Notification extends AppCompatActivity {
         System.out.println("NOTIFICATION es group " +  notificationID);
         System.out.println("NOTIFICATION es group " + isGroup);
 
-        // para cancelar la notificacion
 
-        NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(notificationID);
 
         if (!isGroup)
         {
@@ -38,12 +35,12 @@ public class Notification extends AppCompatActivity {
             startActivity(intentViewImages);
         }
 
-        this.finish();
-    }
 
-    public static void cancelNotification(Context ctx, int notifyId) {
-        String ns = Context.NOTIFICATION_SERVICE;
-        NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
-        nMgr.cancel(notifyId);
+        // para cancelar la notificacion
+
+        NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancel(notificationID);
+
+        this.finish();
     }
 }

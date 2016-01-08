@@ -2,22 +2,30 @@ package com.jabravo.android_chat.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.jabravo.android_chat.ChatActivity;
+import com.jabravo.android_chat.Data.Actions_DB;
+import com.jabravo.android_chat.Data.Friend;
+import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.R;
 
+import java.util.List;
+
 public class ChatsListFragment extends Fragment
+        implements AdapterView.OnItemClickListener
 {
     private OnFragmentInteractionListener mListener;
     private ListView chatLists;
-    private String[] chats = {"Juan", "Ana", "Pedro", "Silvana", "Miguel",
-            "Lucas"};
+    private List<Friend> contacts;
 
     public static ChatsListFragment newInstance()
     {
@@ -44,9 +52,23 @@ public class ChatsListFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_chats_list, container, false);
         chatLists = (ListView) view.findViewById(R.id.chats_list_view);
 
-        ArrayAdapter<String> chatAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, chats);
+        User user = User.getInstance();
+        contacts = user.getFriends();
+
+        for (int i = 0 ; i < contacts.size() ; i++)
+        {
+            if (!Actions_DB.existConversation(contacts.get(i).getId())) {
+                contacts.remove(i);
+                i--;
+            }
+        }
+
+        ArrayAdapter<Friend> chatAdapter = new ArrayAdapter<>(view.getContext(),
+                android.R.layout.simple_list_item_1, contacts);
 
         chatLists.setAdapter(chatAdapter);
+
+        chatLists.setOnItemClickListener(this);
 
         return view;
     }
@@ -71,6 +93,21 @@ public class ChatsListFragment extends Fragment
         super.onDetach();
         mListener = null;
     }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putInt("toID", contacts.get(position).getId());
+
+        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        intent.putExtras(bundle);
+
+
+        startActivity(intent);
+    }
+
 
     public interface OnFragmentInteractionListener
     {

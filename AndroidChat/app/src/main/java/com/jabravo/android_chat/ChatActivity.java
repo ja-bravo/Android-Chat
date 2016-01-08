@@ -363,7 +363,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         {
             Message message = messagesDB.get(i);
 
-            if (!message.getDate().equals( lastDate))
+            if (!message.getDate().trim().equals(lastDate.trim()))
             {
                 lastDate = message.getDate();
                 showDate(lastDate);
@@ -530,6 +530,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         boolean isGroup = message.getIsGroup();
         int notificationID = isGroup? message.getReceiver(): message.getIdFriend();
 
+        System.out.println("NOTIFICATION es group " +  notificationID);
+
         intent.putExtra("notificationID", notificationID);
         intent.putExtra("isGroup", isGroup);
 
@@ -556,7 +558,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 .setTicker(ticker)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                .setLights(Color.RED, 1, 0)
+                //.setLights(Color.RED, 1, 0)
                 .setSmallIcon(R.mipmap.ic_ini)
                 .setPriority(android.app.Notification.PRIORITY_MAX)
                 .setAutoCancel(true)

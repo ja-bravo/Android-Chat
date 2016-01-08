@@ -359,9 +359,18 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
     {
         List<Message> messagesDB = Actions_DB.loadMessagesGroup(groupID);
 
+        String lastDate = "";
+
         for (int i = 0; i < messagesDB.size(); i++)
         {
             Message message = messagesDB.get(i);
+
+            if (!message.getDate().trim().equals(lastDate.trim()))
+            {
+                lastDate = message.getDate();
+                showDate(lastDate);
+            }
+
 
             if(isAMap(message.getText()))
             {
@@ -380,6 +389,29 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             }
         }
     }
+
+
+    private void showDate (String date)
+    {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.setMargins(0, 0, 0, 20);
+
+        TextView textView = new TextView(GroupActivity.this);
+        params.gravity =  Gravity.CENTER;
+        textView.setBackgroundResource(R.drawable.message_date);
+
+        textView.setText(date);
+
+        textView.setLayoutParams(params);
+        messagesLayout.addView(textView);
+
+        textView.setPadding(16, 16, 16, 16);
+        textView.setTextSize(16);
+    }
+
 
     private void showMessage(Message message)
     {

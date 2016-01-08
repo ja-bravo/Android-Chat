@@ -31,10 +31,6 @@ public class ContactsFragment extends Fragment implements AdapterView.OnItemClic
         return fragment;
     }
 
-    public ContactsFragment()
-    {
-
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)

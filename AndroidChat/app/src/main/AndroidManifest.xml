@@ -30,7 +30,6 @@
         <activity
             android:name=".ChatActivity"
             android:label="@string/title_activity_chat"
-            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Preferences"
@@ -52,7 +51,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
 
-        <activity android:name=".Notification"/>
+        <activity
+            android:name=".Notification"
+            android:exported="true"
+            />
+
         <activity android:name=".ViewImage"/>
         <activity
             android:name=".MapsActivity"
@@ -60,7 +63,6 @@
         </activity>
         <activity
             android:name=".GroupActivity"
-            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".GroupInvite">
         </activity>
