@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -178,6 +179,7 @@ public class User
                     JSONObject jsonResponse = new JSONObject(response.toString());
                     JSONArray array = jsonResponse.getJSONArray("groups");
 
+                    groups.clear();
                     for (int i = 0; i < array.length(); i++)
                     {
                         JSONObject row = array.getJSONObject(i);
@@ -187,11 +189,16 @@ public class User
                         String groupImage = row.getString("IMAGE");
                         String groupName = row.getString("NAME");
 
-                        if(!groups.containsKey("groupID"))
+                        JSONArray users = row.getJSONArray("USERS");
+                        List<Integer> usersIDs = new ArrayList<>();
+                        for (int j = 0; j < users.length(); j++)
                         {
-                            groups.put(groupID, new Group(Integer.parseInt(groupID), groupName,
-                                    Integer.parseInt(adminID), groupImage));
+                            JSONArray user = users.getJSONArray(i);
+                            usersIDs.add(user.getInt("asd"));
                         }
+
+                        groups.put(groupID, new Group(Integer.parseInt(groupID), groupName,
+                                Integer.parseInt(adminID), groupImage,usersIDs));
                     }
                 }
                 catch (Exception e)

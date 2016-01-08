@@ -403,6 +403,19 @@ class DataBase():
             group.ADMIN = row[2]
             group.IMAGE = row[3]
 
+            cursor2 = connection.cursor()
+            SQL = "SELECT ID_USER FROM BELONG WHERE ID_GROUP = %s" % str(row[0])
+
+            try:
+                cursor2.execute(SQL)
+            except:
+                return SQL
+
+            users = list()
+            for user in cursor2:
+                users.append(user)
+
+            group.USERS = users
             groups.append(group.serialize())
 
         cursor.close()

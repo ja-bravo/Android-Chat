@@ -6,6 +6,7 @@ class Group():
         self.NAME = ""
         self.ADMIN = 0
         self.IMAGE = ""
+        self.USERS = list()
 
 
 
@@ -14,5 +15,6 @@ class Group():
             'ID': self.ID,
             'NAME': self.NAME,
             'ADMIN': self.ADMIN,
-            'IMAGE': self.IMAGE
+            'IMAGE': self.IMAGE,
+            'USERS': self.USERS
         }

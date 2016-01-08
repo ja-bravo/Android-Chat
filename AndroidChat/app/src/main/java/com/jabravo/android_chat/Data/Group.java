@@ -17,20 +17,23 @@ public class Group
     private int admin;
     private String image;
     private List<Message> messages;
+    private List<Integer> userIDs;
 
-    public Group(int id, String name, int admin, String image)
+    public Group(int id, String name, int admin, String image, List<Integer> userIDs)
     {
         messages = new ArrayList<>();
         this.id = id;
         this.name = name;
         this.admin = admin;
         this.image = image;
+        this.userIDs = userIDs;
     }
 
 
     public Group(int id)
     {
         messages = new ArrayList<>();
+        userIDs = new ArrayList<>();
         this.id = id;
 
         SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase(); // Abro la base de datos
@@ -52,6 +55,11 @@ public class Group
         }
 
         createListMessages();
+    }
+
+    public List<Integer> getUserIDs()
+    {
+        return userIDs;
     }
 
     public void createListMessages()
