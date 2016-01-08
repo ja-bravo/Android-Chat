@@ -1,5 +1,6 @@
 package com.jabravo.android_chat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -55,6 +56,8 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
             if (isValid(phone1.getText().toString()))
             {
                 loadOrCreateUser();
+                finish();
+                startActivity(new Intent(this, MainActivity.class));
             }
             else
             {
@@ -67,6 +70,8 @@ public class StartUpActivity extends AppCompatActivity implements View.OnClickLi
                     isValid(phone2.getText().toString()))
             {
                 loadOrCreateUser();
+                finish();
+                startActivity(new Intent(this,MainActivity.class));
             }
             else
             {

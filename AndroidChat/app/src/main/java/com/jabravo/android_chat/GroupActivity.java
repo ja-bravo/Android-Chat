@@ -133,7 +133,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
         popupMenu = new PopupMenu(this, toolbar, Gravity.RIGHT);
         popupMenu.setOnMenuItemClickListener(this);
-        popupMenu.inflate(R.menu.popup);
+        popupMenu.inflate(R.menu.popup_group);
 
         sendButton = (ImageButton) findViewById(R.id.group_send);
         keyboard = (EditText) findViewById(R.id.group_keyboard);
@@ -215,7 +215,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
     private void changeToolBar()
     {
-        // TODO: 14/12/2015 CAMBIAR LA IMAGEN POR LA DEL USUARIO
+        // TODO: 14/12/2015 CAMBIAR LA IMAGEN POR LA DEL GRUPO
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         userName.setText(group.getName());
         //userImage.setImageURI();

@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
     public static boolean openProgram;
     public static int timeSleep;
     public static int timeSleepStart;
-    Bitmap photobmp;
+    private Bitmap photobmp;
     public static boolean isChatPrivate;
     public static boolean serviceOpen;
 
@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
 
         openProgram = true;
-        System.out.println("abierto");
     }
 
 
@@ -278,6 +277,7 @@ public class MainActivity extends AppCompatActivity
         {
             Intent intent = new Intent(this, StartUpActivity.class);
             startActivity(intent);
+            finish();
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -292,6 +292,7 @@ public class MainActivity extends AppCompatActivity
             status.setText(user.getStatus());
         }
         catch (Exception e) {e.printStackTrace();}
+        user.updateGroups();
     }
 
     private void loadContacts()

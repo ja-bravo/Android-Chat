@@ -5,4 +5,8 @@
           chat:showAsAction="withText"
           android:icon="@drawable/common_google_signin_btn_icon_dark_focused"
           android:title="@string/attach_location"/>
+
+    <item android:id="@+id/menu_add"
+          chat:showAsAction="withText"
+          android:title="@string/add_people"/>
 </menu>

@@ -139,6 +139,18 @@ public class User
 
     public List<Group> getGroups()
     {
+        updateGroups();
+        return new ArrayList<>(groups.values());
+    }
+
+    public HashMap<String, Group> getGroupsHashMap()
+    {
+        updateGroups();
+        return groups;
+    }
+
+    public void updateGroups()
+    {
         final StringBuffer response = new StringBuffer();
         Thread thread = new Thread(new Runnable()
         {
@@ -175,8 +187,11 @@ public class User
                         String groupImage = row.getString("IMAGE");
                         String groupName = row.getString("NAME");
 
-                        groups.put(groupID, new Group(Integer.parseInt(groupID), groupName,
-                                                      Integer.parseInt(adminID), groupImage));
+                        if(!groups.containsKey("groupID"))
+                        {
+                            groups.put(groupID, new Group(Integer.parseInt(groupID), groupName,
+                                    Integer.parseInt(adminID), groupImage));
+                        }
                     }
                 }
                 catch (Exception e)
@@ -195,13 +210,6 @@ public class User
         {
             e.printStackTrace();
         }
-
-        return new ArrayList<>(groups.values());
-    }
-
-    public HashMap<String, Group> getGroupsHashMap()
-    {
-        return groups;
     }
 
     public List<Friend> getFriends()
