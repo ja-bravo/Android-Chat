@@ -412,8 +412,8 @@ class DataBase():
                 return SQL
 
             users = list()
-            for user in cursor2:
-                users.append(user)
+            for value in cursor2:
+                users.append(value[0])
 
             group.USERS = users
             groups.append(group.serialize())
@@ -432,7 +432,7 @@ class DataBase():
 
         try:
             for user in users:
-                SQL = "INSERT INTO BELONG (ID_USER,ID_GROUP) (SELECT %s, %s FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM BELONG WHERE ID_USER = %sAND ID_GROUP = %s));" % (str(user),groupID,str(user),groupID)
+                SQL = "INSERT INTO BELONG (ID_USER,ID_GROUP) (SELECT %s, %s FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM BELONG WHERE ID_USER = %s AND ID_GROUP = %s));" % (str(user),groupID,str(user),groupID)
                 cursor.execute(SQL)
                 connection.commit()
         except:

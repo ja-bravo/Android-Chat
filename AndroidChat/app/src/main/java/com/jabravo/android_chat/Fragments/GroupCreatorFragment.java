@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.jabravo.android_chat.CustomArrayAdapter;
 import com.jabravo.android_chat.Data.FriendRow;
+import com.jabravo.android_chat.Data.Group;
 import com.jabravo.android_chat.Data.User;
 import com.jabravo.android_chat.GroupInvite;
 import com.jabravo.android_chat.MainActivity;
@@ -24,6 +25,8 @@ import com.jabravo.android_chat.Services.UserService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class GroupCreatorFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener
@@ -76,7 +79,22 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
             text.setVisibility(View.INVISIBLE);
             button.setText(getResources().getString(R.string.invite));
             groupID = getArguments().getInt("groupID");
+
+            HashMap<String, Group> groups = user.getGroupsHashMap();
+            Group group = groups.get(groupID + "");
+            List<Integer> ids = group.getUserIDs();
+
+            Iterator<FriendRow> it = rows.iterator();
+            while(it.hasNext())
+            {
+                int actualID = it.next().getId();
+                if(ids.contains(actualID))
+                {
+                    it.remove();
+                }
+            }
         }
+        user.updateGroups();
         return view;
     }
 

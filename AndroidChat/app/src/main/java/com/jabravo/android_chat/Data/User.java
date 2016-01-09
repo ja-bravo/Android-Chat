@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -193,8 +192,8 @@ public class User
                         List<Integer> usersIDs = new ArrayList<>();
                         for (int j = 0; j < users.length(); j++)
                         {
-                            JSONArray user = users.getJSONArray(i);
-                            usersIDs.add(user.getInt("asd"));
+                            int user = (int) users.get(j);
+                            usersIDs.add(user);
                         }
 
                         groups.put(groupID, new Group(Integer.parseInt(groupID), groupName,

@@ -6,7 +6,7 @@ class Group():
         self.NAME = ""
         self.ADMIN = 0
         self.IMAGE = ""
-        self.USERS = list()
+        self.USERS = ""
 
 
 

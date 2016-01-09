@@ -143,8 +143,6 @@ public class UserService
                         response.append(inputLine);
                     }
                     in.close();
-
-                    String result = response.toString();
                 }
                 catch(Exception e) {e.printStackTrace();}
             }
@@ -159,6 +157,7 @@ public class UserService
             e.printStackTrace();
         }
     }
+
 
     public int insertUser(String nick, final String phone) throws UnsupportedEncodingException, JSONException
     {
