@@ -1,7 +1,6 @@
 package com.jabravo.android_chat.Services;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -41,11 +40,10 @@ public class GroupSender extends AsyncTask<String, Integer, Void>
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setDoOutput(true);
 
-            Log.i("test", String.valueOf(connection.getResponseCode()));
         }
         catch (Exception e)
         {
-            Log.i("test", String.valueOf(e.toString()));
+            e.printStackTrace();
         }
         return null;
     }

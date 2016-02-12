@@ -1,14 +1,13 @@
 __author__ = 'Jose Antonio'
 
-class Group():
+
+class Group:
     def __init__(self):
         self.ID = 0
         self.NAME = ""
         self.ADMIN = 0
         self.IMAGE = ""
         self.USERS = ""
-
-
 
     def serialize(self):
         return {

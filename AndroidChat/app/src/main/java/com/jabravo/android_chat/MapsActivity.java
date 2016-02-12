@@ -84,11 +84,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void changeMapType()
     {
-        if(mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+        if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
         {
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         }
-        else if(mMap.getMapType() == GoogleMap.MAP_TYPE_SATELLITE)
+        else if (mMap.getMapType() == GoogleMap.MAP_TYPE_SATELLITE)
         {
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         }
@@ -101,11 +101,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onClick(View v)
     {
-        if(v.getId() == buttonMapType.getId())
+        if (v.getId() == buttonMapType.getId())
         {
             changeMapType();
         }
-        else if(v.getId() == buttonMyPosition.getId())
+        else if (v.getId() == buttonMyPosition.getId())
         {
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(myPosition.getLatitude(), myPosition.getLongitude()))

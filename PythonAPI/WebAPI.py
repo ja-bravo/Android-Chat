@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-__author__ = 'JoseAntonio'
+__author__ = 'Jose Antonio'
 
 from DataBase import DataBase
 from flask import Flask, jsonify
@@ -8,63 +8,66 @@ from flask import Flask, jsonify
 db = DataBase()
 app = Flask(__name__)
 
-@app.route("/api/get/users/", methods=['GET','POST'])
+
+@app.route("/api/get/users/", methods=['GET', 'POST'])
 def get_users():
     return jsonify({'users': db.get_users()})
 
-@app.route("/api/get/users/<int:id>", methods=['GET','POST'])
+
+@app.route("/api/get/users/<int:id>", methods=['GET', 'POST'])
 def get_user(id):
     return jsonify({'user': db.get_user(id)})
 
-@app.route("/api/get/messages/<int:id>", methods=['GET','POST'])
+
+@app.route("/api/get/messages/<int:id>", methods=['GET', 'POST'])
 def get_messages(id):
     return jsonify({'messages': db.get_messages(id)})
 
-@app.route("/api/post/message/<message>", methods=['GET','POST'])
+
+@app.route("/api/post/message/<message>", methods=['GET', 'POST'])
 def send_message(message):
     return jsonify({'id': db.send_message(message)})
 
-@app.route("/api/post/group/message/<message>", methods=['GET','POST'])
+
+@app.route("/api/post/group/message/<message>", methods=['GET', 'POST'])
 def send_message_group(message):
     return jsonify({'id': db.send_message_group(message)})
 
-@app.route("/api/post/user/<user>", methods=['GET','POST'])
+
+@app.route("/api/post/user/<user>", methods=['GET', 'POST'])
 def insert_user(user):
     return jsonify({'id': db.insert_user(user)})
 
-@app.route("/api/post/group/<json>", methods=['GET','POST'])
+
+@app.route("/api/post/group/<json>", methods=['GET', 'POST'])
 def create_group(json):
     return jsonify({'id': db.create_group(json)})
 
-@app.route("/api/get/groups/<int:id>", methods=['GET','POST'])
+
+@app.route("/api/get/groups/<int:id>", methods=['GET', 'POST'])
 def get_groups(id):
     return jsonify({'groups': db.get_groups(id)})
 
-@app.route("/api/post/invite/<json>", methods=['GET','POST'])
+
+@app.route("/api/post/invite/<json>", methods=['GET', 'POST'])
 def invite_to_group(json):
     return jsonify({'result': db.invite_to_group(json)})
 
-@app.route("/api/get/user/exists/<phone>", methods=['GET','POST'])
+
+@app.route("/api/get/user/exists/<phone>", methods=['GET', 'POST'])
 def user_exists(phone):
     return jsonify({'response': db.user_exists(phone)})
 
-@app.route("/api/get/friends/<friendList>", methods=['GET','POST'])
+
+@app.route("/api/get/friends/<friendList>", methods=['GET', 'POST'])
 def get_friends(friendList):
     return jsonify({'friends': db.get_friends(friendList)})
 
-@app.route("/api/post/user/update/<json>", methods=['GET','POST'])
+
+@app.route("/api/post/user/update/<json>", methods=['GET', 'POST'])
 def update_image(json):
     return jsonify({'result': db.update_image(json)})
 
-# Esto es para la practica de casillas
-@app.route("/api/post/casillas/<json>", methods=['GET','POST'])
-def upload_casillas(json):
-    return jsonify({'result': db.casillas(json)})
-
-# Esto es para la practica de casillas
-@app.route("/api/get/casillas/", methods=['GET','POST'])
-def get_puntuaciones():
-    return jsonify({'result': db.get_puntuaciones()})
 
 if __name__ == "__main__":
     app.run(host='146.185.155.88', port=8080)

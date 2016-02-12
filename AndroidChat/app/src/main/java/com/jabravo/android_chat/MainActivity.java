@@ -19,7 +19,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity
     public static int timeSleepStart;
     private Bitmap photobmp;
     public static boolean isChatPrivate;
-    public static boolean serviceOpen;
 
     public static DB_Android dataBase;
 
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
 
-        dataBase = new DB_Android(this, "Data Base", null, 1); // El 1 es la version.
+        dataBase = new DB_Android(this, "Data Base", null, 1);
 
         timeSleepStart = 250;
         timeSleep = timeSleepStart;
@@ -113,7 +111,6 @@ public class MainActivity extends AppCompatActivity
     {
         super.onDestroy();
         openProgram = false;
-        System.out.println("cerrado");
     }
 
 
@@ -135,7 +132,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item)
     {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         FragmentManager manager = getFragmentManager();
@@ -188,14 +184,14 @@ public class MainActivity extends AppCompatActivity
         List<Friend> listDbAndroid = Actions_DB.getAllFriends();
         List<Friend> list = User.getInstance().getFriends();
 
-        for (int i = 0 ; i < list.size() ; i++)
+        for (int i = 0; i < list.size(); i++)
         {
             String phone_1 = list.get(i).getPhone();
-            String phone_2 ="";
+            String phone_2 = "";
 
             boolean found = false;
 
-            for (int j = 0 ; j < listDbAndroid.size() && !found ; j++)
+            for (int j = 0; j < listDbAndroid.size() && !found; j++)
             {
                 phone_2 = listDbAndroid.get(j).getPhone();
 
@@ -221,14 +217,16 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    Runnable checkAndLoadImages = new Runnable() {
+    Runnable checkAndLoadImages = new Runnable()
+    {
         @Override
-        public void run() {
+        public void run()
+        {
 
             List<Friend> listDbAndroid = Actions_DB.getAllFriends();
             List<Friend> list = User.getInstance().getFriends();
 
-            for (int i = 0 ; i < list.size() ; i++)
+            for (int i = 0; i < list.size(); i++)
             {
 
                 String image_1 = list.get(i).getImage();
@@ -239,7 +237,7 @@ public class MainActivity extends AppCompatActivity
 
                 boolean found = false;
 
-                for (int j = 0 ; j < listDbAndroid.size() && !found ; j++)
+                for (int j = 0; j < listDbAndroid.size() && !found; j++)
                 {
                     image_2 = listDbAndroid.get(j).getImage();
 
@@ -253,8 +251,6 @@ public class MainActivity extends AppCompatActivity
                 {
                     if (image_1 != "" && image_1 != null)
                     {
-                        System.out.println("Descargando...");
-
                         new DownloadImage(image_1);
                     }
 
@@ -291,7 +287,10 @@ public class MainActivity extends AppCompatActivity
             name.setText(user.getNick());
             status.setText(user.getStatus());
         }
-        catch (Exception e) {e.printStackTrace();}
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         user.updateGroups();
     }
 
@@ -353,38 +352,38 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putString("image", imageReturnedIntent.getDataString()).apply();
 
-            Log.i("image", prefs.getString("image", ""));
-
-            // Al cambiar la imagen, la subo.
-            uploadImage (pathReal);
+            uploadImage(pathReal);
         }
     }
 
-    public void uploadImage (String pathReal )
+    public void uploadImage(String pathReal)
     {
-        String nameImage = pathReal.substring(pathReal.lastIndexOf("/") + 1 , pathReal.lastIndexOf("."));
+        String nameImage = pathReal.substring(pathReal.lastIndexOf("/") + 1, pathReal.lastIndexOf("."));
 
-        //Codifica la imagen con Base64
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         photobmp.compress(Bitmap.CompressFormat.JPEG, 20, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-        //Se ejecuta en segundo plano para no colgar la aplicacion
-        new UploadImage(MainActivity.this , nameImage).execute(encodedImage);
+        new UploadImage(MainActivity.this, nameImage).execute(encodedImage);
     }
 
-    // COn esta funcion saco la ruta real de donde esta la imagen.
-    private String getRealPathFromURI(Uri contentUri) {
+
+    private String getRealPathFromURI(Uri contentUri)
+    {
         Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = getApplicationContext().getContentResolver().query(contentUri,  proj, null, null, null);
+        try
+        {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = getApplicationContext().getContentResolver().query(contentUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
+        }
+        finally
+        {
+            if (cursor != null)
+            {
                 cursor.close();
             }
         }

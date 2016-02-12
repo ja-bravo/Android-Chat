@@ -289,8 +289,7 @@ public class Actions_DB
         }
 
 
-        if (result == 0) {return false;}
-        else { return true; }
+        return result != 0;
     }
 
 }

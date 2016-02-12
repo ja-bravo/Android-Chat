@@ -1,6 +1,7 @@
 __author__ = 'Jose Antonio'
 
-class User():
+
+class User:
     def __init__(self):
         self.ID = 0
         self.NICK = ""
@@ -8,8 +9,6 @@ class User():
         self.PHONE = 0
         self.USER_IMAGE = ""
         self.LAST_RECEIVED_MESSAGE = 0
-
-
 
     def serialize(self):
         return {

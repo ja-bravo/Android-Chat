@@ -48,12 +48,12 @@ public class Friend
         messages = new ArrayList<>();
         this.id = id;
 
-        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase(); // Abro la base de datos
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
 
-        if (db != null) // Compruebo que se ha abierto bien
+        if (db != null)
         {
             String sql = "SELECT PHONE , STATUS , IMAGE , NICK  FROM FRIENDS WHERE ID_FRIEND=?;";
-            String[] m = {"" + id}; // CUIDADO CON ESTO.
+            String[] m = {"" + id};
             Cursor cursor = db.rawQuery(sql, m);
 
             while (cursor.moveToNext())
@@ -75,7 +75,7 @@ public class Friend
     {
         SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
 
-        if (db != null) // Compruebo que se ha abierto bien
+        if (db != null)
         {
             String sql = "SELECT MESSAGES.ID_MESSAGE , MESSAGES.DATE_MESSAGE , " +
                     " MESSAGES.TEXT , MESSAGES.IS_READ ," +
@@ -86,7 +86,7 @@ public class Friend
                     " MESSAGES.ID_MESSAGE = SEND_MESSAGES_PRIVATE.ID_MESSAGE AND " +
                     " FRIENDS.ID_FRIEND=? ;";
 
-            String[] m = {"" + id}; // CUIDADO CON ESTO.
+            String[] m = {"" + id};
             Cursor cursor = db.rawQuery(sql, m);
 
             while (cursor.moveToNext())

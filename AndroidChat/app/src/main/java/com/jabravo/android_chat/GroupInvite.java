@@ -20,7 +20,7 @@ public class GroupInvite extends AppCompatActivity
         FragmentTransaction transaction = manager.beginTransaction();
         GroupCreatorFragment fragment = GroupCreatorFragment.newInstance();
         Bundle bundle = new Bundle();
-        bundle.putInt("groupID",getIntent().getIntExtra("groupID",0));
+        bundle.putInt("groupID", getIntent().getIntExtra("groupID", 0));
         fragment.setArguments(bundle);
 
         transaction.replace(R.id.group_invite, fragment);

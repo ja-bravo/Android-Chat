@@ -55,9 +55,10 @@ public class ChatsListFragment extends Fragment
         User user = User.getInstance();
         contacts = user.getFriends();
 
-        for (int i = 0 ; i < contacts.size() ; i++)
+        for (int i = 0; i < contacts.size(); i++)
         {
-            if (!Actions_DB.existConversation(contacts.get(i).getId())) {
+            if (!Actions_DB.existConversation(contacts.get(i).getId()))
+            {
                 contacts.remove(i);
                 i--;
             }

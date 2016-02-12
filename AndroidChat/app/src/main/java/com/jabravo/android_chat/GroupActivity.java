@@ -97,7 +97,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
     private static int groupID;
 
-    private static boolean isStarted = false; // no tocar de aqui
+    private static boolean isStarted = false;
 
     private Intent intentViewImages;
     private PopupMenu popupMenu;
@@ -156,7 +156,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
         if (!isStarted)
         {
-            // Si es la primera vez que entro, lo inicializo todo y asi evito que se creen varias veces y pasen las cosas raras
             messages = new MessageList();
             queue = new LinkedBlockingQueue<>();
             isStarted = true;
@@ -179,9 +178,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         }
         else
         {
-            // Si no es la primera vez que entro, me tengo que cargar este hilo para rehacerlo,
-            // porque el que era su hilo principal, ya no es el hilo principal que ha creado esta nueva interfaz.
-            // asi evito el problema de que no me salieran los mensajes que recibia..
             while (threadReceiver.isAlive())
             {
                 threadReceiver.interrupt();
@@ -195,7 +191,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
         try
         {
-            // This scrolls the ScrollView after the message has been added
             scrollView.post(new Runnable()
             {
                 @Override
@@ -209,19 +204,14 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         {
             e.printStackTrace();
         }
-
-        //loadImage();
     }
 
     private void changeToolBar()
     {
-        // TODO: 14/12/2015 CAMBIAR LA IMAGEN POR LA DEL GRUPO
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         userName.setText(group.getName());
-        //userImage.setImageURI();
     }
 
-    // Save the messages and the counter when the app changes orientation.
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
@@ -265,44 +255,12 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
 
     @Override
-    protected void finalize() throws Throwable {
+    protected void finalize() throws Throwable
+    {
         saveDBMessages();
         super.finalize();
     }
 
-
-    public void loadImage()
-    {
-        String nameFile = User.getInstance().getFriendsHashMap().get(String.valueOf(groupID)).getImage();
-
-        if (!nameFile.equals("") && !nameFile.equals(null)) {
-            File ruta_sd = Environment.getExternalStorageDirectory();
-
-            String ruta = ruta_sd.getAbsolutePath() + "/IMAGES_CHAT_ANDROID/" + nameFile + ".jpg";
-
-            File file = new File(ruta);
-
-            if (file.exists()) {
-
-                Bitmap photobmp = BitmapFactory.decodeFile(ruta);
-                userImage.setImageBitmap(photobmp);
-
-                intentViewImages = new Intent(this, ViewImage.class);
-                intentViewImages.putExtra("path" , ruta);
-
-                userImage.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-
-                        startActivity(intentViewImages);
-
-                    }
-
-                });
-            }
-        }
-    }
-
-    // Load the messages and the counter when the app changes orientation.
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState)
     {
@@ -311,7 +269,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
         for (Message message : messages)
         {
-            if(isAMap(message.getText()))
+            if (isAMap(message.getText()))
             {
                 try
                 {
@@ -343,12 +301,10 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             if (!messages.get(i).getIsGroup())
             {
                 Actions_DB.insertMessagePrivate(text, date, read, idFriend, idReceiver);
-                System.out.println("GUARDANDO EN PRIVADO - GRUPPO.");
             }
             else
             {
-                Actions_DB.insertMessageGroup(text, date, read, idReceiver  , idFriend);
-                System.out.println("GUARDANDO EN GRUPO - GRUPPO .");
+                Actions_DB.insertMessageGroup(text, date, read, idReceiver, idFriend);
             }
         }
 
@@ -372,7 +328,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             }
 
 
-            if(isAMap(message.getText()))
+            if (isAMap(message.getText()))
             {
                 try
                 {
@@ -391,7 +347,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    private void showDate (String date)
+    private void showDate(String date)
     {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -400,7 +356,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         params.setMargins(0, 0, 0, 20);
 
         TextView textView = new TextView(GroupActivity.this);
-        params.gravity =  Gravity.CENTER;
+        params.gravity = Gravity.CENTER;
         textView.setBackgroundResource(R.drawable.message_date);
 
         textView.setText(date);
@@ -425,11 +381,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
         String nameSender;
 
-        System.out.println("JJJ MI ID :" + user.getID());
-        System.out.println("JJJ ID MENSAJE:" + message.getIdFriend());
-        System.out.println("JJJ ID MENSAJE recive:" + message.getReceiver());
-
-
         if (message.getIdFriend() == user.getID())
         {
             params.gravity = Gravity.RIGHT;
@@ -444,7 +395,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
             String friendID = String.valueOf(message.getIdFriend());
 
-            if(user.getFriendsHashMap().get(friendID) != null)
+            if (user.getFriendsHashMap().get(friendID) != null)
             {
                 nameSender = user.getFriendsHashMap().get(friendID).getNick();
             }
@@ -467,7 +418,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         keyboard.setText("");
         try
         {
-            // This scrolls the ScrollView after the message has been added
             scrollView.post(new Runnable()
             {
                 @Override
@@ -498,7 +448,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             boolean isGroup = true;
 
             Message message = new Message(keyboard.getText().toString(), dateFormat, true,
-                    user.getID(), groupID , isGroup); // con quien es la conversacion, y quien lo tiene que recivir
+                    user.getID(), groupID, isGroup);
 
             messages.add(message);
 
@@ -525,14 +475,12 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         public void run()
         {
 
-            int timeMax = 1000 * 60 * 1;
+            int timeMax = 1000 * 60;
 
             while (!MainActivity.openProgram && timeMax > MainActivity.timeSleep)
             {
-                MainActivity.timeSleep += 500 * 1;
+                MainActivity.timeSleep += 500;
                 service.setTimeSleep(MainActivity.timeSleep);
-
-                System.out.println("time: " + MainActivity.timeSleep);
 
                 try
                 {
@@ -554,7 +502,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = new Intent(this, Notification.class);
 
         boolean isGroup = message.getIsGroup();
-        int notificationID = isGroup? message.getReceiver(): message.getIdFriend();
+        int notificationID = isGroup ? message.getReceiver() : message.getIdFriend();
 
         intent.putExtra("notificationID", notificationID);
         intent.putExtra("isGroup", isGroup);
@@ -591,14 +539,10 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
 
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(notificationID , noti.build());
+        nm.notify(notificationID, noti.build());
         ringtone.play();
     }
 
-
-    // **********************************************
-    // Clase para recibir mensajes
-    // **********************************************
 
     public Runnable Receiver = new Runnable()
     {
@@ -608,8 +552,6 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
             while (!Thread.interrupted())
             {
-                System.out.println("UUU SOY RECEIVER GRUPO");
-
                 if (!service.getBuffer().isEmpty())
                 {
                     runOnUiThread(new Runnable()
@@ -625,13 +567,9 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                                 boolean messageIsDisplay = false;
                                 boolean isGroup = message.getIsGroup();
 
-                                System.out.println("UUU receiver group " +  message.getReceiver());
-                                System.out.println("UUU es group " +  isGroup);
-                                System.out.println("UUU el grupo esta abierto " + !MainActivity.isChatPrivate);
-
-                                if ( isGroup && message.getReceiver() == groupID && !MainActivity.isChatPrivate )
+                                if (isGroup && message.getReceiver() == groupID && !MainActivity.isChatPrivate)
                                 {
-                                    if(isAMap(message.getText()))
+                                    if (isAMap(message.getText()))
                                     {
                                         try
                                         {
@@ -658,7 +596,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
                                 if (!MainActivity.openProgram || !messageIsDisplay)
                                 {
-                                   showNotification(message);
+                                    showNotification(message);
                                 }
 
                                 it.remove();
@@ -702,11 +640,13 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
 
         try
         {
-            Thread thread = new Thread(new Runnable() {
+            Thread thread = new Thread(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     Bitmap imageMap = getGoogleMapThumbnail(URL);
-                    imageMapView= new ImageView(GroupActivity.this);
+                    imageMapView = new ImageView(GroupActivity.this);
                     imageMapView.setImageBitmap(imageMap);
                     imageMapView.setOnClickListener(new View.OnClickListener()
                     {
@@ -718,10 +658,10 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                             targetLocation.setLatitude(latitude);
 
                             Bundle bundle = new Bundle();
-                            bundle.putParcelable("my_position",location);
-                            bundle.putParcelable("target_position",targetLocation);
+                            bundle.putParcelable("my_position", location);
+                            bundle.putParcelable("target_position", targetLocation);
 
-                            Intent intent = new Intent(GroupActivity.this,MapsActivity.class);
+                            Intent intent = new Intent(GroupActivity.this, MapsActivity.class);
                             intent.putExtras(bundle);
 
                             startActivity(intent);
@@ -732,10 +672,13 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                             LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                    if (message.getReceiver() != user.getID()) {
+                    if (message.getReceiver() != user.getID())
+                    {
                         params.gravity = Gravity.RIGHT;
                         imageMapView.setBackgroundResource(R.drawable.message_1);
-                    } else {
+                    }
+                    else
+                    {
                         params.gravity = Gravity.LEFT;
                         imageMapView.setBackgroundResource(R.drawable.message_2);
                     }
@@ -756,15 +699,17 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             thread.start();
             thread.join();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
         messagesLayout.addView(imageMapView);
 
         keyboard.setText("");
-        try {
-            // This scrolls the ScrollView after the message has been added
+        try
+        {
             scrollView.post(new Runnable()
             {
                 @Override
@@ -773,7 +718,9 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                     scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
@@ -802,18 +749,20 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
             }
 
         }
-        catch (Exception e) {}
+        catch (Exception e)
+        {
+        }
         return bmp;
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item)
     {
-        if(item.getItemId() == R.id.menu_add)
+        if (item.getItemId() == R.id.menu_add)
         {
             Intent intent = new Intent(this, GroupInvite.class);
             Bundle bundle = new Bundle();
-            bundle.putInt("groupID",groupID);
+            bundle.putInt("groupID", groupID);
             intent.putExtras(bundle);
 
             startActivity(intent);
@@ -833,12 +782,12 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                     try
                     {
                         JSONObject position = new JSONObject();
-                        position.put("latitude",location.getLatitude());
-                        position.put("longitude",location.getLongitude());
+                        position.put("latitude", location.getLatitude());
+                        position.put("longitude", location.getLongitude());
 
                         boolean isGroup = true;
 
-                        Message message = new Message("MAP"+position.toString(), dateFormat, true, user.getID(), groupID , isGroup);
+                        Message message = new Message("MAP" + position.toString(), dateFormat, true, user.getID(), groupID, isGroup);
                         messages.add(message);
 
                         sendMessage(message.getText());
@@ -851,7 +800,7 @@ public class GroupActivity extends AppCompatActivity implements View.OnClickList
                 }
                 else
                 {
-                    Toast.makeText(this,getResources().getString(R.string.gps_disabled),Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getResources().getString(R.string.gps_disabled), Toast.LENGTH_LONG).show();
                 }
 
             }

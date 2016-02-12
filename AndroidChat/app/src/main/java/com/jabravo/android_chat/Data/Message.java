@@ -18,7 +18,7 @@ public class Message implements Parcelable
     private boolean isGroup;
     private String phone;
 
-    public Message(String text, String date, int id, boolean read, int idFriend, int receiver )
+    public Message(String text, String date, int id, boolean read, int idFriend, int receiver)
     {
         this.text = text;
 
@@ -40,7 +40,7 @@ public class Message implements Parcelable
         phone = "";
     }
 
-    public Message(String text, String date, boolean read, int idFriend, int receiver  , boolean isGroup)
+    public Message(String text, String date, boolean read, int idFriend, int receiver, boolean isGroup)
     {
         this.isGroup = isGroup;
         this.text = text;
@@ -51,7 +51,7 @@ public class Message implements Parcelable
     }
 
 
-    public Message(String text, int idFriend, int receiver , boolean isGroup , String date)
+    public Message(String text, int idFriend, int receiver, boolean isGroup, String date)
     {
         this.text = text;
         this.date = date;
@@ -79,11 +79,10 @@ public class Message implements Parcelable
         text = in.readString();
         date = in.readString();
         id = in.readInt();
-        read = in.readInt() == 1; // 1 = true, 0 = false
+        read = in.readInt() == 1;
         idFriend = in.readInt();
         receiver = in.readInt();
     }
-
 
 
     public String getPhone()
@@ -131,7 +130,10 @@ public class Message implements Parcelable
         return id;
     }
 
-    public boolean getIsGroup () {return isGroup;}
+    public boolean getIsGroup()
+    {
+        return isGroup;
+    }
 
     public void setId(int id)
     {
@@ -158,7 +160,6 @@ public class Message implements Parcelable
         this.receiver = receiver;
     }
 
-    // This is so we can put a Message in a bundle.
     @Override
     public int describeContents()
     {

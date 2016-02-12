@@ -36,12 +36,12 @@ public class Group
         userIDs = new ArrayList<>();
         this.id = id;
 
-        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase(); // Abro la base de datos
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
 
-        if (db != null) // Compruebo que se ha abierto bien
+        if (db != null)
         {
             String sql = "SELECT NAME_GROUP , ID_GROUP_ADMIN , IMAGE_GROUP FROM GROUPS WHERE ID_GROUP=?;";
-            String[] m = {"" + id}; // CUIDADO CON ESTO.
+            String[] m = {"" + id};
             Cursor c = db.rawQuery(sql, m);
 
             while (c.moveToNext())
@@ -65,7 +65,7 @@ public class Group
     public void createListMessages()
     {
 
-        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase(); // Abro la base de datos
+        SQLiteDatabase db = MainActivity.dataBase.getWritableDatabase();
 
         if (db != null) // Compruebo que se ha abierto bien
         {
@@ -77,7 +77,7 @@ public class Group
                     " MESSAGES.ID_MESSAGE = SEND_MESSAGES_GROUP.ID_MESSAGE AND " +
                     " GROUPS.ID_GROUP=? ;";
 
-            String[] m = {"" + id}; // CUIDADO CON ESTO.
+            String[] m = {"" + id};
             Cursor cursor = db.rawQuery(sql, m);
 
             while (cursor.moveToNext())

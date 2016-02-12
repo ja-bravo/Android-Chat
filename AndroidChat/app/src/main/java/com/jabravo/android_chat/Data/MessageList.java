@@ -23,7 +23,6 @@ public class MessageList extends ArrayList<Message> implements Parcelable
     }
 
 
-    // This is so we can put a Message in a bundle.
     private void readFromParcel(Parcel in)
     {
         this.clear();
@@ -35,7 +34,7 @@ public class MessageList extends ArrayList<Message> implements Parcelable
             String text = in.readString();
             String date = in.readString();
             int id = in.readInt();
-            boolean read = in.readInt() == 1; // 1 = true, 0 = false
+            boolean read = in.readInt() == 1;
             int sender = in.readInt();
             int receiver = in.readInt();
 

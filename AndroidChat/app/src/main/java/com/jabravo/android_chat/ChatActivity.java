@@ -73,29 +73,25 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         PopupMenu.OnMenuItemClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener
 {
-    private ImageButton sendButton;
     private EditText keyboard;
     private ScrollView scrollView;
     private LinearLayout messagesLayout;
     private ImageView userImage;
     private TextView userName;
-    private ImageButton attachButton;
 
     private Ringtone ringtone;
-    private static PausableThreadPool executor;
     private static Thread threadReceiver;
     private static MessageList messages;
     private User user;
     private Friend friend;
     private static Service service;
-    private static LinkedBlockingQueue<Runnable> queue;
 
 
     private ImageView imageMapView;
 
     private static int toID;
 
-    private static boolean isStarted = false; // no tocar de aqui
+    private static boolean isStarted = false;
 
     private Intent intentViewImages;
     private PopupMenu popupMenu;
@@ -133,13 +129,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         popupMenu.setOnMenuItemClickListener(this);
         popupMenu.inflate(R.menu.popup);
 
-        sendButton = (ImageButton) findViewById(R.id.chat_send);
+        ImageButton sendButton = (ImageButton) findViewById(R.id.chat_send);
         keyboard = (EditText) findViewById(R.id.chat_keyboard);
         scrollView = (ScrollView) findViewById(R.id.chat_scroll);
         messagesLayout = (LinearLayout) findViewById(R.id.chat_messages);
         userImage = (ImageView) findViewById(R.id.chat_user_image);
         userName = (TextView) findViewById(R.id.chat_user_name);
-        attachButton = (ImageButton) findViewById(R.id.chat_attach);
+        ImageButton attachButton = (ImageButton) findViewById(R.id.chat_attach);
 
         sendButton.setOnClickListener(this);
         attachButton.setOnClickListener(this);
@@ -154,9 +150,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         if (!isStarted)
         {
-            // Si es la primera vez que entro, lo inicializo todo y asi evito que se creen varias veces y pasen las cosas raras
             messages = new MessageList();
-            queue = new LinkedBlockingQueue<>();
+            LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
             isStarted = true;
             service = new Service();
 
@@ -169,7 +164,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
 
-            executor = new PausableThreadPool(2, 2, 10, TimeUnit.SECONDS, queue);
+            PausableThreadPool executor = new PausableThreadPool(2, 2, 10, TimeUnit.SECONDS, queue);
             executor.execute(service);
 
             threadReceiver = new Thread(Receiver);
@@ -177,9 +172,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
         else
         {
-            // Si no es la primera vez que entro, me tengo que cargar este hilo para rehacerlo,
-            // porque el que era su hilo principal, ya no es el hilo principal que ha creado esta nueva interfaz.
-            // asi evito el problema de que no me salieran los mensajes que recibia..
             while (threadReceiver.isAlive())
             {
                 threadReceiver.interrupt();
@@ -193,7 +185,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         try
         {
-            // This scrolls the ScrollView after the message has been added
             scrollView.post(new Runnable()
             {
                 @Override
@@ -208,18 +199,15 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        loadImage ();
+        loadImage();
     }
 
     private void changeToolBar()
     {
-        // TODO: 14/12/2015 CAMBIAR LA IMAGEN POR LA DEL USUARIO
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         userName.setText(friend.getNick());
-        //userImage.setImageURI();
     }
 
-    // Save the messages and the counter when the app changes orientation.
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
@@ -257,40 +245,43 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy()
     {
         saveDBMessages();
-        System.out.println("Estoy en el destroy");
         toID = 0;
         super.onDestroy();
     }
 
     @Override
-    protected void finalize() throws Throwable {
+    protected void finalize() throws Throwable
+    {
         saveDBMessages();
         super.finalize();
     }
 
-    public void loadImage ()
+    public void loadImage()
     {
         String nameFile = User.getInstance().getFriendsHashMap().get(String.valueOf(toID)).getImage();
 
-        if (!nameFile.equals("") && !nameFile.equals(null)) {
+        if (!nameFile.equals("") && !nameFile.equals(null))
+        {
             File ruta_sd = Environment.getExternalStorageDirectory();
 
             String ruta = ruta_sd.getAbsolutePath() + "/IMAGES_CHAT_ANDROID/" + nameFile + ".jpg";
 
             File file = new File(ruta);
 
-            if (file.exists()) {
+            if (file.exists())
+            {
 
                 Bitmap photobmp = BitmapFactory.decodeFile(ruta);
                 userImage.setImageBitmap(photobmp);
 
                 intentViewImages = new Intent(this, ViewImage.class);
-                intentViewImages.putExtra("path" , ruta);
+                intentViewImages.putExtra("path", ruta);
 
-                userImage.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
+                userImage.setOnClickListener(new View.OnClickListener()
+                {
+                    public void onClick(View v)
+                    {
 
-                        System.out.println("Ver imagen!!!!!!!!!!!!!");
                         startActivity(intentViewImages);
 
                     }
@@ -300,7 +291,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // Load the messages and the counter when the app changes orientation.
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState)
     {
@@ -309,7 +299,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         for (Message message : messages)
         {
-            if(isAMap(message.getText()))
+            if (isAMap(message.getText()))
             {
                 try
                 {
@@ -341,12 +331,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             if (!messages.get(i).getIsGroup())
             {
                 Actions_DB.insertMessagePrivate(text, date, read, idFriend, idReceiver);
-                System.out.println("GUARDANDO EN PRIVADO - PRIVADO.");
             }
             else
             {
-                Actions_DB.insertMessageGroup(text, date, read, idReceiver  , idFriend);
-                System.out.println("GUARDANDO EN GRUPO - PRIVADO .");
+                Actions_DB.insertMessageGroup(text, date, read, idReceiver, idFriend);
             }
         }
 
@@ -369,7 +357,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 showDate(lastDate);
             }
 
-            if(isAMap(message.getText()))
+            if (isAMap(message.getText()))
             {
                 try
                 {
@@ -387,7 +375,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void showDate (String date)
+    private void showDate(String date)
     {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -396,7 +384,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         params.setMargins(0, 0, 0, 20);
 
         TextView textView = new TextView(ChatActivity.this);
-        params.gravity =  Gravity.CENTER;
+        params.gravity = Gravity.CENTER;
         textView.setBackgroundResource(R.drawable.message_date);
 
         textView.setText(date);
@@ -421,12 +409,15 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         String nameSender;
 
-        if (message.getReceiver() != user.getID()) {
-            params.gravity =  Gravity.RIGHT;
+        if (message.getReceiver() != user.getID())
+        {
+            params.gravity = Gravity.RIGHT;
             textView.setBackgroundResource(R.drawable.message_1);
 
             nameSender = user.getNick();
-        } else {
+        }
+        else
+        {
             params.gravity = Gravity.LEFT;
             textView.setBackgroundResource(R.drawable.message_2);
 
@@ -444,15 +435,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         textView.setTextSize(16);
 
         keyboard.setText("");
-        try {
-            // This scrolls the ScrollView after the message has been added
-            scrollView.post(new Runnable() {
+        try
+        {
+            scrollView.post(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
@@ -472,7 +467,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             boolean isGroup = false;
 
             Message message = new Message(keyboard.getText().toString(), dateFormat, true,
-                    toID, toID , isGroup); // con quien es la conversacion, y quien lo tiene que recivir
+                    toID, toID, isGroup);
 
             messages.add(message);
 
@@ -499,11 +494,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         public void run()
         {
 
-            int timeMax = 1000 * 60 * 1;
+            int timeMax = 1000 * 60;
 
             while (!MainActivity.openProgram && timeMax > MainActivity.timeSleep)
             {
-                MainActivity.timeSleep += 500 * 1;
+                MainActivity.timeSleep += 500;
                 service.setTimeSleep(MainActivity.timeSleep);
 
                 System.out.println("time: " + MainActivity.timeSleep);
@@ -528,9 +523,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, Notification.class);
 
         boolean isGroup = message.getIsGroup();
-        int notificationID = isGroup? message.getReceiver(): message.getIdFriend();
-
-        System.out.println("NOTIFICATION es group " +  notificationID);
+        int notificationID = isGroup ? message.getReceiver() : message.getIdFriend();
 
         intent.putExtra("notificationID", notificationID);
         intent.putExtra("isGroup", isGroup);
@@ -558,7 +551,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 .setTicker(ticker)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                //.setLights(Color.RED, 1, 0)
+                        //.setLights(Color.RED, 1, 0)
                 .setSmallIcon(R.mipmap.ic_ini)
                 .setPriority(android.app.Notification.PRIORITY_MAX)
                 .setAutoCancel(true)
@@ -567,14 +560,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
 
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(notificationID , noti.build());
+        nm.notify(notificationID, noti.build());
         ringtone.play();
     }
-
-
-    // **********************************************
-    // Clase para recibir mensajes
-    // **********************************************
 
     public Runnable Receiver = new Runnable()
     {
@@ -584,8 +572,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             while (!Thread.interrupted())
             {
-                System.out.println("UUU SOY RECEIVER INVI");
-
                 if (!service.getBuffer().isEmpty())
                 {
                     runOnUiThread(new Runnable()
@@ -593,7 +579,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void run()
                         {
-                            Log.i("pruebas", String.valueOf(service.getBuffer().size()));
                             Iterator<Message> it = service.getBuffer().iterator();
                             while (it.hasNext())
                             {
@@ -602,11 +587,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                 boolean messageIsDisplay = false;
                                 boolean isGroup = message.getIsGroup();
 
-                                System.out.println("UUU el grupo esta abierto " +  !MainActivity.isChatPrivate);
-
                                 if (!isGroup && message.getIdFriend() == toID && MainActivity.isChatPrivate)
                                 {
-                                    if(isAMap(message.getText()))
+                                    if (isAMap(message.getText()))
                                     {
                                         try
                                         {
@@ -620,10 +603,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                     else
                                     {
-                                        System.out.println("MM mensajes es grupo: " + message.getIsGroup());
-                                        System.out.println("MM es chat es privado: " +  MainActivity.isChatPrivate);
-
-                                        if ((!message.getIsGroup() && MainActivity.isChatPrivate) ) {
+                                        if ((!message.getIsGroup() && MainActivity.isChatPrivate))
+                                        {
                                             showMessage(message);
                                             messageIsDisplay = true;
                                         }
@@ -681,12 +662,15 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         final String URL = "http://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude
                 + "&zoom=18&size=1200x1000&sensor=false&markers=color:blue%7C" + latitude + "," + longitude;
 
-        try {
-            Thread thread = new Thread(new Runnable() {
+        try
+        {
+            Thread thread = new Thread(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     Bitmap imageMap = getGoogleMapThumbnail(URL);
-                    imageMapView= new ImageView(ChatActivity.this);
+                    imageMapView = new ImageView(ChatActivity.this);
                     imageMapView.setImageBitmap(imageMap);
                     imageMapView.setOnClickListener(new View.OnClickListener()
                     {
@@ -698,10 +682,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                             targetLocation.setLatitude(latitude);
 
                             Bundle bundle = new Bundle();
-                            bundle.putParcelable("my_position",location);
-                            bundle.putParcelable("target_position",targetLocation);
+                            bundle.putParcelable("my_position", location);
+                            bundle.putParcelable("target_position", targetLocation);
 
-                            Intent intent = new Intent(ChatActivity.this,MapsActivity.class);
+                            Intent intent = new Intent(ChatActivity.this, MapsActivity.class);
                             intent.putExtras(bundle);
 
                             startActivity(intent);
@@ -712,10 +696,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                             LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                    if (message.getReceiver() != user.getID()) {
+                    if (message.getReceiver() != user.getID())
+                    {
                         params.gravity = Gravity.RIGHT;
                         imageMapView.setBackgroundResource(R.drawable.message_1);
-                    } else {
+                    }
+                    else
+                    {
                         params.gravity = Gravity.LEFT;
                         imageMapView.setBackgroundResource(R.drawable.message_2);
                     }
@@ -736,15 +723,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             thread.start();
             thread.join();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
         messagesLayout.addView(imageMapView);
 
         keyboard.setText("");
-        try {
-            // This scrolls the ScrollView after the message has been added
+        try
+        {
             scrollView.post(new Runnable()
             {
                 @Override
@@ -753,7 +742,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
@@ -782,7 +773,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         }
-        catch (Exception e) {}
+        catch (Exception e)
+        {
+        }
         return bmp;
     }
 
@@ -802,12 +795,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 try
                 {
                     JSONObject position = new JSONObject();
-                    position.put("latitude",location.getLatitude());
-                    position.put("longitude",location.getLongitude());
+                    position.put("latitude", location.getLatitude());
+                    position.put("longitude", location.getLongitude());
 
                     boolean isGroup = false;
 
-                    Message message = new Message("MAP"+position.toString(), dateFormat, true, toID, toID , isGroup);
+                    Message message = new Message("MAP" + position.toString(), dateFormat, true, toID, toID, isGroup);
                     messages.add(message);
 
                     sendMessage(message.getText());
@@ -820,7 +813,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
             else
             {
-                Toast.makeText(this,getResources().getString(R.string.gps_disabled),Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.gps_disabled), Toast.LENGTH_LONG).show();
             }
 
         }

@@ -69,12 +69,12 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
         groupID = -1;
 
         User user = User.getInstance();
-        rows =  user.getFriendsRows();
+        rows = user.getFriendsRows();
         list.setAdapter(new CustomArrayAdapter(view.getContext(), rows));
 
         list.setOnItemClickListener(this);
 
-        if(getActivity() instanceof GroupInvite)
+        if (getActivity() instanceof GroupInvite)
         {
             text.setVisibility(View.INVISIBLE);
             button.setText(getResources().getString(R.string.invite));
@@ -85,10 +85,10 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
             List<Integer> ids = group.getUserIDs();
 
             Iterator<FriendRow> it = rows.iterator();
-            while(it.hasNext())
+            while (it.hasNext())
             {
                 int actualID = it.next().getId();
-                if(ids.contains(actualID))
+                if (ids.contains(actualID))
                 {
                     it.remove();
                 }
@@ -128,20 +128,20 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onClick(View v)
     {
-        if(getActivity() instanceof MainActivity)
+        if (getActivity() instanceof MainActivity)
         {
             JSONObject object = null;
             try
             {
                 object = new JSONObject();
-                object.put("NAME",text.getText().toString());
-                object.put("ADMIN",User.getInstance().getID());
-                object.put("IMAGE","");
+                object.put("NAME", text.getText().toString());
+                object.put("ADMIN", User.getInstance().getID());
+                object.put("IMAGE", "");
 
                 JSONArray users = new JSONArray();
-                for(FriendRow row : rows)
+                for (FriendRow row : rows)
                 {
-                    if(row.isChecked())
+                    if (row.isChecked())
                     {
                         users.put(row.getId());
                     }
@@ -149,10 +149,13 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
                 object.put("USERS", users);
 
                 int groupID = new UserService().createGroup(object);
-                Toast.makeText(getActivity(),getResources().getString(R.string.group_created),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.group_created), Toast.LENGTH_LONG).show();
                 button.setEnabled(false);
             }
-            catch(Exception e){e.printStackTrace();}
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
         else if (getActivity() instanceof GroupInvite)
         {
@@ -160,12 +163,12 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
             try
             {
                 object = new JSONObject();
-                object.put("ID",groupID);
+                object.put("ID", groupID);
 
                 JSONArray users = new JSONArray();
-                for(FriendRow row : rows)
+                for (FriendRow row : rows)
                 {
-                    if(row.isChecked())
+                    if (row.isChecked())
                     {
                         users.put(row.getId());
                     }
@@ -175,7 +178,10 @@ public class GroupCreatorFragment extends Fragment implements AdapterView.OnItem
                 new UserService().inviteToGroup(object);
                 getActivity().finish();
             }
-            catch(Exception e){e.printStackTrace();}
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 

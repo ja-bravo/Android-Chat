@@ -1,6 +1,7 @@
-__author__ = 'Jose'
+__author__ = 'Jose Antonio'
 
-class Message():
+
+class Message:
     def __init__(self):
         self.ID_USER_SENDER = 0
         self.TEXT = ""

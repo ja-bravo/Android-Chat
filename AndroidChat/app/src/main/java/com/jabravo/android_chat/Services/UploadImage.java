@@ -36,7 +36,6 @@ public class UploadImage extends AsyncTask<String, Void, Boolean>
         builder = new AlertDialog.Builder(context);
     }
 
-
     private void updateImageDB()
     {
         try
@@ -62,7 +61,6 @@ public class UploadImage extends AsyncTask<String, Void, Boolean>
         }
     }
 
-    // Antes de comenzar la tarea muestra el progressDialog
     @Override
     protected void onPreExecute()
     {
@@ -76,13 +74,11 @@ public class UploadImage extends AsyncTask<String, Void, Boolean>
 
         String encodedImage = params[0];
 
-        // Subo un json con la imagen y la id del usuario para que se genere en el servidor.
         try
         {
             JSONObject image = new JSONObject();
             image.put("json", encodedImage);
 
-            // Para evitar errores al subir
             String json = image.toString().replaceAll("\\+", "SUMAR");
 
             URL url = new URL("http://146.185.155.88/uploadImage.php/");
@@ -99,15 +95,10 @@ public class UploadImage extends AsyncTask<String, Void, Boolean>
 
             connection.setDoOutput(true);
 
-            // Añado los parametros, para que sea envio Post... si no seria GET..
-            // NOTA: Si lo envias por GET peta, porque no te dejan subir tantos caracteres por get.
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
             wr.writeBytes(urlParameters);
             wr.flush();
             wr.close();
-
-            Log.i("test", String.valueOf(connection.getResponseCode()));
-
 
             updateImageDB();
 
@@ -115,14 +106,12 @@ public class UploadImage extends AsyncTask<String, Void, Boolean>
         }
         catch (Exception e)
         {
-            Log.i("test", String.valueOf(e.toString()) + " pete");
+            e.printStackTrace();
         }
 
         return false;
 
     }
-
-    //Cuando se termina de ejecutar, cierra el progressDialog y avisa
 
     @Override
     protected void onPostExecute(Boolean result)

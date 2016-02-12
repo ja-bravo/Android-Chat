@@ -16,25 +16,19 @@ import java.net.URL;
 /**
  * Created by Josewer on 22/12/2015.
  */
-public class DownloadImage {
+public class DownloadImage
+{
 
     private String nameFile;
     private boolean saveOK;
 
-    public DownloadImage (String nameFile) {
-        this.nameFile = nameFile;
-        saveOK = saveImageInSD ();
-    }
-
-
-    public boolean getSaveOK ()
+    public DownloadImage(String nameFile)
     {
-        return saveOK;
+        this.nameFile = nameFile;
+        saveOK = saveImageInSD();
     }
 
-
-    // Consigo el json que me devuelve el php
-    private JSONObject getJsonImage ()
+    private JSONObject getJsonImage()
     {
         try
         {
@@ -52,31 +46,39 @@ public class DownloadImage {
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
 
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = in.readLine()) != null)
+            {
                 response.append(inputLine);
             }
 
             in.close();
 
             return new JSONObject(response.toString());
-        } catch (Exception e) { e.printStackTrace(); }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         return null;
     }
 
 
-    // Recibe el json del metodo anterior, y descodifica la imagen.
-    private byte[] decodeImage () {
+    private byte[] decodeImage()
+    {
 
         String encodedImage = "";
 
-        try {
+        try
+        {
 
             encodedImage = getJsonImage().getString("json");
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("Error: " + e);
         }
 
@@ -85,36 +87,37 @@ public class DownloadImage {
         return imageBytes;
     }
 
-
-    // Recibe la imagen descodificada del metodo anterior, y la guarda en la memoria SD.
-    private boolean saveImageInSD ()
+    private boolean saveImageInSD()
     {
-        // Código que me comprueba si existe SD y si puedo escribir o no
         String status = Environment.getExternalStorageState();
 
-        if(status.equals(Environment.MEDIA_MOUNTED));
+        try
         {
-            try {
 
-                byte[] imageBytes = decodeImage ();
+            byte[] imageBytes = decodeImage();
 
-                File ruta_sd = Environment.getExternalStorageDirectory();
-                File dir = new File(ruta_sd.getAbsolutePath() + "/IMAGES_CHAT_ANDROID");
+            File ruta_sd = Environment.getExternalStorageDirectory();
+            File dir = new File(ruta_sd.getAbsolutePath() + "/IMAGES_CHAT_ANDROID");
 
-                // crea el directorio, exista o no
-                boolean ok  = dir.mkdirs();
+            boolean ok = dir.mkdirs();
 
-                File f = new File(dir, nameFile +".jpg");
+            if (ok)
+            {
+                File f = new File(dir, nameFile + ".jpg");
 
                 OutputStream file = new FileOutputStream(f);
 
 
                 file.write(imageBytes, 0, imageBytes.length);
                 file.close();
+            }
 
-                return true;
+            return true;
 
-            } catch (Exception e) { System.out.println(e);}
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
         }
 
         return false;

@@ -31,7 +31,7 @@ public class UserService
             public void run()
             {
                 String url = "http://146.185.155.88:8080/api/get/user/exists/" + phone;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
                 try
                 {
                     URL obj = new URL(url);
@@ -76,7 +76,7 @@ public class UserService
             public void run()
             {
                 String url = "http://146.185.155.88:8080/api/post/group/" + json;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
                 try
                 {
                     URL obj = new URL(url);
@@ -126,7 +126,7 @@ public class UserService
             public void run()
             {
                 String url = "http://146.185.155.88:8080/api/post/invite/" + json;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
                 try
                 {
                     URL obj = new URL(url);
@@ -174,7 +174,7 @@ public class UserService
             public void run()
             {
                 String url = "http://146.185.155.88:8080/api/post/user/" + json;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
                 try
                 {
                     URL obj = new URL(url);

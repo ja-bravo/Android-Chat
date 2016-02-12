@@ -197,7 +197,7 @@ public class User
                         }
 
                         groups.put(groupID, new Group(Integer.parseInt(groupID), groupName,
-                                Integer.parseInt(adminID), groupImage,usersIDs));
+                                Integer.parseInt(adminID), groupImage, usersIDs));
                     }
                 }
                 catch (Exception e)
@@ -226,7 +226,7 @@ public class User
     public List<FriendRow> getFriendsRows()
     {
         List<FriendRow> rows = new ArrayList<>();
-        for(Friend friend : friends.values())
+        for (Friend friend : friends.values())
         {
             FriendRow row = new FriendRow(friend.getId());
             row.setImage(friend.getImage());

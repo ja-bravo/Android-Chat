@@ -1,7 +1,5 @@
 package com.jabravo.android_chat.Services;
 
-import android.util.Log;
-
 import com.jabravo.android_chat.Data.Message;
 import com.jabravo.android_chat.Data.User;
 
@@ -59,18 +57,13 @@ public class Service implements Runnable
 
         try
         {
-            //Generar la URL
             String url = "http://146.185.155.88:8080/api/get/messages/" + id;
-            //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
-            //Creamos un objeto de conexión
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            //Añadimos la cabecera
             con.setRequestMethod("POST");
             con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-            // Enviamos la petición por POST
             con.setDoOutput(true);
-            //Capturamos la respuesta del servidor
+
             int responseCode = con.getResponseCode();
 
             BufferedReader in = new BufferedReader(
@@ -82,12 +75,6 @@ public class Service implements Runnable
             {
                 response.append(inputLine);
             }
-
-            //Mostramos la respuesta del servidor por consola
-            Log.i("service", "Response Code : " + responseCode);
-            Log.i("service", "Respuesta del servidor: " + response);
-            System.out.println("Response Code : " + responseCode);
-            System.out.println("Respuesta del servidor: " + response);
 
             in.close();
         }
@@ -140,16 +127,15 @@ public class Service implements Runnable
             String text = messageJSON.getString("TEXT");
 
             int idFriend = messageJSON.getInt("ID_USER_SENDER");
-            int idGroup =  messageJSON.getInt("ID_GROUP");
+            int idGroup = messageJSON.getInt("ID_GROUP");
 
             boolean isGroup = idGroup != 0;
 
-            // Si es mensaje de grupo, el receiver es la id del grupo
-            int receiver = isGroup?idGroup:User.getInstance().getID();
+            int receiver = isGroup ? idGroup : User.getInstance().getID();
 
             System.out.println("Es grupo Service: " + isGroup);
 
-            Message message = new Message(text, idFriend, receiver , isGroup , dateFormat);
+            Message message = new Message(text, idFriend, receiver, isGroup, dateFormat);
 
             message.setPhone(messageJSON.getString("PHONE"));
             buffer.add(message);
